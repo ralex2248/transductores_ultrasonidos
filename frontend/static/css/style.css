@@ -85,7 +85,17 @@ body {
   font-weight: bold;
   cursor: pointer;
   width: 220px;
+  transition: transform 0.2s, background-color 0.2s;
 }
+
+.login-button:hover {
+  background-color: #c8221a;
+}
+
+.login-button:active {
+  transform: scale(0.95); 
+}
+
 
 .create-account {
   font-size: 14px;

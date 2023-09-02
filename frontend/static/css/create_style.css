@@ -16,7 +16,7 @@
     overflow: hidden;
   }
   
-  .login-container {
+  .create-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@
     z-index: 1;
   }
   
-  .login-box {
+  .create-box {
     background-color: #e8e8e8;
     border-radius: 49.09px;
     padding: 55px;
@@ -59,7 +59,7 @@
     text-align: center;
   }
   
-  .welcome-title {
+  .user-title {
     font-family: "Montserrat", Helvetica;
     font-size: 45px;
     margin-bottom: 35px;
@@ -75,7 +75,7 @@
     font-size: 16px;
   }
   
-  .login-button {
+  .create-button {
     background-color: #da291ccc;
     border-radius: 9px;
     border: none;
@@ -85,7 +85,17 @@
     font-weight: bold;
     cursor: pointer;
     width: 220px;
+    transition: transform 0.2s, background-color 0.2s;
   }
+  
+  .create-button:hover {
+    background-color: #c8221a;
+  }
+  
+  .create-button:active {
+    transform: scale(0.95);
+  }
+  
   
   .create-account {
     font-size: 14px;
@@ -125,7 +135,17 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
 }
+
+.back-button:hover {
+    background-color: #c8221a; 
+}
+
+.back-button:active {
+    transform: scale(0.95);
+}
+
 
 .back-arrow {
     font-size: 40px;
