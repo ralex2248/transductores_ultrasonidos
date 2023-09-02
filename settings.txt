@@ -77,14 +77,19 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'mongodb': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'transductores_ultrasonicos',  # Nombre de tu base de datos en MongoDB
+    # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'transductores_ultrasonicos', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'contraseña',  ##passdb
+        'PASSWORD': 'nicolas15',  ##passdb
         'HOST': 'localhost',
-        'DATABASES_PORT': '5432',
-    }
+        'PORT': '5432',
+    },
+
 }
 
 # Password validation

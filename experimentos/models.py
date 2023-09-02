@@ -6,7 +6,6 @@ class Fluido(models.Model):
     nombre_fluido=models.CharField(max_length=200,null=False)
     descripcion=models.TextField(max_length=200,null=False)
     fecha_fluido=models.DateField(null=False,auto_now_add=True)
-
 class Experimentos(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fluido=models.ForeignKey(Fluido, on_delete=models.CASCADE)
@@ -16,3 +15,11 @@ class Experimentos(models.Model):
     tiempo=models.TimeField(null=True)
     fecha_experimento=models.DateField(null=False,auto_now_add=True)
     pdf_experimento=models.FileField(upload_to='experimento_pdf/', null=True, blank=True)
+
+
+class Sensor(models.Model):
+    experimento_id = models.IntegerField(null=False) 
+    datos_sensor = models.JSONField(null=True)
+    class Meta:
+        # Especifica la base de datos para este modelo
+        app_label = 'mongodb'
