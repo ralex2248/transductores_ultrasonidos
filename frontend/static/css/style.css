@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat-Regular", Helvetica;
+}
+
+body {
+  background-color: #da291cb2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.shape {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background-color: #ffffff80;
+  border-radius: 160px;
+  transform: rotate(-45deg);
+  z-index: -1;
+}
+
+.top-left {
+  top: -350px;
+  left: -110px;
+}
+
+.bottom-right {
+  bottom: -350px;
+  right: -110px;
+}
+
+.top-right-image {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  max-width: 180px;
+  z-index: 1;
+}
+
+.login-box {
+  background-color: #e8e8e8;
+  border-radius: 49.09px;
+  padding: 55px;
+  width: 520px;
+  text-align: center;
+}
+
+.welcome-title {
+  font-family: "Montserrat", Helvetica;
+  font-size: 45px;
+  margin-bottom: 35px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 20px;
+  margin: 15px 0;
+  background-color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+.login-button {
+  background-color: #da291ccc;
+  border-radius: 9px;
+  border: none;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 220px;
+}
+
+.create-account {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.create-link {
+  text-decoration: underline;
+  color: black;
+
+}
+
+.create-link:visited {
+  color: black;
+  font-family: "Montserrat-Regular", Helvetica;
+}
+
+.footer {
+  background-color: #3C3834;
+  color: white;
+  padding: 27px 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}
