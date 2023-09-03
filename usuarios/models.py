@@ -6,3 +6,5 @@ class Profile(models.Model):
     grupo=models.ForeignKey(Group, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12, blank=False, null=False)
     cargo=models.CharField(max_length=100, blank=True, null=True)
+
+
