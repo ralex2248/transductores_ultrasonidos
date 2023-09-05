@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../static/css/style.css">
-
 </head>
 <body>
     <div class="login-container">
@@ -16,7 +15,7 @@
             <input type="password" class="input-field" placeholder="Contraseña">
             <button class="login-button">Ingresar</button>
             <p class="create-account">
-                ¿No tienes una cuenta? <a href="#" class="create-link">Crear Usuario</a>
+                ¿No tienes una cuenta? <a href="{% url 'create_user_view' %}" class="button bg-danger">Crear Usuario</a>
             </p>
         </div>
         <div class="shape bottom-right"></div>
