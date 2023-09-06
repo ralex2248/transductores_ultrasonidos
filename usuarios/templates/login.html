@@ -1,29 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-</head>
-<body>
-    <div class="login-container">
-        <div class="shape top-left"></div>
-        <div class="login-box">
-            <h1 class="welcome-title">Bienvenido</h1>
-            <input type="text" class="input-field" id="rut-input" placeholder="RUT">
-            <input type="password" class="input-field" placeholder="Contraseña">
-            <button class="login-button">Ingresar</button>
-            <p class="create-account">
-                ¿No tienes una cuenta? <a href="{% url 'create_user_view' %}" class="button bg-danger">Crear Usuario</a>
-            </p>
-        </div>
-        <div class="shape bottom-right"></div>
-        <img src="../static/img/Universidad-autonoma-de-chile.png" alt="Universidad Autónoma de Chile" class="top-right-image">
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-box">
+        <h1 class="welcome-title">Bienvenido</h1>
+        <input type="text" class="input-field" id="rut-input" placeholder="RUT">
+        <input type="password" class="input-field" placeholder="Contraseña">
+        <button class="login-button">Ingresar</button>
+        <p class="create-account">
+            ¿No tienes una cuenta? <a href="{% url 'create_user' %}" class="button bg-danger">Crear Usuario</a>
+        </p>
+        <p class="forgot-password">
+            <a href="{% url 'forgot_password' %}" class="button bg-danger">¿Olvidaste Tu Contraseña?</a>
+        </p>
     </div>
-    <footer class="footer">
-        L.I.F.A. Laboratorio de Investigación de Física Aplicada
-    </footer>
-    <script src="../static/js/script.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}

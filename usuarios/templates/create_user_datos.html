@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Crear Usuario
+Datos
 {% endblock %}
 
 {% block content %}
@@ -11,20 +11,20 @@ Crear Usuario
             <div class="back-arrow">&larr;</div>
         </a>
     </div>
-    <div class="create-box">
-        <h1 class="user-title">Crear Usuario</h1>
-        <input type="text" class="input-field" placeholder="Correo">
+    <div class="creates-box">
+        <h1 class="user-title">Datos Usuario</h1>
+        
+        <input type="text" class="input-field" placeholder="Nombre">
         <input type="text" class="input-field" id="rut-input" placeholder="RUT">
-
-        <a href="{% url 'create_user_datos' %}">
-            <button class="create-button">Crear Nuevo Usuario</button>
-        </a>
+        <input type="text" class="input-field" placeholder="Correo">
+        <input type="password" class="input-field" placeholder="Contraseña">
+        
+        <button class="create-button">Crear Nuevo Usuario</button>
 
         <p class="create-account">
             Ya tienes una cuenta? <a href="{% url 'login' %}" class="button bg-danger">Ingresar</a>
         </p>
     </div>
 </div>
-
 
 {% endblock %}

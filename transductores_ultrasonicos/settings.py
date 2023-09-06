@@ -57,7 +57,7 @@ ROOT_URLCONF = 'transductores_ultrasonicos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'consu', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'charmander12',  ##passdb
+        'PASSWORD': 'aguantemessi',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },

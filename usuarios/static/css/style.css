@@ -16,6 +16,14 @@ body {
   overflow: hidden;
 }
 
+  
+.create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -50,19 +58,56 @@ body {
   max-width: 180px;
   z-index: 1;
 }
+.creates-box {
+  background-color: #e8e8e8;
+  border-radius: 49.09px;
+  padding: 40px;
+  width: 520px;
+  text-align: center;
+  margin-top: -40px;
+}
 
+.create-box {
+  background-color: #e8e8e8;
+  border-radius: 49.09px;
+  padding: 50px;
+  width: 520px;
+  text-align: center;
+}
 .login-box {
   background-color: #e8e8e8;
   border-radius: 49.09px;
-  padding: 55px;
+  padding: 45px;
   width: 520px;
   text-align: center;
+}
+
+.user-title {
+  font-family: "Montserrat", Helvetica;
+  font-size: 45px;
+  margin-bottom: 35px;
 }
 
 .welcome-title {
   font-family: "Montserrat", Helvetica;
   font-size: 45px;
   margin-bottom: 35px;
+}
+.password-title {
+  font-family: "Montserrat", Helvetica;
+  font-size: 35px;
+  margin-bottom: 35px;
+}
+
+.pinput-field {
+  width: 100%;
+  padding: 20px;
+  margin: 15px 0;
+  background-color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  margin-top: 5px;
 }
 
 .input-field {
@@ -73,6 +118,19 @@ body {
   border: none;
   border-radius: 7px;
   font-size: 16px;
+}
+
+.create-button {
+  background-color: #da291ccc;
+  border-radius: 9px;
+  border: none;
+  color: white;
+  padding: 15px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 220px;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .login-button {
@@ -88,6 +146,14 @@ body {
   transition: transform 0.2s, background-color 0.2s;
 }
 
+.create-button:hover {
+  background-color: #c8221a;
+}
+
+.create-button:active {
+  transform: scale(0.95);
+}
+
 .login-button:hover {
   background-color: #c8221a;
 }
@@ -96,12 +162,15 @@ body {
   transform: scale(0.95); 
 }
 
-
 .create-account {
   font-size: 14px;
   margin-top: 20px;
 }
 
+.forgot-password {
+  font-size: 14px;
+  margin-top: 20px;
+}
 .create-link {
   text-decoration: underline;
   color: black;
@@ -126,4 +195,54 @@ body {
 }
 .button.bg-danger {
   color: rgb(0, 0, 0); 
+}
+
+.back-button {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50px;
+  left: 50px;
+  background-color: #da291c8c;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #c8221a; 
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+.back-arrow {
+  font-size: 40px;
+  color: white;
+  outline: none;
+}
+.button.bg-danger {
+color: rgb(0, 0, 0); 
+}
+
+.back-button a:hover, .back-button a:active, .back-button a:focus {
+  text-decoration: none;
+  color: white;
+  outline: none;
+}
+.back-button a {
+  text-decoration: none;
+  color: white;
+}
+
+.back-button a:visited {
+  color: white;
+}
+a:visited {
+  color: inherit; /* Esto hará que los enlaces visitados tomen el color de su elemento padre */
+  text-decoration: inherit; /* Esto hará que los enlaces visitados tomen la decoración de texto de su elemento padre */
 }

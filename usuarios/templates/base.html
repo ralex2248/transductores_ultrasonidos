@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Título por defecto{% endblock %}</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>  
+    <div class="shape top-left"></div>
+    <div class="shape bottom-right"></div>
+    <img src="../static/img/Universidad-autonoma-de-chile.png" alt="Universidad Autónoma de Chile" class="top-right-image">
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer">
+        L.I.F.A. Laboratorio de Investigación de Física Aplicada
+    </footer>
+</body>
+</html>
