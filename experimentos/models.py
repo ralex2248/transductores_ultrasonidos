@@ -15,11 +15,3 @@ class Experimentos(models.Model):
     tiempo=models.TimeField(null=True)
     fecha_experimento=models.DateField(null=False,auto_now_add=True)
     pdf_experimento=models.FileField(upload_to='experimento_pdf/', null=True, blank=True)
-
-
-class Sensor(models.Model):
-    experimento_id = models.IntegerField(null=False) 
-    datos_sensor = models.JSONField(null=True)
-    class Meta:
-        # Especifica la base de datos para este modelo
-        app_label = 'mongodb'

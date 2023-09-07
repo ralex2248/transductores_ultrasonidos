@@ -1,10 +1,13 @@
 import random
 from django.shortcuts import redirect, render
-
-from experimentos.models import Experimentos, Fluido, Sensor
+import json
+from experimentos.models import Experimentos, Fluido
+from pymongo import MongoClient
 
 # Create your views here.
 def insertar_datos_al_azar(request):
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client.transductores_ultrasonicos
     fluido=Fluido.objects.create(
         nombre_fluido='prueba',
         descripcion='test',
@@ -19,16 +22,24 @@ def insertar_datos_al_azar(request):
         pdf_experimento=None,
         fluido=fluido,
     )
+    documento = {
+        "id_experimento":experimento.id,
+        "sensor": [25, 30, 22]
+    }
+    mi_coleccion = db.sensores
+    mi_coleccion.insert_one(documento)
+    client.close()
+    return print('exito')
 
-    # Generar 5 datos aleatorios para el sensor y almacenarlos en un array
-    datos_sensor = []
-    for _ in range(5):
-        dato_aleatorio = random.randint(1, 100) 
-        datos_sensor.append(dato_aleatorio)
-
-    # Crear un sensor en MongoDB y almacenar los datos en el formato deseado
-    sensor = Sensor.objects.using('mongodb').create( #deben usar el using para referirse a que lo crearan en la bd de mongo
-        experimento_id=experimento.id,
-        datos_sensor=datos_sensor
-    )
+def imprimir_experimento(request, format=None):
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client.transductores_ultrasonicos
+    mi_coleccion = db.sensores
+    exp_list = Experimentos.objects.all()
+    exp_json = []
+    for es in exp_list:
+        resultado = mi_coleccion.find_one({"id_experimento": es.id})
+        exp_json.append({'id':es.id,'nombre':es.nombre_experimento,'resultado':resultado})
+    client.close()
+    print(exp_json)
     return print('exito')
