@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'consu', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'aguantemessi',  ##passdb
+        'PASSWORD': 'charmander12',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -138,5 +138,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'usuarios','static','usuarios')
 
 LOGIN_REDIRECT_URL = 'check_profile'
 LOGOUT_REDIRECT_URL = 'login'
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

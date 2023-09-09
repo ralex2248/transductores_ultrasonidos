@@ -1,7 +1,6 @@
 from django.urls import path
 from django.contrib import admin
 from . import views
-
 usuarios_urlpatterns = [
     path('', views.login_inicio, name='login_inicio'),
     path ('create_user',views.create_user,name='create_user'),
