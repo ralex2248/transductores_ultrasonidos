@@ -77,15 +77,11 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'mongodb': {
-        'ENGINE': 'djongo',
-        'NAME': 'consu',  # Nombre de tu base de datos en MongoDB
-    },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'consu', ##nombrebd
+        'NAME': 'transductores_ultrasonicos', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'charmander12',  ##passdb
+        'PASSWORD': 'a',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -135,10 +131,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'usuarios/static')]
 STATIC_ROOT = '/usuarios/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'usuarios','static','usuarios')
-
+AUTH_USER_MODEL='usuarios.User'
 LOGIN_REDIRECT_URL = 'check_profile'
 LOGOUT_REDIRECT_URL = 'login'
-AUTH_USER_MODEL = 'usuarios.CustomUser'
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
