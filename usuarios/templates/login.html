@@ -8,9 +8,13 @@ Login
 <div class="login-container">
     <div class="login-box">
         <h1 class="welcome-title">Bienvenido</h1>
-        <input type="text" class="input-field" id="rut-input" placeholder="RUT">
-        <input type="password" class="input-field" placeholder="Contraseña">
-        <button class="login-button">Ingresar</button>
+        <form method="post" action="{% url 'login_inicio' %}">
+            {% csrf_token %}
+            <input type="text" class="input-field" id="rut-input" name="rut" placeholder="RUT" max  >
+            <input type="password" class="input-field" name="password" placeholder="Contraseña">
+            <button type="submit" class="login-button">Ingresar</button>
+        </form>
+
         <p class="create-account">
             ¿No tienes una cuenta? <a href="{% url 'create_user' %}" class="button bg-danger">Crear Usuario</a>
         </p>
