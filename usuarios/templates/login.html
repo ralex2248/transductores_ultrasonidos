@@ -8,10 +8,14 @@ Login
 <div class="login-container">
     <div class="login-box">
         <h1 class="welcome-title">Bienvenido</h1>
-        <form method="post" action="{% url 'login_inicio' %}">
+        <form method="post">
             {% csrf_token %}
-            <input type="text" class="input-field" id="rut-input" name="rut" placeholder="RUT" max  >
-            <input type="password" class="input-field" name="password" placeholder="Contraseña">
+            <div>
+                <input type="text" id="username" class="input-field" name="username" placeholder="Ingresa tu RUT">
+            </div>
+            <div>
+                <input type="password" id="password" class="input-field" name="password" placeholder="Ingresa tu contraseña">
+            </div>
             <button type="submit" class="login-button">Ingresar</button>
         </form>
 

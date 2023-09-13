@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group
 from django.conf import settings
 class User(AbstractUser):
     # Agrega los campos personalizados que necesites aquí
-    rut = models.CharField(max_length=12, unique=True)
+    rut = models.CharField(max_length=30, unique=True)
     # Otros campos personalizados
 
     def __str__(self):

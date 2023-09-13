@@ -9,7 +9,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuarios/', include(usuarios_urlpatterns)),
     path('experimentos/',include(experimentos_urlpatterns)),
-    path('', views.login_inicio, name='login'),
+    path('', views.login_view, name='login'),
+
+
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 admin.site.site_header = 'Transductores Ultrasonicos'
 admin.site.site_title = 'Transductores Ultrasonicos'    
