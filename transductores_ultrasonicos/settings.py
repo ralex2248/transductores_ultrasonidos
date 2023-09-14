@@ -57,7 +57,7 @@ ROOT_URLCONF = 'transductores_ultrasonicos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'usuarios/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'especialidad', ##nombrebd
+        'NAME': 'consu', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'charmander12',  ##passdb
+        'PASSWORD': 'Olacelu16118$',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
