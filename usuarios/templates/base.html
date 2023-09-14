@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Título por defecto{% endblock %}</title>
-    <link rel="stylesheet" href="{% static '../static/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>  
     <div class="shape top-left"></div>
@@ -18,9 +18,7 @@
     <footer class="footer">
         L.I.F.A. Laboratorio de Investigación de Física Aplicada
     </footer>
+    <script src="{% static 'js/script.js' %}"></script>
 
-    {% block scripts %}
-    <script src="{% static '../static/js/script.js' %}"></script>
-    {% endblock %}
 </body>
 </html>

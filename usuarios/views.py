@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from usuarios.models import User
 
 from django.shortcuts import render
 
@@ -10,13 +11,15 @@ def home_view(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'usuarios/register.html', {'form': form})
+        correo = request.POST.get('correo')
+        rut = request.POST.get('rut')
+        
+        # Guardar los datos en la sesión
+        request.session['correo'] = correo
+        request.session['rut'] = rut
+        
+        return redirect('create_user_datos')
+    return render(request, 'usuarios/register.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -31,14 +34,33 @@ def login_view(request):
             pass
     return render(request, 'usuarios/login.html')
 
-def logout_view(request):
-    logout(request)
-    return redirect('login')
 
-def register(request):
-    return render(request, 'usuarios/register.html')
+
 def create_user_datos(request):
-    return render(request, 'create_user_datos.html')
+    correo = request.session.get('correo', '')
+    rut = request.session.get('rut', '')
+    
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        password = request.POST.get('password')
+        
+
+        user = User.objects.create_user(username=rut, email=correo, password=password, first_name=nombre)
+        user.save()
+
+
+        del request.session['correo']
+        del request.session['rut']
+
+        return redirect('login')
+    
+    context = {
+        'correo': correo,
+        'rut': rut
+    }
+    
+    return render(request, 'create_user_datos.html', context)
+
 def forgot_password(request):
     return render(request, 'forgot_password.html')
 def change_password(request):

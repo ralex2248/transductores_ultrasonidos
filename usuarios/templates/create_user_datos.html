@@ -14,12 +14,15 @@ Datos
     <div class="creates-box">
         <h1 class="user-title">Datos Usuario</h1>
         
-        <input type="text" class="input-field" placeholder="Nombre">
-        <input type="text" class="input-field" id="rut-input" placeholder="RUT">
-        <input type="text" class="input-field" placeholder="Correo">
-        <input type="password" class="input-field" placeholder="Contraseña">
+        <form method="post" action="{% url 'create_user_datos' %}">
+            {% csrf_token %}
+            <input type="text" class="input-field" name="nombre" placeholder="Nombre">
+            <input type="text" class="input-field" value="{{ correo }}" name="correo" placeholder="Correo">
+            <input type="text" class="input-field" value="{{ rut }}" name="rut" id="rut-input" placeholder="RUT">
+            <input type="password" class="input-field" name="password" placeholder="Contraseña">
+            <button type="submit" class="create-button">Crear Nuevo Usuario</button>
+        </form>
         
-        <button class="create-button">Crear Nuevo Usuario</button>
 
         <p class="create-account">
             Ya tienes una cuenta? <a href="{% url 'login' %}" class="button bg-danger">Ingresar</a>
