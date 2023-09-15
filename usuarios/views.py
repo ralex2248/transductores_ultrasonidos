@@ -64,9 +64,9 @@ def forgot_password(request):
 
 
             send_mail(
-                'Your Password Reset Code',
-                f'Your code is: {reset_entry.code}',
-                'from_email@example.com', 
+                'Recuperacion de contraseña',
+                f'tu codigo es  : {reset_entry.code}',
+                'EquipoRocket@uautonoma.com', 
                 [user.email],
                 fail_silently=False,
             )
