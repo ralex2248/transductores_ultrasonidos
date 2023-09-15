@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'consu', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'aguanteMessi$',  ##passdb
+        'PASSWORD': 'AguanteMessi$',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -136,3 +136,9 @@ LOGIN_REDIRECT_URL = '/usuarios/create_user/'
 LOGOUT_REDIRECT_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'alexthunder42@gmail.com'
+EMAIL_HOST_PASSWORD = '4ak3Y8TLnRFmQA2q'
