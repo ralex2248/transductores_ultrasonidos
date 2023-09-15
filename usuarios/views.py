@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
+
 def change_password(request):
     if request.method == 'POST':
         new_password1 = request.POST.get('new_password1')
@@ -72,7 +73,7 @@ def forgot_password(request):
             return redirect('enter_code') 
         else:
 
-            message = "No account is associated with this email address."
+            message = "No existe una cuenta con el correo ingresado."
     return render(request, 'forgot_password.html', {'message': message})
 
 
@@ -82,18 +83,33 @@ def home_view(request):
 
 
 def register(request):
+    message = ""
     if request.method == 'POST':
         correo = request.POST.get('correo')
         rut = request.POST.get('rut')
-        
 
-        request.session['correo'] = correo
-        request.session['rut'] = rut
+        if correo and rut:
+            request.session['correo'] = correo
+            request.session['rut'] = rut
+
+            if len(rut) > 12 or len(rut) < 11:
+                print(len(rut))
+                message = "Ingrese un rut válido."
+
+            elif User.objects.filter(email=correo).exists() or User.objects.filter(username=rut).exists():
+                message = "Este correo o rut ya está registrado."
+
         
-        return redirect('create_user_datos')
-    return render(request, 'usuarios/register.html')
+            else:
+                return redirect('create_user_datos')
+        
+        else:
+            message = "Debes rellenar los campos."
+        
+    return render(request, 'usuarios/register.html', {'message' : message})
 
 def login_view(request):
+    message = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -102,9 +118,9 @@ def login_view(request):
             login(request, user)
             return redirect('home')
         else:
+            message = "Contraseña incorrecta."
 
-            pass
-    return render(request, 'usuarios/login.html')
+    return render(request, 'usuarios/login.html', {'message' : message})
 
 
 

@@ -18,9 +18,13 @@ Crear Usuario
             <input type="text" class="input-field" name="correo" placeholder="Correo">
             <input type="text" class="input-field" name="rut" id="rut-input" placeholder="RUT">
             <button type="submit" class="create-button">Crear Nuevo Usuario</button>
+            
         </form>
+        {% if message %}
+            <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
+        {% endif %}
         
-
+        
         <p class="create-account">
             Ya tienes una cuenta? <a href="{% url 'login' %}" class="button bg-danger">Ingresar</a>
         </p>

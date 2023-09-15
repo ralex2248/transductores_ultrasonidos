@@ -25,6 +25,9 @@ Login
         <p class="forgot-password">
             <a href="{% url 'forgot_password' %}" class="button bg-danger">¿Olvidaste Tu Contraseña?</a>
         </p>
+        {% if message %}
+                <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
