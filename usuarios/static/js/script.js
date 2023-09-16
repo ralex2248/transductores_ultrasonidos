@@ -1,17 +1,24 @@
-const rutInput = document.getElementById("rut-input");
+document.getElementById('rut').addEventListener('keydown', function(evt) {
+    if (evt.key === 'Delete' || evt.key === 'Backspace') {
+        this.value = ''; // Elimina todo el contenido del campo de entrada
+    }
+});
 
-rutInput.addEventListener("blur", function() {
-    let value = rutInput.value.replace(/[^0-9Kk]/g, '');
+document.getElementById('rut').addEventListener('input', function(evt) {
+    let value = this.value.replace(/\./g, '').replace('-', '');
 
-    // Verificar si el RUT tiene más de 9 caracteres
-    if (value.length > 9) {
-        alert('El RUT no debe tener más de 9 caracteres.');
-        rutInput.value = '';
-        return;
+    if (value.match(/^(\d{2})(\d{3}){2}(\w{1})$/)) {
+      value = value.replace(/^(\d{2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4');
+    }
+    else if (value.match(/^(\d)(\d{3}){2}(\w{0,1})$/)) {
+      value = value.replace(/^(\d)(\d{3})(\d{3})(\w{0,1})$/, '$1.$2.$3-$4');
+    }
+    else if (value.match(/^(\d)(\d{3})(\d{0,2})$/)) {
+      value = value.replace(/^(\d)(\d{3})(\d{0,2})$/, '$1.$2.$3');
+    }
+    else if (value.match(/^(\d)(\d{0,2})$/)) {
+      value = value.replace(/^(\d)(\d{0,2})$/, '$1.$2');
     }
 
-    let body = value.slice(0, -1);
-    let verifier = value.slice(-1).toUpperCase(); // El último carácter y convertirlo a mayúscula
-    body = body.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Insertar puntos
-    rutInput.value = `${body}-${verifier}`; 
+    this.value = value;
 });

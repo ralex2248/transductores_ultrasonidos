@@ -16,7 +16,7 @@ Crear Usuario
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
             <input type="text" class="input-field" name="correo" placeholder="Correo">
-            <input type="text" class="input-field" name="rut" id="rut-input" placeholder="RUT">
+            <input type="text" class="input-field" name="rut" id="rut" placeholder="RUT">
             <button type="submit" class="create-button">Crear Nuevo Usuario</button>
             
         </form>

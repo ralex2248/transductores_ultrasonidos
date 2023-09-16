@@ -81,6 +81,36 @@ def forgot_password(request):
 def home_view(request):
     return render(request, 'usuarios/home.html')
 
+def validar_rut(rut):
+    # Eliminar puntos y guiones y convertir a mayúsculas
+    rut = rut.replace(".", "").replace("-", "").upper()
+    
+    # Verificar que el RUT tenga al menos un número y un dígito verificador
+    if not rut.isdigit() or len(rut) < 2:
+        return False
+    
+    # Separar el número del dígito verificador
+    numero, verificador = rut[:-1], rut[-1]
+    
+    # Calcular el dígito verificador esperado
+    suma = 0
+    multiplicador = 2
+    
+    for digito in reversed(numero):
+        suma += int(digito) * multiplicador
+        multiplicador += 1
+        if multiplicador > 7:
+            multiplicador = 2
+    
+    resto = suma % 11
+    dv_esperado = 11 - resto if resto != 0 else 0
+    
+    # Comparar el dígito verificador calculado con el dígito verificador dado
+    if dv_esperado == int(verificador):
+        return True
+    else:
+        return False
+
 
 def register(request):
     message = ""
@@ -92,7 +122,7 @@ def register(request):
             request.session['correo'] = correo
             request.session['rut'] = rut
 
-            if len(rut) > 12 or len(rut) < 11:
+            if validar_rut(rut) == False:
                 print(len(rut))
                 message = "Ingrese un rut válido."
 
