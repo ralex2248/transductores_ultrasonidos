@@ -253,3 +253,4 @@ a:visited {
   color: inherit; /* Esto hará que los enlaces visitados tomen el color de su elemento padre */
   text-decoration: inherit; /* Esto hará que los enlaces visitados tomen la decoración de texto de su elemento padre */
 }
+

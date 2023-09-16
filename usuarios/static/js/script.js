@@ -22,3 +22,4 @@ document.getElementById('rut').addEventListener('input', function(evt) {
 
     this.value = value;
 });
+

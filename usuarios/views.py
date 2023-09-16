@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from usuarios.models import User
 from django.shortcuts import render
 from django.core.mail import send_mail
-from .models import PasswordReset, User 
 from django.utils import timezone
-from datetime import timedelta
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+import re
+from usuarios.models import User
+from .models import PasswordReset, User 
+from datetime import timedelta
 
 
 def change_password(request):
@@ -82,17 +84,13 @@ def home_view(request):
     return render(request, 'usuarios/home.html')
 
 def validar_rut(rut):
-    # Eliminar puntos y guiones y convertir a mayúsculas
     rut = rut.replace(".", "").replace("-", "").upper()
     
-    # Verificar que el RUT tenga al menos un número y un dígito verificador
     if not rut.isdigit() or len(rut) < 2:
         return False
     
-    # Separar el número del dígito verificador
     numero, verificador = rut[:-1], rut[-1]
     
-    # Calcular el dígito verificador esperado
     suma = 0
     multiplicador = 2
     
@@ -105,8 +103,17 @@ def validar_rut(rut):
     resto = suma % 11
     dv_esperado = 11 - resto if resto != 0 else 0
     
-    # Comparar el dígito verificador calculado con el dígito verificador dado
     if dv_esperado == int(verificador):
+        return True
+    else:
+        return False
+    
+def validar_email(email):
+    # Expresión regular para validar el formato del email
+    patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    
+    # Usamos re.match para verificar si el email coincide con el patrón
+    if re.match(patron, email):
         return True
     else:
         return False
@@ -123,8 +130,10 @@ def register(request):
             request.session['rut'] = rut
 
             if validar_rut(rut) == False:
-                print(len(rut))
                 message = "Ingrese un rut válido."
+            
+            elif validar_email(correo) == False:
+                message = "Ingrese un correo válido."
 
             elif User.objects.filter(email=correo).exists() or User.objects.filter(username=rut).exists():
                 message = "Este correo o rut ya está registrado."
