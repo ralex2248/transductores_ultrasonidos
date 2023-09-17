@@ -14,6 +14,8 @@ import re
 from usuarios.models import User
 from .models import PasswordReset, User 
 from datetime import timedelta
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 
 
 def change_password(request):
@@ -64,18 +66,22 @@ def forgot_password(request):
             reset_entry.generate_code()
             reset_entry.save()
 
+            context = {'user': user, 'code': reset_entry.code}
+            html_content = render_to_string('password_reset_email.html', context)
 
-            send_mail(
+            email = EmailMessage(
                 'Recuperacion de contraseña',
-                f'tu codigo es  : {reset_entry.code}',
-                'EquipoRocket@uautonoma.com', 
-                [user.email],
-                fail_silently=False,
+                html_content,
+                'TeamRocket@cloud.uautonoma.cl',
+                [user.email]
             )
+            email.content_subtype = "html" 
+            email.send()
+
             return redirect('enter_code') 
         else:
-
             message = "No existe una cuenta con el correo ingresado."
+
     return render(request, 'forgot_password.html', {'message': message})
 
 

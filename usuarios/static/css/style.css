@@ -254,3 +254,7 @@ a:visited {
   text-decoration: inherit; /* Esto hará que los enlaces visitados tomen la decoración de texto de su elemento padre */
 }
 
+.error-message {
+  color: red;
+}
+
