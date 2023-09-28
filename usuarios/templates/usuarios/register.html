@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Crear Usuario
 {% endblock %}
@@ -15,16 +15,14 @@ Crear Usuario
         <h1 class="user-title">Crear Usuario</h1>
         <form method="post" action="{% url 'register' %}">
             {% csrf_token %}
-            <input type="text" class="input-field" name="correo" placeholder="Correo">
-            <input type="text" class="input-field" name="rut" id="rut" placeholder="RUT">
+            <input type="text" class="input-field" name="correo" id="correo" placeholder="Correo" required oninput="checkEmail(this)">
+            <input type="text" class="input-field" name="rut" id="rut" placeholder="RUT" maxlength="12" required oninput="checkRut(this)">
             <button type="submit" class="create-button">Crear Nuevo Usuario</button>
             
         </form>
         {% if message %}
-            <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
+                <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
         {% endif %}
-        
-        
         <p class="create-account">
             Ya tienes una cuenta? <a href="{% url 'login' %}" class="button bg-danger">Ingresar</a>
         </p>

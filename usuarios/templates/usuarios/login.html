@@ -11,10 +11,13 @@ Login
         <form method="post">
             {% csrf_token %}
             <div>
-                <input type="text" id="rut" class="input-field" name="username" placeholder="Ingresa tu RUT">
+                <input type="text" id="rut" class="input-field" value="{{ username }}" name="username" placeholder="Ingresa tu RUT" maxlength="12" required oninput="checkRut(this)">
             </div>
             <div>
                 <input type="password" id="password" class="input-field" name="password" placeholder="Ingresa tu contraseña">
+                {% if message %}
+                    <p class="error-message" style="margin-top: 10px; margin-bottom: 10px; font-size: large;">{{ message }}</p>
+                {% endif %}
             </div>
             <button type="submit" class="login-button">Ingresar</button>
             <script src="script.js"></script>
@@ -26,9 +29,6 @@ Login
         <p class="forgot-password">
             <a href="{% url 'forgot_password' %}" class="button bg-danger">¿Olvidaste Tu Contraseña?</a>
         </p>
-        {% if message %}
-                <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
-        {% endif %}
-    </div>
 </div>
+
 {% endblock %}

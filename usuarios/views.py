@@ -90,42 +90,6 @@ def forgot_password(request):
 def home_view(request):
     return render(request, 'usuarios/home.html')
 
-def validar_rut(rut):
-    rut = rut.replace(".", "").replace("-", "").upper()
-    
-    if not rut.isdigit() or len(rut) < 2:
-        return False
-    
-    numero, verificador = rut[:-1], rut[-1]
-    
-    suma = 0
-    multiplicador = 2
-    
-    for digito in reversed(numero):
-        suma += int(digito) * multiplicador
-        multiplicador += 1
-        if multiplicador > 7:
-            multiplicador = 2
-    
-    resto = suma % 11
-    dv_esperado = 11 - resto if resto != 0 else 0
-    
-    if dv_esperado == int(verificador):
-        return True
-    else:
-        return False
-    
-def validar_email(email):
-    # Expresión regular para validar el formato del email
-    patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    
-    # Usamos re.match para verificar si el email coincide con el patrón
-    if re.match(patron, email):
-        return True
-    else:
-        return False
-
-
 def register(request):
     message = ""
     if request.method == 'POST':
@@ -136,13 +100,7 @@ def register(request):
             request.session['correo'] = correo
             request.session['rut'] = rut
 
-            if validar_rut(rut) == False:
-                message = "Ingrese un rut válido."
-            
-            elif validar_email(correo) == False:
-                message = "Ingrese un correo válido."
-
-            elif User.objects.filter(email=correo).exists():
+            if User.objects.filter(email=correo).exists():
                 message = "Este correo ya está registrado."
 
             elif User.objects.filter(username=rut).exists():
@@ -150,13 +108,11 @@ def register(request):
             else:
                 return redirect('create_user_datos')
         
-        else:
-            message = "Debes rellenar los campos."
-        
     return render(request, 'usuarios/register.html', {'message' : message})
 
 def login_view(request):
     message = ''
+    username = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -164,10 +120,12 @@ def login_view(request):
         if user:
             login(request, user)
             return redirect('home')
+        elif User.objects.filter(username=username).count() == 0:
+            message = "Este RUT no está registrado."
         else:
             message = "Contraseña incorrecta."
 
-    return render(request, 'usuarios/login.html', {'message' : message})
+    return render(request, 'usuarios/login.html', {'message' : message, 'username': username})
 
 
 
@@ -178,17 +136,14 @@ def create_user_datos(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         password = request.POST.get('password')
-        
-
+        nombre = nombre.title()
         user = User.objects.create_user(username=rut, email=correo, password=password, first_name=nombre)
         user.save()
-
 
         del request.session['correo']
         del request.session['rut']
 
         return redirect('login')
-    
     context = {
         'correo': correo,
         'rut': rut

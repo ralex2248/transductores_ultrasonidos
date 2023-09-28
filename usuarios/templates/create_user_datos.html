@@ -16,15 +16,12 @@ Datos
         
         <form method="post" action="{% url 'create_user_datos' %}">
             {% csrf_token %}
-            <input type="text" class="input-field" name="nombre" placeholder="Nombre">
+            <input type="text" class="input-field" name="nombre" placeholder="Nombre" required>
             <input type="text" class="input-field" value="{{ correo }}" name="correo" placeholder="Correo" readonly disabled>
             <input type="text" class="input-field" value="{{ rut }}" name="rut" id="rut" placeholder="RUT" readonly disabled>
-            <input type="password" class="input-field" name="password" placeholder="Contraseña">
+            <input type="password" class="input-field" name="password" placeholder="Contraseña" required>
             <button type="submit" class="create-button">Crear Nuevo Usuario</button>
         </form>
-        
-        
-
         <p class="create-account">
             Ya tienes una cuenta? <a href="{% url 'login' %}" class="button bg-danger">Ingresar</a>
         </p>
