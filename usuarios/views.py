@@ -19,6 +19,7 @@ from django.core.mail import EmailMessage
 
 
 def change_password(request):
+    message = ""
     if request.method == 'POST':
         new_password1 = request.POST.get('new_password1')
         new_password2 = request.POST.get('new_password2')
@@ -31,14 +32,14 @@ def change_password(request):
                 messages.success(request, 'Tu contraseña ha sido actualizada con éxito!')
                 return redirect('home')
             else:
-                messages.error(request, 'Las contraseñas no coinciden.')
+                message = 'Las contraseñas no coinciden.'
         else:
-            messages.error(request, 'Por favor, ingresa una contraseña.')
-    return render(request, 'change_password.html')
+            message = 'Por favor, ingresa una contraseña.'
+    return render(request, 'change_password.html',  {'message' : message})
 
 
 def enter_code(request):
-    message = ''
+    message = ""
     if request.method == 'POST':
         entered_code = request.POST.get('code')
         
@@ -141,10 +142,11 @@ def register(request):
             elif validar_email(correo) == False:
                 message = "Ingrese un correo válido."
 
-            elif User.objects.filter(email=correo).exists() or User.objects.filter(username=rut).exists():
-                message = "Este correo o rut ya está registrado."
+            elif User.objects.filter(email=correo).exists():
+                message = "Este correo ya está registrado."
 
-        
+            elif User.objects.filter(username=rut).exists():
+                message = "Este RUT ya está registrado." 
             else:
                 return redirect('create_user_datos')
         
