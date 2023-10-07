@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat-Regular", Helvetica;
+
+}
+
+
+
+.footer {
+  background-color: rgba(60, 56, 52, 0.95);
+  color: white;
+  padding: 27px 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: rgba(60, 56, 52, 0.95);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.sidebar-item {
+  text-decoration: none; 
+  color: white;
+  padding: 20px 15px; 
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.sidebar-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+
+.sidebar {
+  width: 80px;
+  transition: width 0.3s;
+}
+
+.sidebar:hover {
+  width: 250px; 
+}
+
+.sidebar-text {
+  display: none;
+  margin-left: 10px;
+  transition: opacity 0.3s;
+}
+
+
+.sidebar:hover .sidebar-text {
+  display: inline;
+}
+
+
+.sidebar:not(:hover) .sidebar-item {
+  padding-left: 0;
+  justify-content: center;
+}
+.user-section {
+  padding: 20px 15px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; 
+  margin-bottom: 10px;
+}
+
+.sidebar .sidebar-item:hover {
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+
+.sidebar-item span, 
+.sidebar-item .sidebar-text {
+  color: #9E9E9E;
+}
+
+.sidebar-item {
+  text-decoration: none;
+  color: white;
+}
+
+html body {
+  background-color: #E9E9E9;
+}
+.sidebar-item {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 550; 
+}
+.sidebar-item .sidebar-text {
+  font-size: 14px;
+}
+
+
+
+
+

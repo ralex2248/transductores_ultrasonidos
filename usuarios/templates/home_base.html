@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Título por defecto{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="sidebar d-flex flex-column align-items-center">
+        <div class="user-section d-flex flex-column align-items-center" style="background-color: #3C3834;">
+            <img src="{% static 'path/to/avatar.jpg' %}" alt="Avatar del usuario" class="user-avatar">
+        </div>
+              
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-home"></i></i> <span class="sidebar-text">Inicio</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-flask"></i> <span class="sidebar-text">Experimentos</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-history"></i> <span class="sidebar-text">Historial</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-bell"></i> <span class="sidebar-text">Notificaciones</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-question-circle"></i> <span class="sidebar-text">Soporte</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-cog"></i><span class="sidebar-text">Ajustes</span></a>
+    </div>
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer">
+        L.I.F.A. Laboratorio de Investigación de Física Aplicada
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</body>
+</html>
