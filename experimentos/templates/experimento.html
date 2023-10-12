@@ -77,40 +77,36 @@
 <div class="container">
     <!-- Rejillas ajustables en el lado izquierdo -->
     <div class="left">
-        <div class="grid">
-            <h2>Nombre experimento</h2>
-            <input type="text" id="nombreInput" placeholder="Nombre experimento">
-        </div>
-        <div class="grid">
-            <h2>Frecuencia</h2>
-            <input type="number" id="frecuenciaInput" min="0" step="1" placeholder="KHz">
-        </div>
-        <div class="grid">
-            <h2>Voltaje</h2>
-            <input type="number" id="voltajeInput" min="0" step="1" placeholder="Hz">
-        </div>
-        <div class="grid">
-            <h2>Resistencia</h2>
-            <input type="number" id="resistenciaInput" placeholder="Ohm">
-        </div>
-        <div class="grid">
-            <h2>Pasos</h2>
-            <input type="number" id="pasosInput" min="0" step="1" placeholder="0">
-        </div>
-        <div class="grid">
-            <h2>Sensibilidad</h2>
-            <input type="number" id="sensibilidadInput" min="0" step="1" placeholder="0">
-        </div>
-        <div class="grid">
-            <h2>Comentario</h2>
-            <input type="text" id="comentarioInput" placeholder="Comentario" >
-        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Datos del Fluido -->
+            <label for="nombre_fluido">Nombre del Fluido:</label>
+            <input type="text" id="nombre_fluido" name="nombre_fluido" required><br>
+            
+            <label for="descripcion">Descripción del Fluido:</label>
+            <textarea id="descripcion" name="descripcion" required></textarea><br>
+            
+            <!-- Datos del Experimento -->
+            <label for="nombre_experimento">Nombre del Experimento:</label>
+            <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
+            
+            <label for="electricidad">Electricidad:</label>
+            <input type="number" id="electricidad" name="electricidad" required><br>
+            
+            <label for="voltaje">Voltaje:</label>
+            <input type="number" id="voltaje" name="voltaje" required><br>
+            
+            <label for="pdf_experimento">Archivo PDF del Experimento:</label>
+            <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
+            
+            <button type="submit">Guardar Experimento</button>
+            </form>
         <div class="controls">
             <button class="startButton" id="startButton">Iniciar</button>
             <button class="stopButton" id="stopButton">Detener</button>
             <button class="cancelButton" id="cancelButton">Cancelar</button>
             <button class="clearButton" id="clearButton">Limpiar Datos</button> <br> <br>
-            <button class="saveButton" id="saveButton">Guardar experimento</button>
             
         </div>
     </div>
