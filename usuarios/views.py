@@ -16,7 +16,7 @@ from .models import PasswordReset, User
 from datetime import timedelta
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-
+from . import views
 
 def change_password(request):
     message = ""
@@ -151,3 +151,5 @@ def create_user_datos(request):
     
     return render(request, 'create_user_datos.html', context)
 
+def experimento(request):
+    return render(request, 'experimento.html')

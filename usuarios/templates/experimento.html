@@ -1,0 +1,283 @@
+
+<!-- Contenido de tu página aquí -->
+
+<!-- Estilos CSS para el diseño -->
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .left {
+        flex: 1;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .grid {
+        margin-bottom: 20px;
+    }
+
+    .chart {
+        height: 300px;
+    }
+    /* Estilos para los botones */
+    .controls button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .controls button:hover {
+    transform: scale(1.05);
+    }
+
+    #startButton {
+    background-color: #4CAF50;  /* verde */
+    color: white;
+    }
+
+    #stopButton {
+    background-color: #F44336;  /* rojo */
+    color: white;
+    }   
+
+    #cancelButton {
+    background-color: #FF9800;  /* naranja */
+    color: white;
+    }
+
+    #clearButton {
+    background-color: #2196F3;  /* azul */
+    color: white;
+    }
+    #saveButton {
+    background-color: #05009c;  /* azul */
+    color: white;
+    }
+</style>
+
+<!-- Contenedor principal -->
+<div class="container">
+    <!-- Rejillas ajustables en el lado izquierdo -->
+    <div class="left">
+        <div class="grid">
+            <h2>Nombre experimento</h2>
+            <input type="text" id="nombreInput" placeholder="Nombre experimento">
+        </div>
+        <div class="grid">
+            <h2>Frecuencia</h2>
+            <input type="number" id="frecuenciaInput" min="0" step="1" placeholder="KHz">
+        </div>
+        <div class="grid">
+            <h2>Voltaje</h2>
+            <input type="number" id="voltajeInput" min="0" step="1" placeholder="Hz">
+        </div>
+        <div class="grid">
+            <h2>Resistencia</h2>
+            <input type="number" id="resistenciaInput" placeholder="Ohm">
+        </div>
+        <div class="grid">
+            <h2>Pasos</h2>
+            <input type="number" id="pasosInput" min="0" step="1" placeholder="0">
+        </div>
+        <div class="grid">
+            <h2>Sensibilidad</h2>
+            <input type="number" id="sensibilidadInput" min="0" step="1" placeholder="0">
+        </div>
+        <div class="grid">
+            <h2>Comentario</h2>
+            <input type="text" id="comentarioInput" placeholder="Comentario" >
+        </div>
+        <div class="controls">
+            <button class="startButton" id="startButton">Iniciar</button>
+            <button class="stopButton" id="stopButton">Detener</button>
+            <button class="cancelButton" id="cancelButton">Cancelar</button>
+            <button class="clearButton" id="clearButton">Limpiar Datos</button> <br> <br>
+            <button class="saveButton" id="saveButton">Guardar experimento</button>
+            
+        </div>
+    </div>
+
+    <!-- Gráficos en el lado derecho -->
+    <div class="right">
+        <div class="chart">
+            <canvas id="chart1"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="chart2"></canvas>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Scripts JavaScript y Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Obtener los valores de las entradas ajustables
+    const frecuenciaInput = document.getElementById("frecuenciaInput");
+    const voltajeInput = document.getElementById("voltajeInput");
+    const pasosInput = document.getElementById("pasosInput");
+    const resistenciaInput = document.getElementById("resistenciaInput");
+    const sensibilidadInput = document.getElementById("sensibilidadInput");
+    // Crear gráfico 1
+    const ctx1 = document.getElementById("chart1").getContext("2d");
+    const chart1 = new Chart(ctx1, {
+        type: "line",
+        data: {
+            labels: ["Frecuencia", "Voltaje"], //debe cambiarse a z y frecuencia
+            datasets: [{
+                label: "Valores",
+                data: [0, 0],
+                backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
+                borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+                borderWidth: 2,
+            }],
+        },
+    });
+
+    // Crear gráfico 2
+    const ctx2 = document.getElementById("chart2").getContext("2d");
+    const chart2 = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: ["Pasos", "Resistencia"], // debe cambiarse a ohm y frecuencia
+            datasets: [{
+                label: "Valores",
+                data: [0, 0],
+                fill: false,
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(54, 162, 235, 1)",
+                pointRadius: 5,
+            }],
+        },
+    });
+
+    // Actualizar gráficos cuando cambian los valores de las entradas
+    frecuenciaInput.addEventListener("input", () => {
+        chart1.data.datasets[0].data[0] = parseFloat(frecuenciaInput.value);
+        chart1.update();
+    });
+
+    voltajeInput.addEventListener("input", () => {
+        chart1.data.datasets[0].data[1] = parseFloat(voltajeInput.value);
+        chart1.update();
+    });
+
+    pasosInput.addEventListener("input", () => {
+        chart2.data.datasets[0].data[0] = parseFloat(pasosInput.value);
+        chart2.update();
+    });
+
+    resistenciaInput.addEventListener("input", () => {
+        chart2.data.datasets[0].data[1] = parseFloat(resistenciaInput.value);
+        chart2.update();
+    });
+
+    // Referencias a los botones
+const startButton = document.getElementById("startButton");
+const stopButton = document.getElementById("stopButton");
+const cancelButton = document.getElementById("cancelButton");
+const clearButton = document.getElementById("clearButton");
+const guardarButton = document.getElementById("saveButton");
+
+let simulationRunning = false;
+
+// Función de inicio
+startButton.addEventListener("click", () => {
+    if (!simulationRunning) {
+        simulationRunning = true;
+        console.log("Simulación iniciada");
+        // Aquí puedes agregar código para iniciar la simulación o experimento.
+    }
+});
+
+// Función de detener
+stopButton.addEventListener("click", () => {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación detenida");
+        // Aquí puedes agregar código para detener la simulación o experimento.
+    }
+});
+
+// Función de cancelar
+cancelButton.addEventListener("click", () => {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación cancelada");
+        // Detiene la simulación y restablece todas las entradas
+        chart1.data.datasets[0].data = [0, 0];
+        chart2.data.datasets[0].data = [0, 0];
+        chart1.update();
+        chart2.update();
+        // Restablece las entradas
+        frecuenciaInput.value = "";
+        voltajeInput.value = "";
+        pasosInput.value = "0";
+        resistenciaInput.value = "";
+    }
+});
+
+// Función de limpiar datos
+clearButton.addEventListener("click", () => {
+    // Restablece los gráficos a sus valores predeterminados
+    chart1.data.datasets[0].data = [0, 0];
+    chart2.data.datasets[0].data = [0, 0];
+    chart1.update();
+    chart2.update();
+    console.log("Datos limpiados");
+});
+
+const saveButton = document.getElementById("saveButton");
+
+saveButton.addEventListener("click", () => {
+    // Captura los datos de los gráficos
+    const chart1Data = chart1.data.datasets[0].data;
+    const chart2Data = chart2.data.datasets[0].data;
+
+    // Formatea los datos como texto
+    const textData = `
+Datos del Gráfico 1:
+Frecuencia: ${chart1Data[0]}
+Voltaje: ${chart1Data[1]}
+
+Datos del Gráfico 2:
+Pasos: ${chart2Data[0]}
+Resistencia: ${chart2Data[1]}
+    `;
+
+    // Crea un enlace temporal para descargar el archivo
+    const blob = new Blob([textData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+
+
+
+</script>
+
+<!-- Fin del contenido -->
