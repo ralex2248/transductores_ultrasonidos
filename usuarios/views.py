@@ -17,6 +17,9 @@ from datetime import timedelta
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from . import views
+from django.contrib.auth.models import User
+
+
 
 def change_password(request):
     message = ""
@@ -142,11 +145,12 @@ def create_user_datos(request):
 
         del request.session['correo']
         del request.session['rut']
-
+        user_first_name = user.first_name
         return redirect('login')
     context = {
         'correo': correo,
-        'rut': rut
+        'rut': rut,
+        'first_name': user_first_name
     }
     
     return render(request, 'create_user_datos.html', context)

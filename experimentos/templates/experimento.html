@@ -1,11 +1,15 @@
+{% extends "home_base.html" %}
+{% block title %}
+Experimento
+{% endblock %}
 
+{% block content %}
 <!-- Contenido de tu página aquí -->
 
 <!-- Estilos CSS para el diseño -->
 <style>
-    /* Fuente bonita */
     body {
-        font-family: 'Arial', sans-serif; /* Puedes cambiar 'Arial' por otra fuente que te guste */
+        font-family: 'Arial', sans-serif; 
     }
 
     .container {
@@ -85,10 +89,52 @@
         background-color: #05009c;  /* azul */
         color: white;
     }
+
+
+
+    /* Estilo para el área principal */
+    .main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Alinea el contenido arriba */
+        padding: 20px;
+        margin-left: 250px; /* Ancho del sidebar */
+        margin-right: 20px; /* Espacio a la derecha del contenido */
+    }
+
+    .left {
+        flex: 1;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .grid {
+        margin-bottom: 20px;
+    }
+
+    .chart {
+        height: 300px;
+    }
+
+ 
+
+    
 </style>
 
+
+
 <!-- Contenedor principal -->
-<div class="container">
+<div class="main-content">
     <!-- Rejillas ajustables en el lado izquierdo -->
     <div class="left">
         <form method="post" enctype="multipart/form-data">
@@ -136,6 +182,8 @@
     </div>
     
 </div>
+
+
 
 <!-- Scripts JavaScript y Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -289,5 +337,5 @@ Resistencia: ${chart2Data[1]}
 
 
 </script>
-
+{% endblock %}
 <!-- Fin del contenido -->
