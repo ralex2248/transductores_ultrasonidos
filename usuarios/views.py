@@ -151,5 +151,4 @@ def create_user_datos(request):
     
     return render(request, 'create_user_datos.html', context)
 
-def experimento(request):
-    return render(request, 'experimento.html')
+
