@@ -3,6 +3,11 @@
 
 <!-- Estilos CSS para el diseño -->
 <style>
+    /* Fuente bonita */
+    body {
+        font-family: 'Arial', sans-serif; /* Puedes cambiar 'Arial' por otra fuente que te guste */
+    }
+
     .container {
         display: flex;
         justify-content: space-between;
@@ -33,43 +38,52 @@
     .chart {
         height: 300px;
     }
+
     /* Estilos para los botones */
     .controls button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s;
+        margin-right: 10px;
+        margin-top: 10px; /* Añadido para separación */
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
     }
 
     .controls button:hover {
-    transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    /* Estilos para los elementos del formulario */
+    form label, form input, form textarea, form button {
+        display: block;
+        margin-bottom: 15px; /* Añadido para separación */
     }
 
     #startButton {
-    background-color: #4CAF50;  /* verde */
-    color: white;
+        background-color: #4CAF50;  /* verde */
+        color: white;
     }
 
     #stopButton {
-    background-color: #F44336;  /* rojo */
-    color: white;
+        background-color: #F44336;  /* rojo */
+        color: white;
     }   
 
     #cancelButton {
-    background-color: #FF9800;  /* naranja */
-    color: white;
+        background-color: #FF9800;  /* naranja */
+        color: white;
     }
 
     #clearButton {
-    background-color: #2196F3;  /* azul */
-    color: white;
+        background-color: #2196F3;  /* azul */
+        color: white;
     }
+
     #saveButton {
-    background-color: #05009c;  /* azul */
-    color: white;
+        background-color: #05009c;  /* azul */
+        color: white;
     }
 </style>
 
