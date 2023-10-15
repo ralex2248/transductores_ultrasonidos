@@ -159,6 +159,29 @@ Experimento
             
             <button type="submit">Guardar Experimento</button>
             </form>
+            
+            </h6>Subir Archivo .txt<//h6>
+            <form method="post" action="{% url 'cargar' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="txt_file">
+                <button type="submit">Subir Archivo</button>
+            </form>
+        
+            {% if data %}
+            <h2>Datos del Archivo .txt</h2>
+            <table>
+                <tr>
+                    <th>Tiempo (X)</th>
+                    <th>Voltaje (Y)</th>
+                </tr>
+                {% for entry in data %}
+                <tr>
+                    <td>{{ entry.x }}</td>
+                    <td>{{ entry.y }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
         <div class="controls">
             <button class="startButton" id="startButton">Iniciar</button>
             <button class="stopButton" id="stopButton">Detener</button>

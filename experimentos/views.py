@@ -7,7 +7,13 @@ from django.http import HttpResponse
 from .models import Experimentos, Fluido
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+import os
+import matplotlib.pyplot as plt
+from django.conf import settings
+from django.urls import path
 
+from django.conf.urls.static import static
+from . import views
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -86,4 +92,34 @@ def crear_experimento(request):
 @login_required
 def experimento(request):
     return render(request, 'experimento.html')
+@login_required
+def upload_file(request):
+    plot_path = None
+
+    if request.method == 'POST':
+        uploaded_file = request.FILES['txt_file']
+        if uploaded_file.name.endswith('.txt'):
+            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
+            with open(file_path, 'wb') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
+            with open(file_path, 'r') as file:
+                time = []
+                voltage = []
+                for line in file:
+                    data = line.split()
+                    if len(data) == 2:
+                        time.append(float(data[0]))
+                        voltage.append(float(data[1]))
+
+            plt.plot(time, voltage)
+            plt.xlabel('Tiempo')
+            plt.ylabel('Voltaje')
+            plt.title('grafico tiempo voltaje ')
+            plot_path = os.path.join(settings.MEDIA_URL, 'plot.png')
+            plt.savefig(os.path.join(settings.MEDIA_ROOT, 'plot.png'))
+            plt.close()
+
+    return render(request, 'experimento.html', {'plot_path': plot_path})
 

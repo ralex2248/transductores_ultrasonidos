@@ -6,4 +6,6 @@ experimentos_urlpatterns = [
     path('imprimir_experimento/',views.imprimir_experimento,name='imprimir_experimento'),
     path('experimento/', views.experimento, name='experimento'),
     path('crear_experimento/', views.crear_experimento, name='crear_experimento'),
+    path('cargar/', views.upload_file, name='cargar'),
+    
 ]
