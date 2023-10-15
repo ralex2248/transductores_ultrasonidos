@@ -8,16 +8,25 @@
 
 
 
+
 .footer {
   background-color: rgba(60, 56, 52, 0.95);
   color: white;
   padding: 27px 40px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   text-align: center;
   font-size: 14px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+
+main {
+  flex-grow: 1;
 }
 
 
@@ -85,7 +94,11 @@
   border-radius: 50%; 
   margin-bottom: 10px;
 }
-
+.user-avatar2 {
+  width: 185px;
+  height: 75px;
+  margin-bottom: 10px;
+}
 .sidebar .sidebar-item:hover {
   text-decoration: none;
   outline: none;
@@ -113,7 +126,25 @@ html body {
   font-size: 14px;
 }
 
+.sidebar-item:last-child {
+  margin-top: auto; 
+}
+
+.sidebar-item:last-child:hover {
+  background-color: red; 
+}
 
 
+.user-avatar-collapsed {
+    display: block;
+}
+.user-avatar-expanded {
+    display: none;
+}
 
-
+.sidebar:hover .user-avatar-collapsed {
+    display: none;
+}
+.sidebar:hover .user-avatar-expanded {
+    display: block;
+}

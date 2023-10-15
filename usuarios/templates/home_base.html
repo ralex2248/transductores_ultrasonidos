@@ -14,7 +14,8 @@
 <body>
     <div class="sidebar d-flex flex-column align-items-center">
         <div class="user-section d-flex flex-column align-items-center" style="background-color: #3C3834;">
-            <img src="{% static 'path/to/avatar.jpg' %}" alt="Avatar del usuario" class="user-avatar">
+            <img class="user-avatar user-avatar-collapsed" src="{% static '/img/images.png' %}"/>
+            <img class="user-avatar2 user-avatar-expanded" src="{% static '/img/ua-fondo.png' %}"/>
         </div>
         
         <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center"><i class="fas fa-home"></i></i> <span class="sidebar-text">Inicio</span></a>
@@ -23,6 +24,10 @@
         <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-bell"></i> <span class="sidebar-text">Notificaciones</span></a>
         <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-question-circle"></i> <span class="sidebar-text">Soporte</span></a>
         <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-cog"></i><span class="sidebar-text">Ajustes</span></a>
+        <a href="#" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="sidebar-text">Cerrar Sesión</span>
+        </a>
     </div>
     {% block content %}
     {% endblock %}
