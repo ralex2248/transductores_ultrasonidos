@@ -88,6 +88,9 @@ def forgot_password(request):
 
     return render(request, 'forgot_password.html', {'message': message})
 
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
 
 
 def home_view(request):
