@@ -23,23 +23,27 @@ from usuarios.models import User
 
 
 def change_password(request):
-    message = ""
     if request.method == 'POST':
+        email = request.session.pop('reset_email', None)
         new_password1 = request.POST.get('new_password1')
         new_password2 = request.POST.get('new_password2')
         
-        if new_password1 and new_password2:
+        if not email:
+            messages.error(request, 'No se pudo recuperar el correo electrónico. Intenta nuevamente.')
+            return redirect('forgot_password')
+        try:
+            user = get_user_model().objects.get(email=email)
             if new_password1 == new_password2:
-                user = get_user_model().objects.get(email=request.user.email)
                 user.set_password(new_password1)
                 user.save()
                 messages.success(request, 'Tu contraseña ha sido actualizada con éxito!')
-                return redirect('home')
+                return redirect('login')
             else:
-                message = 'Las contraseñas no coinciden.'
-        else:
-            message = 'Por favor, ingresa una contraseña.'
-    return render(request, 'change_password.html',  {'message' : message})
+                messages.error(request, 'Las contraseñas no coinciden.')
+        except get_user_model().DoesNotExist:
+            messages.error(request, 'Este correo electrónico no está registrado.')
+
+    return render(request, 'change_password.html')
 
 
 def enter_code(request):
@@ -53,12 +57,13 @@ def enter_code(request):
             if timezone.now() - reset_entry.timestamp > timedelta(minutes=15):
                 message = "El código ha expirado."
             else:
-
+                request.session['reset_email'] = reset_entry.user.email
                 return redirect('change_password')
         except PasswordReset.DoesNotExist:
-            message = "El código no es válido."
+            message = "El código no es válido o ya ha sido utilizado."
 
     return render(request, 'code_password.html', {'message': message})
+
 
 
 def forgot_password(request):
@@ -161,3 +166,6 @@ def create_user_datos(request):
     }
 
     return render(request, 'create_user_datos.html', context)
+
+def ajustes(request):
+    return render(request, 'usuarios/ajustes.html')
