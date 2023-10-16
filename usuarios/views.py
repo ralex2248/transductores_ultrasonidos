@@ -18,6 +18,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from . import views
 from django.contrib.auth.models import User
+from usuarios.models import User
 
 
 
@@ -138,7 +139,8 @@ def login_view(request):
 def create_user_datos(request):
     correo = request.session.get('correo', '')
     rut = request.session.get('rut', '')
-    
+    user_first_name = ""  # Define user_first_name aquí
+
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         password = request.POST.get('password')
@@ -148,14 +150,14 @@ def create_user_datos(request):
 
         del request.session['correo']
         del request.session['rut']
-        user_first_name = user.first_name
+        user_first_name = user.first_name  # Asigna el valor de user.first_name a user_first_name
+
         return redirect('login')
+
     context = {
         'correo': correo,
         'rut': rut,
-        'first_name': user_first_name
+        'first_name': user_first_name  # Pasa user_first_name al contexto
     }
-    
+
     return render(request, 'create_user_datos.html', context)
-
-

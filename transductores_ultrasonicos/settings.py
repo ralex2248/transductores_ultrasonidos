@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'charmander123', ##nombrebd
+        'NAME': 'db2', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'charmander12',  ##passdb
+        'PASSWORD': 'toto',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -131,7 +131,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'usuarios/static')]
 STATIC_ROOT = '/usuarios/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-AUTH_USER_MODEL='usuarios.User'
+AUTH_USER_MODEL = 'usuarios.User'
 LOGIN_REDIRECT_URL = '/usuarios/create_user/'
 LOGOUT_REDIRECT_URL = 'login'
 
