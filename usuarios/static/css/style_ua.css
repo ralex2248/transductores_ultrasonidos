@@ -1,0 +1,72 @@
+
+@media all{
+    *{box-sizing:border-box;}
+    img{height:auto;max-width:100%;}
+    button{vertical-align:top;text-transform:none;color:inherit;font:inherit;border:none;margin:0;}
+    button{overflow:visible;-webkit-appearance:button;cursor:pointer;}
+    ul{list-style:none;margin:0;padding:0;}
+    h2{font-family:inherit;line-height:1.4;margin:0;padding-top:1.5rem;color:var(--color-content-heading);}
+    h2:first-child{padding-top:0;}
+    ul{margin:0 0 1.5rem;}
+    ul{list-style-type:disc;margin-left:2.5rem;}
+    li{margin:0 0 .5rem;}
+    ul:last-child,li:last-child{margin-bottom:0;}
+    .has_text_color h2{color:inherit;}
+    .i-cf:after{content:'';display:block;clear:both;}
+    .align_center{text-align:center;}
+    a{color:var(--color-content-link);}
+    .no-touch a:hover{color:var(--color-content-link-hover);}
+    .l-footer{overflow:hidden;margin:0 auto;width:100%;background:var(--color-content-bg-grad);color:var(--color-content-text);}
+    .l-section{padding-left:2.5rem;padding-right:2.5rem;}
+    .l-section{position:relative;margin:0 auto;}
+    .l-section-overlay{position:absolute;top:0;left:0;right:0;bottom:0;}
+    .l-section-h{position:relative;margin:0 auto;width:100%;max-width:var(--site-content-width,1200px);}
+    .l-section.height_small{padding-top:2rem;padding-bottom:2rem;}
+    .fab,.fad{display:inline-block;line-height:1;font-family:"fontawesome";font-weight:400;font-style:normal;font-variant:normal;text-rendering:auto;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;}
+    .l-body .vc_row:after,.l-body .vc_row:before,.l-body .vc_column-inner:after,.l-body .vc_column-inner:before{display:none;}
+    .l-body .wpb_content_element{margin-bottom:0;}
+    .g-cols.wpb_row{margin-bottom:0;}
+    @media screen and (max-width:600px){
+    h2{padding-top:1rem;}
+    .l-section{padding-left:1.5rem;padding-right:1.5rem;}
+    .l-section.height_small{padding-top:1.5rem;padding-bottom:1.5rem;}
+    }
+    .fab,.fad{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-block;font-style:normal;font-variant:normal;text-rendering:auto;line-height:1;}
+
+    .fad:before{position:absolute;color:var(--fa-primary-color,inherit);opacity:1;opacity:var(--fa-primary-opacity,1);}
+    .fad:after{color:var(--fa-secondary-color,inherit);}
+    .fad:after{opacity:.4;opacity:var(--fa-secondary-opacity,.4);}
+    .g-cols.via_flex{display:flex;flex-wrap:wrap;}
+    .g-cols.via_flex>div>.vc_column-inner{display:flex;flex-direction:column;flex-grow:1;position:relative;border-color:inherit;}
+    .g-cols.via_flex.type_default{margin:0 -1.5rem;}
+    .g-cols.via_flex.type_default>div>.vc_column-inner{padding-left:1.5rem;padding-right:1.5rem;}
+
+    .w-image-h{display:block;height:inherit;max-height:inherit;border-radius:inherit;border-color:inherit!important;color:inherit!important;}
+    .w-image:not([class*="style_phone"]) .w-image-h{background:inherit;}
+    .w-image img{object-fit:contain;vertical-align:top;height:inherit;max-height:inherit;border-radius:inherit;}
+    .w-image img:not([src*=".svg"]){width:auto;}
+    .w-image-h[href]{position:relative;}
+    .w-separator{clear:both;overflow:hidden;line-height:0;height:1.5rem;}
+    .w-separator:not(.with_content){position:relative;}
+    .w-separator.size_small:empty{height:1.5rem;}
+    .w-separator.size_medium:empty{height:3rem;}
+    @media (min-width:601px){
+    .vc_col-sm-2{width:16.6666%;}
+    .vc_col-sm-1\/5{width:20%;}
+    .vc_col-sm-3{width:25%;}
+    .vc_col-sm-4{width:33.3333%;}
+    .vc_col-sm-8{width:66.6666%;}
+    .vc_col-sm-12{width:100%;}
+    }
+    }
+    /*! CSS Used from: Embedded */
+    /*! CSS Used fontfaces */
+    @font-face{font-family:'Font Awesome 5 Brands';font-style:normal;font-weight:normal;font-display:auto;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.eot);src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.eot?#iefix) format("embedded-opentype") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.woff2) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.woff) format("woff") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.ttf) format("truetype") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.svg#fontawesome) format("svg");}
+    @font-face{font-display:block;font-style:normal;font-family:"Font Awesome 5 Brands";font-weight:400;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-brands-400.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-brands-400.woff?ver=8.13.4) format("woff");}
+    @font-face{font-family:'evo_FontAwesomeB';font-style:normal;font-weight:400;font-display:auto;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/eventON/assets/fonts/fa-brands-400.woff2) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/eventON/assets/fonts/fa-brands-400.ttf) format("truetype");}
+    @font-face{font-display:block;font-style:normal;font-family:"fontawesome";font-weight:900;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-solid-900.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-solid-900.woff?ver=8.13.4) format("woff");}
+    @font-face{font-display:block;font-style:normal;font-family:"fontawesome";font-weight:400;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-regular-400.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-regular-400.woff?ver=8.13.4) format("woff");}
+    @font-face{font-display:block;font-style:normal;font-family:"fontawesome";font-weight:300;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-light-300.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-light-300.woff?ver=8.13.4) format("woff");}
+    @font-face{font-display:block;font-style:normal;font-family:"Font Awesome 5 Duotone";font-weight:900;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-duotone-900.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-duotone-900.woff?ver=8.13.4) format("woff");}
+    @font-face{font-family:'Font Awesome 5 Brands';font-style:normal;font-weight:normal;font-display:auto;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.eot);src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.eot?#iefix) format("embedded-opentype") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.woff2) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.woff) format("woff") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.ttf) format("truetype") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/plugins/mega-addons-for-visual-composer/css/font-awesome/webfonts/fa-brands-400.svg#fontawesome) format("svg");}
+    @font-face{font-display:block;font-style:normal;font-family:"Font Awesome 5 Brands";font-weight:400;src:url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-brands-400.woff2?ver=8.13.4) format("woff2") , url(https://cdn-ua.hostingreactor.com/ua_www/cache/wp-content/themes/Impreza/fonts/fa-brands-400.woff?ver=8.13.4) format("woff");}

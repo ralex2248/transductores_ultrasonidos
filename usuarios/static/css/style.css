@@ -237,9 +237,8 @@ color: rgb(0, 0, 0);
 }
 .back-button a {
   display: flex;
-  align-items: center;  /* Centrado vertical */
-  justify-content: center;  /* Centrado horizontal */
-  width: 100%;
+  align-items: center; 
+  justify-content: center;  
   height: 100%;
   text-decoration: none;
 
@@ -250,8 +249,8 @@ color: rgb(0, 0, 0);
   color: white;
 }
 a:visited {
-  color: inherit; /* Esto hará que los enlaces visitados tomen el color de su elemento padre */
-  text-decoration: inherit; /* Esto hará que los enlaces visitados tomen la decoración de texto de su elemento padre */
+  color: inherit;
+  text-decoration: inherit;
 }
 
 .error-message {
