@@ -19,17 +19,36 @@
             <img class="user-avatar2 user-avatar-expanded" src="{% static '/img/ua-fondo.png' %}"/>
         </div>
         
-        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center"><i class="fas fa-home"></i></i> <span class="sidebar-text">Inicio</span></a>
-        <a href="{% url 'experimento' %}" class="sidebar-item d-flex align-items-center"><i class="fas fa-flask"></i> <span class="sidebar-text">Experimentos</span></a>
-        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-history"></i> <span class="sidebar-text">Historial</span></a>
-        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-bell"></i> <span class="sidebar-text">Notificaciones</span></a>
-        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-question-circle"></i> <span class="sidebar-text">Soporte</span></a>
-        <a href="#" class="sidebar-item d-flex align-items-center"><i class="fas fa-cog"></i><span class="sidebar-text">Ajustes</span></a>
-        <a href="#" class="sidebar-item d-flex align-items-center">
+        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-home"></i>
+            <span class="sidebar-text">Inicio</span>
+        </a>
+        <a href="{% url 'experimento' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-flask"></i>
+            <span class="sidebar-text">Experimentos</span>
+        </a>
+        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-history"></i>
+            <span class="sidebar-text">Historial</span>
+        </a>
+        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-bell"></i>
+            <span class="sidebar-text">Notificaciones</span>
+        </a>
+        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-question-circle"></i>
+            <span class="sidebar-text">Soporte</span>
+        </a>
+        <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-cog"></i>
+            <span class="sidebar-text">Ajustes</span>
+        </a>
+        <a href="{% url 'logout' %}" class="sidebar-item d-flex align-items-center">
             <i class="fas fa-sign-out-alt"></i>
             <span class="sidebar-text" id="logoutSpan">Cerrar Sesión</span>
         </a>
     </div>
+    
     {% block content %}
     {% endblock %}
 
