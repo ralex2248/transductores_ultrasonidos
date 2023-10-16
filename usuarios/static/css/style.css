@@ -238,7 +238,8 @@ color: rgb(0, 0, 0);
 .back-button a {
   display: flex;
   align-items: center; 
-  justify-content: center;  
+  justify-content: center; 
+  width: 100%;
   height: 100%;
   text-decoration: none;
 
@@ -249,7 +250,7 @@ color: rgb(0, 0, 0);
   color: white;
 }
 a:visited {
-  color: inherit;
+  color: inherit; 
   text-decoration: inherit;
 }
 
