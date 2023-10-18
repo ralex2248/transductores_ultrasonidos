@@ -1,0 +1,123 @@
+{% extends "home_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Estilo para el área principal */
+    .main-content {
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Alinea el contenido arriba */
+        padding: 20px;
+        margin-left: 250px; /* Ancho del sidebar */
+        margin-right: 20px; /* Espacio a la derecha del contenido */
+    }
+
+    .left {
+        flex: 2;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px
+        
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    .chart {
+        height: 300px;
+    }
+    
+    .select {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .title {
+        display: flex;
+        font-size: 30px;
+        
+    }
+    body {
+        font-family: 'Arial', sans-serif; 
+    }
+    .addButton, /* Estilo para botones */
+    a.addButton { /* Estilo para enlaces con la clase addButton */
+        background-color: #05009c; /* azul */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        display: inline-block; /* Alinea el enlace en línea con el texto */
+        text-decoration: none; /* Elimina el subrayado predeterminado */
+    }
+
+    .addButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
+    }
+
+    .grid {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .grid tr {
+        margin-bottom: 10px; /* Espacio entre filas */
+    }
+
+    .grid th,
+    .grid td {
+        padding: 10px; /* Espacio interno entre celdas */
+        border: 1px solid #ccc;
+    }
+
+    </style>
+
+
+  <div class="container">
+  <div class="main-content">
+    <div class="left">
+      <h1>Agregar fluido</h1>
+      <form method="post" action="{% url 'crear_fluido' %}">
+        {% csrf_token %}
+        <label for="nombre_fluido">Nombre del fluido: </label>
+        <input type="text" name="nombre_fluido" id="nombre_fluido" value="" placeholder="ej: agua" required><br>
+        <label for="descripcion_fluido">Descripcion del fluido: </label>
+        <input type="text" name="descripcion_fluido" id="descripcion_fluido" value="" placeholder="ej: agua de la llave" required><br>
+        <a style="margin-top: 30px;" onclick="goBack()" class="addButton">Atrás</a>
+        <input type="submit" style="margin-top: 30px;" value="Crear fluido" class="addButton"></input>
+        
+      </form>
+      
+      
+    </div>
+  </div>
+</div>
+
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+
+{% endblock %}
