@@ -100,7 +100,8 @@ def logout_view(request):
 
 
 def home_view(request):
-    return render(request, 'usuarios/home.html')
+    user = request.user.first_name
+    return render(request, 'usuarios/home.html', {'user': user})
 
 def register(request):
     message = ""
