@@ -1,0 +1,452 @@
+{% extends "home_base.html" %}
+{% block title %}
+experimento_pausado
+{% endblock %}
+
+{% block content %}
+<!-- Contenido de tu página aquí -->
+
+<!-- Estilos CSS para el diseño -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif; 
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+
+
+
+    /* Estilos para los botones */
+    .controls button {
+        margin-right: 10px;
+        margin-top: 10px; /* Añadido para separación */
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .controls button:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilos para los elementos del formulario */
+    form label, form input, form textarea, form button {
+        display: block;
+        margin-bottom: 15px; /* Añadido para separación */
+    }
+
+    #startButton {
+        background-color: #4CAF50;  /* verde */
+        color: white;
+    }
+
+    #stopButton {
+        background-color: #F44336;  /* rojo */
+        color: white;
+    }   
+
+    #cancelButton {
+        background-color: #FF9800;  /* naranja */
+        color: white;
+    }
+
+    #clearButton {
+        background-color: #2196F3;  /* azul */
+        color: white;
+    }
+
+    #saveButton {
+        background-color: #05009c; /* azul */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #saveButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
+    }
+
+
+
+    /* Estilo para el área principal */
+    .main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Alinea el contenido arriba */
+        padding: 20px;
+        margin-left: 250px; /* Ancho del sidebar */
+        margin-right: 20px; /* Espacio a la derecha del contenido */
+    }
+
+    .left {
+        flex: 1;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .grid {
+        margin-bottom: 20px;
+    }
+
+    .chart {
+        height: 300px;
+    }
+    
+    .select {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    
+ 
+
+    
+</style>
+
+<!-- Estilos CSS de Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Scripts de Bootstrap y jQuery (necesarios para las funciones modales o pestañas emergentes) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<!-- Contenedor principal -->
+<div class="main-content">
+    <!-- Rejillas ajustables en el lado izquierdo -->
+    <div class="left">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Datos del Fluido -->
+            <label for="nombre_fluido">Nombre del Fluido:</label>
+            <input type="text" id="nombre_fluido" name="nombre_fluido" required><br>
+            
+            <label for="descripcionInput">Descripción del Fluido:</label>
+            <textarea id="descripcionInput" name="descripcionInput" required></textarea><br>
+            
+            <!-- Datos del Experimento -->
+
+            <label for="nombre_experimento">Nombre del Experimento:</label>
+            <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
+
+            <label for="resistenciaInput">Resistencia:</label>
+            <input type="number" id="resistenciaInput" min="0" name="resistenciaInput" required><br>
+
+            <label for="sensibilidadInput">Sensibilidad:</label>
+            <input type="number" id="sensibilidadInput" min="0" name="sensibilidadInput" required><br>
+
+            <label for="pasosInput">Pasos:</label>
+            <input type="number" id="pasosInput" min="1000" name="pasosInput" max="10000" step="1000" required><br>
+            
+            <label for="frecuenciaInput">Frecuencia (kHz):</label>
+            <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
+            
+            <label for="voltajeInput">Voltaje (Volts):</label>
+            <input type="number" id="voltajeInput" min="0" step="0.1" max="5" name="voltajeInput" required><br>
+
+            <label for="comentario">Comentario:</label>
+            <textarea id="comentario" name="comentario" required></textarea><br>
+            
+            <label for="pdf_experimento">Archivo PDF del Experimento:</label>
+            <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
+            
+            <button class="saveButton" id="saveButton">Guardar Experimento</button>
+            </form>
+            
+            </h6>Subir condatos de voltaje/tiempo.txt<//h6>
+            <form method="post" action="{% url 'cargar_voltaje' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="txt_file">
+                <button type="submit">Subir Archivo</button>
+            </form>
+        
+            {% if plot_html %}
+                {{ plot_html|safe }}
+            {% else %}
+                <p>No se ha subido un archivo o el formato no es compatible.</p>
+            {% endif %}
+        <div class="controls">
+            <button class="startButton" id="startButton">Iniciar</button>
+            <button class="stopButton" id="stopButton">Detener</button>
+            <button class="cancelButton" id="cancelButton">Cancelar</button>
+            <button class="clearButton" id="clearButton">Limpiar Datos</button> <br> <br>
+            
+        </div>
+    </div>
+
+    <!-- Gráficos en el lado derecho -->
+    <div class="right">
+        <div class="chart">
+            <canvas id="chart1"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="chart2"></canvas>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Modal para el botón de Detener -->
+<div class="modal" tabindex="-1" id="stopModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detener Experimento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas detener el experimento?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmStop">Detener</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal para el botón de Cancelar -->
+  <div class="modal" tabindex="-1" id="cancelModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cancelar Experimento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas cancelar el experimento? Todos los datos se perderán.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirmCancel">Cancelar Experimento</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Scripts JavaScript y Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Obtener los valores de las entradas ajustables
+    const frecuenciaInput = document.getElementById("frecuenciaInput");
+    const voltajeInput = document.getElementById("voltajeInput");
+    const pasosInput = document.getElementById("pasosInput");
+    const resistenciaInput = document.getElementById("resistenciaInput");
+    const sensibilidadInput = document.getElementById("sensibilidadInput");
+    const nombre_fluido = document.getElementById("nombre_fluido");
+    const comentario = document.getElementById("comentario");
+    const nombre_experimento = document.getElementById("nombre_experimento");
+    // Crear gráfico 1
+    const ctx1 = document.getElementById("chart1").getContext("2d");
+    const chart1 = new Chart(ctx1, {
+        type: "line",
+        data: {
+            labels: ["Frecuencia", "Voltaje"], //debe cambiarse a z y frecuencia
+            datasets: [{
+                label: "Valores",
+                data: [0, 0],
+                backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)"],
+                borderColor: ["rgba(75, 192, 192, 1)", "rgba(255, 99, 132, 1)"],
+                borderWidth: 2,
+            }],
+        },
+    });
+
+    // Crear gráfico 2
+    const ctx2 = document.getElementById("chart2").getContext("2d");
+    const chart2 = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: ["Pasos", "Resistencia"], // debe cambiarse a ohm y frecuencia
+            datasets: [{
+                label: "Valores",
+                data: [0, 0],
+                fill: false,
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 2,
+                pointBackgroundColor: "rgba(54, 162, 235, 1)",
+                pointRadius: 5,
+            }],
+        },
+    });
+
+    // Actualizar gráficos cuando cambian los valores de las entradas
+    frecuenciaInput.addEventListener("input", () => {
+        chart1.data.datasets[0].data[0] = parseFloat(frecuenciaInput.value);
+        chart1.update();
+    });
+
+    voltajeInput.addEventListener("input", () => {
+        chart1.data.datasets[0].data[1] = parseFloat(voltajeInput.value);
+        chart1.update();
+    });
+
+    pasosInput.addEventListener("input", () => {
+        chart2.data.datasets[0].data[0] = parseFloat(pasosInput.value);
+        chart2.update();
+    });
+
+    resistenciaInput.addEventListener("input", () => {
+        chart2.data.datasets[0].data[1] = parseFloat(resistenciaInput.value);
+        chart2.update();
+    });
+
+    // Referencias a los botones
+const startButton = document.getElementById("startButton");
+const stopButton = document.getElementById("stopButton");
+const cancelButton = document.getElementById("cancelButton");
+const clearButton = document.getElementById("clearButton");
+const guardarButton = document.getElementById("saveButton");
+
+
+let simulationRunning = false;
+
+// Función de inicio
+startButton.addEventListener("click", () => {
+    if (!simulationRunning) {
+        simulationRunning = true;
+        console.log("Simulación iniciada");
+        // Aquí puedes agregar código para iniciar la simulación o experimento.
+    }
+});
+
+// Función de detener
+stopButton.addEventListener("click", () => {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación detenida");
+        // Aquí puedes agregar código para detener la simulación o experimento.
+    }
+});
+
+// Función de cancelar
+cancelButton.addEventListener("click", () => {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación cancelada");
+        // Detiene la simulación y restablece todas las entradas
+        chart1.data.datasets[0].data = [0, 0];
+        chart2.data.datasets[0].data = [0, 0];
+        chart1.update();
+        chart2.update();
+        // Restablece las entradas
+        frecuenciaInput.value = "";
+        voltajeInput.value = "";
+        pasosInput.value = "0";
+        resistenciaInput.value = "";
+    }
+});
+
+// Función de limpiar datos
+clearButton.addEventListener("click", () => {
+    // Restablece los gráficos a sus valores predeterminados
+    chart1.data.datasets[0].data = [0, 0];
+    chart2.data.datasets[0].data = [0, 0];
+    chart1.update();
+    chart2.update();
+    console.log("Datos limpiados");
+});
+
+const saveButton = document.getElementById("saveButton");
+
+saveButton.addEventListener("click", () => {
+    // Captura los datos de los gráficos
+    const chart1Data = chart1.data.datasets[0].data;
+    const chart2Data = chart2.data.datasets[0].data;
+    
+    
+
+    // Formatea los datos como texto
+    const textData = `
+
+Nombre del fluido: ${nombre_fluido.value}
+Nombre del Experimento: ${nombre_experimento.value}
+
+Comentario: ${comentario.value}
+
+Sensibilidad: ${sensibilidadInput.value}
+Pasos: ${pasosInput.value}
+
+Datos del Gráfico 1:
+Frecuencia: ${chart1Data[0]}
+Voltaje: ${chart1Data[1]}
+
+Datos del Gráfico 2:
+Pasos: ${chart2Data[0]}
+Resistencia: ${chart2Data[1]}
+    `;
+
+    // Crea un enlace temporal para descargar el archivo
+    const blob = new Blob([textData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+});
+
+stopButton.addEventListener("click", () => {
+    $('#stopModal').modal('show');
+});
+
+cancelButton.addEventListener("click", () => {
+    $('#cancelModal').modal('show');
+});
+
+document.getElementById("confirmStop").addEventListener("click", function() {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación detenida");
+        // Aquí puedes agregar código para detener la simulación o experimento.
+    }
+});
+
+document.getElementById("confirmCancel").addEventListener("click", function() {
+    if (simulationRunning) {
+        simulationRunning = false;
+        console.log("Simulación cancelada");
+        // Detiene la simulación y restablece todas las entradas.
+        // ... resto del código ...
+    }
+});
+
+
+</script>
+{% endblock %}
+<!-- Fin del contenido -->
+

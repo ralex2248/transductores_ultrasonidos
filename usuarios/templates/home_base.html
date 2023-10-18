@@ -23,9 +23,13 @@
             <i class="fas fa-home"></i>
             <span class="sidebar-text">Inicio</span>
         </a>
+        <a href="{% url 'experimento_pausado' %}" class="sidebar-item d-flex align-items-center">
+            <i class="fas fa-flask"></i>
+            <span class="sidebar-text">Experimento pausado</span>
+        </a>
         <a href="{% url 'experimento' %}" class="sidebar-item d-flex align-items-center">
             <i class="fas fa-flask"></i>
-            <span class="sidebar-text">Experimentos</span>
+            <span class="sidebar-text">Experimento con tiempo</span>
         </a>
         <a href="{% url 'home' %}" class="sidebar-item d-flex align-items-center">
             <i class="fas fa-history"></i>
