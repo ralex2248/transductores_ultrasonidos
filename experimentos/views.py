@@ -93,9 +93,7 @@ def crear_experimento(request):
 
     return HttpResponse("Experimento guardado exitosamente")
 
-@login_required
-def experimento_con_tiempo(request):
-    return render(request, 'experimento_con_tiempo.html')
+
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -172,7 +170,13 @@ def crear_experimento(request):
 
 @login_required
 def experimento_pausado(request):
-    return render(request, 'experimento_pausado.html')
+    fluidos = Fluido.objects.all()
+    return render(request, 'experimento_pausado.html', {'fluidos': fluidos})
+
+@login_required
+def experimento_con_tiempo(request):
+    fluidos = Fluido.objects.all()    
+    return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos})
 
 @login_required
 def upload_file_pausado(request):
@@ -267,3 +271,18 @@ def fluidos(request):
 
     template_name = 'fluidos.html'
     return render(request, template_name, {'template_name': template_name, 'fluidos_paginate': fluidos_paginate, 'paginator': paginator, 'page': page, 'search': search})
+
+def agregar_fluido(request):
+    return render(request, 'agregar_fluido.html')
+
+def crear_fluido(request):
+
+    nombre_fluido = request.POST.get('nombre_fluido')
+    descripcion = request.POST.get('descripcion_fluido')
+    fluido = Fluido(
+            nombre_fluido=nombre_fluido,
+            descripcion=descripcion,
+            fecha_fluido=datetime.now().date()
+        )
+    fluido.save()
+    return redirect('fluidos')

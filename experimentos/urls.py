@@ -11,6 +11,8 @@ experimentos_urlpatterns = [
     path('cargar_voltaje_con_tiempo/', views.upload_file_con_tiempo, name='cargar_voltaje_con_tiempo'),
     path('historial/', views.historial, name='historial'),
     path('fluidos/', views.fluidos, name='fluidos'),
+    path('agregar_fluido/', views.agregar_fluido, name='agregar_fluido'),
+    path('crear_fluido/', views.crear_fluido, name='crear_fluido')
 
     
 ]

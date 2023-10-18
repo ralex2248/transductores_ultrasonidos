@@ -1,6 +1,6 @@
 {% extends "home_base.html" %}
 {% block title %}
-experimento_pausado
+Experimento Pausado
 {% endblock %}
 
 {% block content %}
@@ -121,6 +121,25 @@ experimento_pausado
         margin-top: 10px;
     }
 
+    .addButton, /* Estilo para botones */
+    a.addButton { /* Estilo para enlaces con la clase addButton */
+        background-color: #05009c; /* azul */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        display: inline-block; /* Alinea el enlace en línea con el texto */
+        text-decoration: none; /* Elimina el subrayado predeterminado */
+    }
+
+    .addButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
+    }
+
     
  
 
@@ -145,10 +164,16 @@ experimento_pausado
             
             <!-- Datos del Fluido -->
             <label for="nombre_fluido">Nombre del Fluido:</label>
-            <input type="text" id="nombre_fluido" name="nombre_fluido" required><br>
+            <select id="nombre_fluido" name="nombre_fluido" required>
+                <option value="">Selecciona un fluido</option>
+                {% for fluido in fluidos %}
+                    <option value="{{ fluido.nombre_fluido }}">{{ fluido.nombre_fluido }}</option>
+                {% endfor %}
+            </select>
+            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a><br>        
             
             <label for="descripcionInput">Descripción del Fluido:</label>
-            <textarea id="descripcionInput" name="descripcionInput" required></textarea><br>
+            <textarea id="descripcionInput" name="descripcionInput" required>{{ fluido.descripcion }}</textarea><br>
             
             <!-- Datos del Experimento -->
 
@@ -261,6 +286,23 @@ experimento_pausado
 <!-- Scripts JavaScript y Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Cambiar el textarea de la descripción, según el fluido seleccionado
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectFluido = document.getElementById("nombre_fluido");
+        const descripcionFluido = document.getElementById("descripcionInput");
+
+        selectFluido.addEventListener("change", function() {
+            const selectedFluido = selectFluido.value;
+            
+            // Busca el fluido seleccionado en la lista de fluidos
+            const fluidoSeleccionado = Array.from(selectFluido.options).find(option => option.value === selectedFluido);
+            
+            // Actualiza el campo de descripción con la descripción del fluido seleccionado
+            descripcionFluido.value = fluidoSeleccionado.dataset.descripcion;
+        });
+    });
+
     // Obtener los valores de las entradas ajustables
     const frecuenciaInput = document.getElementById("frecuenciaInput");
     const voltajeInput = document.getElementById("voltajeInput");

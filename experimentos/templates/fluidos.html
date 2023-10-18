@@ -89,6 +89,25 @@
         border: 1px solid #ccc;
     }
 
+    .addButton, /* Estilo para botones */
+    a.addButton { /* Estilo para enlaces con la clase addButton */
+        background-color: #05009c; /* azul */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        display: inline-block; /* Alinea el enlace en línea con el texto */
+        text-decoration: none; /* Elimina el subrayado predeterminado */
+    }
+
+    .addButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
+    }
+
     </style>
 
 
@@ -99,7 +118,7 @@
       <form method="get" action="{% url 'fluidos' %}">
         <input type="text" name="search" value="{{ search }}" placeholder="Buscar por nombre de fluido">
         <input type="submit" value="Buscar" class="addButton">
-        <button class="addButton">Agregar fluido</button>
+        <a style="margin-top: 30px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
       </form>
       <div class="grid">
         <table>
@@ -124,13 +143,13 @@
       <div class="pagination">
         <span class="step-links">
           {% if fluidos_paginate.has_previous %}
-            <a href="?page=1{% if search %}&search={{ search }}{% endif %}">primera</a>
-            <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">anterior</a>
+            <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton" ><<</a>
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton" ><</a>
           {% endif %}
           <span class="current-page">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
           {% if fluidos_paginate.has_next %}
-            <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}">siguiente</a>
-            <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}">última</a>
+            <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton" >></a>
+            <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton" >>></a>
           {% endif %}
         </span>
       </div>
