@@ -16,6 +16,7 @@ from django.conf.urls.static import static
 from . import views
 import mpld3
 from io import BytesIO
+from django.core.paginator import Paginator
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -91,40 +92,10 @@ def crear_experimento(request):
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
     return HttpResponse("Experimento guardado exitosamente")
+
 @login_required
-def experimento(request):
-    return render(request, 'experimento.html')
-@login_required
-def upload_file(request):
-    plot_html = None
-
-    if request.method == 'POST':
-        uploaded_file = request.FILES['txt_file']
-        if uploaded_file.name.endswith('.txt'):
-            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
-            with open(file_path, 'wb') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
-
-            with open(file_path, 'r') as file:
-                time = []
-                voltage = []
-                for line in file:
-                    data = line.strip().split(',')
-                    if len(data) == 2:
-                        time.append(float(data[0]))
-                        voltage.append(float(data[1]))
-
-            plt.plot(time, voltage)
-            plt.xlabel('Tiempo')
-            plt.ylabel('Voltaje')
-            plt.title('Gráfico Tiempo-Voltaje')
-
-            # Renderiza el gráfico en formato HTML
-            plot_html = mpld3.fig_to_html(plt.gcf())
-            plt.close()
-
-    return render(request, 'experimento.html', {'plot_html': plot_html})
+def experimento_con_tiempo(request):
+    return render(request, 'experimento_con_tiempo.html')
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -198,11 +169,13 @@ def crear_experimento(request):
         experimento.save()
 
         return HttpResponse("Experimento guardado exitosamente")
+
 @login_required
 def experimento_pausado(request):
     return render(request, 'experimento_pausado.html')
+
 @login_required
-def upload_file(request):
+def upload_file_pausado(request):
     plot_html = None
 
     if request.method == 'POST':
@@ -232,3 +205,65 @@ def upload_file(request):
             plt.close()
 
     return render(request, 'experimento_pausado.html', {'plot_html': plot_html})
+
+@login_required
+def upload_file_con_tiempo(request):
+    plot_html = None
+
+    if request.method == 'POST':
+        uploaded_file = request.FILES['txt_file']
+        if uploaded_file.name.endswith('.txt'):
+            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
+            with open(file_path, 'wb') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
+            with open(file_path, 'r') as file:
+                time = []
+                voltage = []
+                for line in file:
+                    data = line.strip().split(',')
+                    if len(data) == 2:
+                        time.append(float(data[0]))
+                        voltage.append(float(data[1]))
+
+            plt.plot(time, voltage)
+            plt.xlabel('Tiempo')
+            plt.ylabel('Voltaje')
+            plt.title('Gráfico Tiempo-Voltaje')
+
+            # Renderiza el gráfico en formato HTML
+            plot_html = mpld3.fig_to_html(plt.gcf())
+            plt.close()
+
+    return render(request, 'experimento_con_tiempo.html', {'plot_html': plot_html})
+
+
+def historial(request):
+    return render(request, "historial.html")
+
+
+
+@login_required
+def fluidos(request):
+    # Restricciones de acceso, asegurando que el usuario tiene el grupo adecuado
+
+    # Parámetros de paginación y búsqueda
+    page = request.GET.get('page', 1)
+    search = request.GET.get('search', '')
+
+    # Consulta de fluidos
+    if search and search != "None":
+        fluidos = Fluido.objects.filter(nombre_fluido__icontains=search).order_by('nombre_fluido')
+    else:
+        fluidos = Fluido.objects.all().order_by('nombre_fluido')
+
+    # Paginación de la lista de fluidos
+    paginator = Paginator(fluidos, 5)
+    try:
+        fluidos_paginate = paginator.page(page)
+    except EmptyPage:
+        fluidos_paginate = paginator.page(paginator.num_pages)
+
+    template_name = 'fluidos.html'
+    return render(request, template_name, {'template_name': template_name, 'fluidos_paginate': fluidos_paginate, 'paginator': paginator, 'page': page, 'search': search})

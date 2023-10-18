@@ -1,0 +1,83 @@
+{% extends "home_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Estilo para el área principal */
+    .main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Alinea el contenido arriba */
+        padding: 20px;
+        margin-left: 250px; /* Ancho del sidebar */
+        margin-right: 20px; /* Espacio a la derecha del contenido */
+    }
+
+    .left {
+        flex: 1;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .grid {
+        margin-bottom: 20px;
+    }
+
+    .chart {
+        height: 300px;
+    }
+    
+    .select {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .title {
+        display: flex;
+        margin-left: 180px;
+        font-size: 30px;
+        
+    }
+    body {
+        font-family: 'Arial', sans-serif; 
+    }
+
+    
+
+</style>
+
+<html>
+    <head>
+        <body>
+            <div class="container">
+                <div class="title">
+                    <p>HISTORIAL</p>
+                </div>
+                <div class="main-content">
+                    
+                </div>
+                
+            </div>
+        </body>
+    </head>
+</html>
+
+{%  endblock %}

@@ -1,0 +1,141 @@
+{% extends "home_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Estilo para el área principal */
+    .main-content {
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Alinea el contenido arriba */
+        padding: 20px;
+        margin-left: 250px; /* Ancho del sidebar */
+        margin-right: 20px; /* Espacio a la derecha del contenido */
+    }
+
+    .left {
+        flex: 2;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        border-radius: 5px
+        
+    }
+
+    .right {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    .chart {
+        height: 300px;
+    }
+    
+    .select {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .title {
+        display: flex;
+        font-size: 30px;
+        
+    }
+    body {
+        font-family: 'Arial', sans-serif; 
+    }
+    .addButton {
+        background-color: #05009c; /* azul */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        margin-left: 20px;
+    }
+
+    .addButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
+    }
+
+    .grid {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .grid tr {
+        margin-bottom: 10px; /* Espacio entre filas */
+    }
+
+    .grid th,
+    .grid td {
+        padding: 10px; /* Espacio interno entre celdas */
+        border: 1px solid #ccc;
+    }
+
+    </style>
+
+
+  <div class="container">
+  <div class="main-content">
+    <div class="left">
+      <h1>Lista de Fluidos</h1>
+      <form method="get" action="{% url 'fluidos' %}">
+        <input type="text" name="search" value="{{ search }}" placeholder="Buscar por nombre de fluido">
+        <input type="submit" value="Buscar" class="addButton">
+        <button class="addButton">Agregar fluido</button>
+      </form>
+      <div class="grid">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for fluido in fluidos_paginate %}
+              <tr>
+                <td>{{ fluido.nombre_fluido }}</td>
+                <td>{{ fluido.descripcion }}</td>
+                <td>{{ fluido.fecha_fluido }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="step-links">
+          {% if fluidos_paginate.has_previous %}
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}">primera</a>
+            <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">anterior</a>
+          {% endif %}
+          <span class="current-page">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
+          {% if fluidos_paginate.has_next %}
+            <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}">siguiente</a>
+            <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}">última</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

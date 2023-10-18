@@ -180,7 +180,7 @@ Experimento
             </form>
             
             </h6>Subir condatos de voltaje/tiempo.txt<//h6>
-            <form method="post" action="{% url 'cargar_voltaje' %}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'cargar_voltaje_con_tiempo' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="file" name="txt_file">
                 <button type="submit">Subir Archivo</button>
@@ -390,7 +390,7 @@ Resistencia: ${chart2Data[1]}
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'data.txt';
+    a.download = 'experimento_con_tiempo.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
