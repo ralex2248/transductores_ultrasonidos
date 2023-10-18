@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db2', ##nombrebd
+        'NAME': 'trans', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'toto',  ##passdb
+        'PASSWORD': 'yumbel1318',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },

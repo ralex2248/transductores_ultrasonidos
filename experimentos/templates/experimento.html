@@ -65,8 +65,19 @@ Experimento
     }
 
     #saveButton {
-        background-color: #05009c;  /* azul */
+        background-color: #05009c; /* azul */
         color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #saveButton:hover {
+        background-color: #0035ad; /* Cambia el color al pasar el mouse */
+        transform: scale(1.05);
     }
 
 
@@ -110,6 +121,7 @@ Experimento
         margin-top: 10px;
     }
 
+    
  
 
     
@@ -128,36 +140,36 @@ Experimento
             <label for="nombre_fluido">Nombre del Fluido:</label>
             <input type="text" id="nombre_fluido" name="nombre_fluido" required><br>
             
-            <label for="descripcion">Descripción del Fluido:</label>
-            <textarea id="descripcion" name="descripcion" required></textarea><br>
+            <label for="descripcionInput">Descripción del Fluido:</label>
+            <textarea id="descripcionInput" name="descripcionInput" required></textarea><br>
             
             <!-- Datos del Experimento -->
+
             <label for="nombre_experimento">Nombre del Experimento:</label>
             <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
+
+            <label for="resistenciaInput">Resistencia:</label>
+            <input type="number" id="resistenciaInput" min="0" name="resistenciaInput" required><br>
+
+            <label for="sensibilidadInput">Sensibilidad:</label>
+            <input type="number" id="sensibilidadInput" min="0" name="sensibilidadInput" required><br>
+
+            <label for="pasosInput">Pasos:</label>
+            <input type="number" id="pasosInput" min="1000" name="pasosInput" max="10000" step="1000" required><br>
             
-            <label for="frecuencia">Frecuencia (kHz):</label>
-            <select class="select" id="frecuencia" name="frecuencia" required>
-                <option value="opcion1">20.000</option>
-                <option value="opcion2">25.000</option>
-                <option value="opcion3">29.000</option>
-                <option value="opcion3" selected>Seleccione...</option>
-            </select>
+            <label for="frecuenciaInput">Frecuencia (kHz):</label>
+            <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
             
-            <label for="voltaje">Voltaje (Volts):</label>
-            <select class="select" id="voltaje" name="voltaje" required>
-                <option value="opcion1">0.1</option>
-                <option value="opcion2">1</option>
-                <option value="opcion3">2</option>
-                <option value="opcion3">3</option>
-                <option value="opcion3">4</option>
-                <option value="opcion3">5</option>
-                <option value="opcion3" selected>Seleccione...</option>
-            </select>
+            <label for="voltajeInput">Voltaje (Volts):</label>
+            <input type="number" id="voltajeInput" min="0" step="0.1" max="5" name="voltajeInput" required><br>
+
+            <label for="comentario">Comentario:</label>
+            <textarea id="comentario" name="comentario" required></textarea><br>
             
             <label for="pdf_experimento">Archivo PDF del Experimento:</label>
             <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
             
-            <button type="submit">Guardar Experimento</button>
+            <button class="saveButton" id="saveButton">Guardar Experimento</button>
             </form>
             
             </h6>Subir condatos de voltaje/tiempo.txt<//h6>
@@ -204,6 +216,9 @@ Experimento
     const pasosInput = document.getElementById("pasosInput");
     const resistenciaInput = document.getElementById("resistenciaInput");
     const sensibilidadInput = document.getElementById("sensibilidadInput");
+    const nombre_fluido = document.getElementById("nombre_fluido");
+    const comentario = document.getElementById("comentario");
+    const nombre_experimento = document.getElementById("nombre_experimento");
     // Crear gráfico 1
     const ctx1 = document.getElementById("chart1").getContext("2d");
     const chart1 = new Chart(ctx1, {
@@ -320,9 +335,20 @@ saveButton.addEventListener("click", () => {
     // Captura los datos de los gráficos
     const chart1Data = chart1.data.datasets[0].data;
     const chart2Data = chart2.data.datasets[0].data;
+    
+    
 
     // Formatea los datos como texto
     const textData = `
+
+Nombre del fluido: ${nombre_fluido.value}
+Nombre del Experimento: ${nombre_experimento.value}
+
+Comentario: ${comentario.value}
+
+Sensibilidad: ${sensibilidadInput.value}
+Pasos: ${pasosInput.value}
+
 Datos del Gráfico 1:
 Frecuencia: ${chart1Data[0]}
 Voltaje: ${chart1Data[1]}
