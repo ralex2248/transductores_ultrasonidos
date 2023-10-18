@@ -193,10 +193,11 @@ experimento_pausado
             {% endif %}
         <div class="controls">
             <button class="startButton" id="startButton">Iniciar</button>
-            <button class="stopButton" id="stopButton">Detener</button>
-            <button class="cancelButton" id="cancelButton">Cancelar</button>
+            <button class="stopButton" onclick="checkAction('Detener')" id="stopButton">Detener</button>
+            <button class="cancelButton" onclick="checkAction('Cancelar')" id="cancelButton">Cancelar</button>
             <button class="clearButton" id="clearButton">Limpiar Datos</button> <br> <br>
             
+
         </div>
     </div>
 
@@ -211,6 +212,8 @@ experimento_pausado
     </div>
     
 </div>
+
+
 
 <!-- Modal para el botón de Detener -->
 <div class="modal" tabindex="-1" id="stopModal">
@@ -329,44 +332,19 @@ const cancelButton = document.getElementById("cancelButton");
 const clearButton = document.getElementById("clearButton");
 const guardarButton = document.getElementById("saveButton");
 
+function checkAction(action) {
+    var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?");
+
+    if (confirmation) {
+        // Aquí pones el código que se ejecuta si el usuario presiona "Aceptar"
+        console.log(action + " confirmado.");
+    } else {
+        // Aquí pones el código que se ejecuta si el usuario presiona "Cancelar"
+        console.log(action + " cancelado.");
+    }
+}
 
 let simulationRunning = false;
-
-// Función de inicio
-startButton.addEventListener("click", () => {
-    if (!simulationRunning) {
-        simulationRunning = true;
-        console.log("Simulación iniciada");
-        // Aquí puedes agregar código para iniciar la simulación o experimento.
-    }
-});
-
-// Función de detener
-stopButton.addEventListener("click", () => {
-    if (simulationRunning) {
-        simulationRunning = false;
-        console.log("Simulación detenida");
-        // Aquí puedes agregar código para detener la simulación o experimento.
-    }
-});
-
-// Función de cancelar
-cancelButton.addEventListener("click", () => {
-    if (simulationRunning) {
-        simulationRunning = false;
-        console.log("Simulación cancelada");
-        // Detiene la simulación y restablece todas las entradas
-        chart1.data.datasets[0].data = [0, 0];
-        chart2.data.datasets[0].data = [0, 0];
-        chart1.update();
-        chart2.update();
-        // Restablece las entradas
-        frecuenciaInput.value = "";
-        voltajeInput.value = "";
-        pasosInput.value = "0";
-        resistenciaInput.value = "";
-    }
-});
 
 // Función de limpiar datos
 clearButton.addEventListener("click", () => {
@@ -417,36 +395,9 @@ Resistencia: ${chart2Data[1]}
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
-});
-
-stopButton.addEventListener("click", () => {
-    $('#stopModal').modal('show');
-});
-
-cancelButton.addEventListener("click", () => {
-    $('#cancelModal').modal('show');
-});
-
-document.getElementById("confirmStop").addEventListener("click", function() {
-    if (simulationRunning) {
-        simulationRunning = false;
-        console.log("Simulación detenida");
-        // Aquí puedes agregar código para detener la simulación o experimento.
-    }
-});
-
-document.getElementById("confirmCancel").addEventListener("click", function() {
-    if (simulationRunning) {
-        simulationRunning = false;
-        console.log("Simulación cancelada");
-        // Detiene la simulación y restablece todas las entradas.
-        // ... resto del código ...
-    }
 });
 
 
 </script>
 {% endblock %}
 <!-- Fin del contenido -->
-
