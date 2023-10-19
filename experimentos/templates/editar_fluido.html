@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Editar Fluido</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="nombre_fluido">Nombre del Fluido:</label>
+    <input type="text" id="nombre_fluido" name="nombre_fluido" value="{{ fluido.nombre_fluido }}"><br>
+    
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion">{{ fluido.descripcion }}</textarea><br>
+
+    <!-- Agrega más campos de edición según tus necesidades -->
+
+    <input type="submit" value="Guardar cambios">
+  </form>
+  <a href="{% url 'fluidos' %}">Volver a la lista de fluidos</a>
+{% endblock %}

@@ -17,6 +17,32 @@ from . import views
 import mpld3
 from io import BytesIO
 from django.core.paginator import Paginator
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Fluido
+
+def editar_fluido(request, fluido_id):
+    # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
+    fluido = get_object_or_404(Fluido, pk=fluido_id)
+
+    if request.method == 'POST':
+        # Si se ha enviado un formulario POST, procesar los datos del formulario aquí
+
+        # Obtener los datos del formulario
+        nombre_fluido = request.POST.get('nombre_fluido')
+        descripcion = request.POST.get('descripcion')
+
+        # Actualizar el objeto Fluido con los nuevos datos
+        fluido.nombre_fluido = nombre_fluido
+        fluido.descripcion = descripcion
+        fluido.save()
+
+        # Redirigir a la página de lista de fluidos (fluidos.html)
+        return redirect('fluidos')  # Cambia 'fluidos' por el nombre de la URL correcta
+
+    # Si la solicitud es GET, renderizar la plantilla de edición del fluido
+    return render(request, 'editar_fluido.html', {'fluido': fluido})
+
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -286,3 +312,18 @@ def crear_fluido(request):
         )
     fluido.save()
     return redirect('fluidos')
+
+@login_required
+def eliminar_fluidos(request):
+    if request.method == 'POST':
+        # Getting the list of selected fluid IDs from the form
+        selected_fluid_ids = request.POST.getlist('selected_fluidos')
+        
+        # Deleting the selected fluids using Django's ORM
+        Fluido.objects.filter(id__in=selected_fluid_ids).delete()
+        
+        # Redirecting back to the fluidos page with a success message
+        messages.success(request, 'Fluido(s) eliminado(s) con éxito.')
+        return redirect('fluidos')
+    else:
+        return redirect('fluidos')

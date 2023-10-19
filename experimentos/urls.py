@@ -12,7 +12,11 @@ experimentos_urlpatterns = [
     path('historial/', views.historial, name='historial'),
     path('fluidos/', views.fluidos, name='fluidos'),
     path('agregar_fluido/', views.agregar_fluido, name='agregar_fluido'),
-    path('crear_fluido/', views.crear_fluido, name='crear_fluido')
+    path('crear_fluido/', views.crear_fluido, name='crear_fluido'),
+    path('eliminar_fluidos/', views.eliminar_fluidos, name='eliminar_fluidos'),
+    path('editar_fluido/<int:fluido_id>/', views.editar_fluido, name='editar_fluido'),
+
+
 
     
 ]

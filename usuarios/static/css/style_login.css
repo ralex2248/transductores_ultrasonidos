@@ -9,13 +9,18 @@
 
 .footer {
   background-color: rgba(60, 56, 52, 0.9);
-    color: white;
+  color: white;
   padding: 27px 40px;
   text-align: center;
   font-size: 18px; 
   font-family: 'Montserrat', sans-serif; 
   font-weight: bold; 
   z-index: -1;
+  transition: margin-left 0.3s;
+  margin-left: 80px;
+}
+.sidebar:hover ~ .footer {
+  margin-left: 230px;
 }
 
 body {
@@ -49,6 +54,8 @@ main {
   width: 100%;
   text-align: center;
   transition: background-color 0.3s;
+  align-items: center;
+
 }
 
 .sidebar-item:hover {
@@ -154,3 +161,5 @@ html body {
 .sidebar:hover .user-avatar-expanded {
     display: block;
 }
+
+

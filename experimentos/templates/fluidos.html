@@ -1,160 +1,80 @@
 {% extends "home_base.html" %}
 {% load static %}
-
+<title>{% block title %}Lista de Fluidos{% endblock %}</title>
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
-<style>
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
-
-    /* Estilo para el área principal */
-    .main-content {
-        flex: 2;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* Alinea el contenido arriba */
-        padding: 20px;
-        margin-left: 250px; /* Ancho del sidebar */
-        margin-right: 20px; /* Espacio a la derecha del contenido */
-    }
-
-    .left {
-        flex: 2;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 5px
-        
-    }
-
-    .right {
-        flex: 1;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-
-    .chart {
-        height: 300px;
-    }
-    
-    .select {
-        margin-bottom: 20px;
-        margin-top: 10px;
-    }
-
-    .title {
-        display: flex;
-        font-size: 30px;
-        
-    }
-    body {
-        font-family: 'Arial', sans-serif; 
-    }
-    .addButton {
-        background-color: #05009c; /* azul */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s;
-        margin-left: 20px;
-    }
-
-    .addButton:hover {
-        background-color: #0035ad; /* Cambia el color al pasar el mouse */
-        transform: scale(1.05);
-    }
-
-    .grid {
-        margin-bottom: 20px;
-        margin-top: 20px;
-    }
-
-    .grid tr {
-        margin-bottom: 10px; /* Espacio entre filas */
-    }
-
-    .grid th,
-    .grid td {
-        padding: 10px; /* Espacio interno entre celdas */
-        border: 1px solid #ccc;
-    }
-
-    .addButton, /* Estilo para botones */
-    a.addButton { /* Estilo para enlaces con la clase addButton */
-        background-color: #05009c; /* azul */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s;
-        display: inline-block; /* Alinea el enlace en línea con el texto */
-        text-decoration: none; /* Elimina el subrayado predeterminado */
-    }
-
-    .addButton:hover {
-        background-color: #0035ad; /* Cambia el color al pasar el mouse */
-        transform: scale(1.05);
-    }
-
-    </style>
-
-
-  <div class="container">
+<div class="container">
   <div class="main-content">
     <div class="left">
       <h1>Lista de Fluidos</h1>
       <form method="get" action="{% url 'fluidos' %}">
-        <input type="text" name="search" value="{{ search }}" placeholder="Buscar por nombre de fluido">
+        <input type="text" name="search" value="{{ search }}" placeholder="Buscar nombre del fluido">
         <input type="submit" value="Buscar" class="addButton">
         <a style="margin-top: 30px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
       </form>
-      <div class="grid">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for fluido in fluidos_paginate %}
-              <tr>
-                <td>{{ fluido.nombre_fluido }}</td>
-                <td>{{ fluido.descripcion }}</td>
-                <td>{{ fluido.fecha_fluido }}</td>
+      
+      <form method="post" action="{% url 'eliminar_fluidos' %}" id="delete_fluidos_form">
+        {% csrf_token %}
+        <div class="grid">
+          <table>
+            <thead>
+                <tr>
+                    <th></th> <!-- Columna para checkboxes -->
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for fluido in fluidos_paginate %}
+                <tr>
+                  <td>
+                      <input type="checkbox" name="selected_fluidos" value="{{ fluido.id }}">
+                  </td>
+                  <td>{{ fluido.nombre_fluido }}</td>
+                  <td>{{ fluido.descripcion }}</td>
+                  <td>{{ fluido.fecha_fluido }}</td>
+                  <td>
+                      <a href="{% url 'editar_fluido' fluido.id %}" class="editButton">
+                          <i class="fas fa-edit"></i> Editar
+                      </a>
+                  </td>
               </tr>
-            {% endfor %}
-          </tbody>
+              
+                {% endfor %}
+            </tbody>
         </table>
-      </div>
+        </div>
+        <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+      </form>
+
       <div class="pagination">
         <span class="step-links">
           {% if fluidos_paginate.has_previous %}
-            <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton" ><<</a>
-            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton" ><</a>
+          <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
+          <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
           {% endif %}
           <span class="current-page">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
           {% if fluidos_paginate.has_next %}
-            <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton" >></a>
-            <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton" >>></a>
+          <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
+          <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
           {% endif %}
         </span>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
+    var confirmed = confirm('¿Está seguro de que desea eliminar los fluidos seleccionados?');
+    if (!confirmed) {
+      event.preventDefault();
+    }
+  });
+</script>
 
 {% endblock %}
