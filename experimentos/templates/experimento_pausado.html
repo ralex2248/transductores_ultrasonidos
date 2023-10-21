@@ -6,142 +6,8 @@ Experimento Pausado
 {% endblock %}
 
 {% block content %}
-<!-- Contenido de tu página aquí -->
+<link rel="stylesheet" href="{% static 'css/style_fluidop.css' %}">
 
-<!-- Estilos CSS para el diseño -->
-<style>
-    body {
-        font-family: 'Arial', sans-serif; 
-    }
-
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
-
-
-
-
-    /* Estilos para los botones */
-    .controls button {
-        margin-right: 10px;
-        margin-top: 10px; /* Añadido para separación */
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .controls button:hover {
-        transform: scale(1.05);
-    }
-
-    /* Estilos para los elementos del formulario */
-    form label, form input, form textarea, form button {
-        display: block;
-        margin-bottom: 15px; /* Añadido para separación */
-    }
-
-    #startButton {
-        background-color: #4CAF50;  /* verde */
-        color: white;
-    }
-
-    #stopButton {
-        background-color: #F44336;  /* rojo */
-        color: white;
-    }   
-
-    #cancelButton {
-        background-color: #FF9800;  /* naranja */
-        color: white;
-    }
-
-    #clearButton {
-        background-color: #2196F3;  /* azul */
-        color: white;
-    }
-
-    #saveButton {
-        background-color: #05009c; /* azul */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    #saveButton:hover {
-        background-color: #0035ad; /* Cambia el color al pasar el mouse */
-        transform: scale(1.05);
-    }
-
-
-
-    /* Estilo para el área principal */
-    .main-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* Alinea el contenido arriba */
-        padding: 20px;
-        margin-left: 250px; /* Ancho del sidebar */
-        margin-right: 20px; /* Espacio a la derecha del contenido */
-    }
-
-    .left {
-        flex: 1;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .right {
-        flex: 1;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .grid {
-        margin-bottom: 20px;
-    }
-
-    .chart {
-        height: 300px;
-    }
-    
-    .select {
-        margin-bottom: 20px;
-        margin-top: 10px;
-    }
-
-    .addButton, /* Estilo para botones */
-    a.addButton { /* Estilo para enlaces con la clase addButton */
-        background-color: #05009c; /* azul */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s;
-        display: inline-block; /* Alinea el enlace en línea con el texto */
-        text-decoration: none; /* Elimina el subrayado predeterminado */
-    }
-
-    .addButton:hover {
-        background-color: #0035ad; /* Cambia el color al pasar el mouse */
-        transform: scale(1.05);
-    }
-</style>
 
 <!-- Estilos CSS de Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -156,7 +22,7 @@ Experimento Pausado
 <div class="main-content">
     <!-- Rejillas ajustables en el lado izquierdo -->
     <div class="left">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="experimentoForm">
             {% csrf_token %}
             <!-- Datos del Fluido -->
             <label for="nombre_fluido">Nombre del Fluido:</label>
@@ -199,20 +65,25 @@ Experimento Pausado
             <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
             
             <button class="saveButton" id="saveButton">Guardar Experimento</button>
-            </form>
+        </form>
             
-            </h6>Subir condatos de voltaje/tiempo.txt<//h6>
-            <form method="post" action="{% url 'cargar_voltaje_pausado' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="txt_file">
-                <button type="submit">Subir Archivo</button>
-            </form>
+        <h6>Subir con datos de voltaje/tiempo.txt</h6>
+        <form method="post" action="{% url 'cargar_voltaje_con_tiempo' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="file" name="txt_file" id="file-input" style="display: none;">
+          <label for="file-input" class="upload-button">
+              Subir Archivo <i class="fas fa-arrow-up"></i>
+          </label>
+          <button type="submit" style="display: none;">Subir</button>
+      </form>
+      
         
-            {% if plot_html %}
-                {{ plot_html|safe }}
-            {% else %}
-                <p>No se ha subido un archivo o el formato no es compatible.</p>
-            {% endif %}
+        {% if plot_html %}
+            {{ plot_html|safe }}
+        {% else %}
+            <p>No se ha subido un archivo o el formato no es compatible.</p>
+        {% endif %}
+        
         <div class="controls">
             <button class="startButton" id="startButton">Iniciar</button>
             <button class="stopButton" onclick="checkAction('Detener')" id="stopButton">Detener</button>
@@ -235,8 +106,6 @@ Experimento Pausado
     
 </div>
 
-
-
 <!-- Modal para el botón de Detener -->
 <div class="modal" tabindex="-1" id="stopModal">
     <div class="modal-dialog">
@@ -256,10 +125,10 @@ Experimento Pausado
         </div>
       </div>
     </div>
-  </div>
+</div>
   
-  <!-- Modal para el botón de Cancelar -->
-  <div class="modal" tabindex="-1" id="cancelModal">
+<!-- Modal para el botón de Cancelar -->
+<div class="modal" tabindex="-1" id="cancelModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -277,12 +146,12 @@ Experimento Pausado
         </div>
       </div>
     </div>
-  </div>
-  
+</div>
 
 <!-- Scripts JavaScript y Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/script-exp.js' %}"></script>
+
 
 {% endblock %}
 <!-- Fin del contenido -->

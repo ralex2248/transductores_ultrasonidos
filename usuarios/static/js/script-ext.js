@@ -151,5 +151,26 @@ Resistencia: ${chart2Data[1]}
     URL.revokeObjectURL(url);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("experimentoForm");
+    const chart1 = document.getElementById("chart1");
+    const chart2 = document.getElementById("chart2");
+    const clearButton = document.getElementById("clearButton");
 
+    clearButton.addEventListener("click", function () {
+        // Restablecer valores del formulario
+        form.reset();
+        
+        // Eliminar gráfico
+        if (chart1 && chart1.getContext) {
+            const ctx1 = chart1.getContext("2d");
+            ctx1.clearRect(0, 0, chart1.width, chart1.height);
+        }
+
+        if (chart2 && chart2.getContext) {
+            const ctx2 = chart2.getContext("2d");
+            ctx2.clearRect(0, 0, chart2.width, chart2.height);
+        }
+    });
+});
 

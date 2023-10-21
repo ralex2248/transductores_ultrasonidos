@@ -1,9 +1,26 @@
+body, label, input, a {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .container {
+    flex-grow: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
 }
+
 
 /* Estilo para el área principal */
 .main-content {

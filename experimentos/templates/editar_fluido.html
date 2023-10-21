@@ -1,18 +1,33 @@
-{% extends "base.html" %}
+{% extends "home_base.html" %}
+{% load static %}
+<title>{% block title %}Editar Fluidos{% endblock %}</title>
 
 {% block content %}
-  <h2>Editar Fluido</h2>
-  <form method="post">
-    {% csrf_token %}
-    <label for="nombre_fluido">Nombre del Fluido:</label>
-    <input type="text" id="nombre_fluido" name="nombre_fluido" value="{{ fluido.nombre_fluido }}"><br>
-    
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion">{{ fluido.descripcion }}</textarea><br>
+<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
 
-    <!-- Agrega más campos de edición según tus necesidades -->
+<div class="container">
+  <div class="main-content">
+    <div class="left">
+      <h1>Editar Fluido</h1>
+      <form method="post">
+        {% csrf_token %}
 
-    <input type="submit" value="Guardar cambios">
-  </form>
-  <a href="{% url 'fluidos' %}">Volver a la lista de fluidos</a>
+        <label for="nombre_fluido">Nombre del Fluido:</label>
+        <input type="text" id="nombre_fluido" name="nombre_fluido" value="{{ fluido.nombre_fluido }}" required><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{ fluido.descripcion }}</textarea><br>
+
+        <!-- Puedes agregar más campos de edición según tus necesidades -->
+
+        <div class="button-group">
+          <a href="{% url 'fluidos' %}" class="addButton"><i class="fas fa-arrow-left"></i> Volver a la lista de fluidos</a>
+          <input type="submit" value="Guardar cambios" class="addButton right-button">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}

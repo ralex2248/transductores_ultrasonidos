@@ -10,10 +10,14 @@
     <div class="left">
       <h1>Lista de Fluidos</h1>
       <form method="get" action="{% url 'fluidos' %}">
-        <input type="text" name="search" value="{{ search }}" placeholder="Buscar nombre del fluido">
-        <input type="submit" value="Buscar" class="addButton">
-        <a style="margin-top: 30px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
-      </form>
+        <div class="action-buttons">
+            <input type="text" name="search" value="{{ search }}" placeholder="Buscar...">
+            <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
+            <a href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
+        </div>
+    </form>
+    
+      
       
       <form method="post" action="{% url 'eliminar_fluidos' %}" id="delete_fluidos_form">
         {% csrf_token %}

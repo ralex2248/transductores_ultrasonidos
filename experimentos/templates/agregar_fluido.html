@@ -1,8 +1,9 @@
 {% extends "home_base.html" %}
 {% load static %}
+<title>{% block title %}Agregar Fluidos{% endblock %}</title>
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_exp.css' %}">
+<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
 
 
 
@@ -16,7 +17,7 @@
         <input type="text" name="nombre_fluido" id="nombre_fluido" value="" placeholder="ej: agua" required><br>
         <label for="descripcion_fluido">Descripcion del fluido: </label>
         <input type="text" name="descripcion_fluido" id="descripcion_fluido" value="" placeholder="ej: agua de la llave" required><br>
-        <a style="margin-top: 30px;" onclick="goBack()" class="addButton">Atrás</a>
+        <a style="margin-top: 30px;" onclick="goBack()" class="addButton"><i class="fas fa-arrow-left"></i></a>
         <input type="submit" style="margin-top: 30px;" value="Crear fluido" class="addButton"></input>
         
       </form>
