@@ -37,7 +37,7 @@ Experimento con Tiempo
             <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a><br>        
             
             <label for="descripcionInput">Descripción del Fluido:</label>
-            <textarea id="descripcionInput" name="descripcionInput" required>{{ fluidos.descripcion }}</textarea><br>
+            <textarea id="descripcionInput" name="descripcionInput" required readonly>{{ fluidos.descripcion }}</textarea><br>
             
             
             <!-- Datos del Experimento -->

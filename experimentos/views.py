@@ -85,39 +85,63 @@ def imprimir_experimento(request, format=None):
     print(exp_json)
     return print('exito')
 
+def phase():
+    pass
+
+def z():
+    pass
+
 @login_required
 def crear_experimento(request):
     if request.method == 'POST':
         # Datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
-        descripcion = request.POST.get('descripcion')
+        descripcion = request.POST.get('descripcionInput')
         nombre_experimento = request.POST.get('nombre_experimento')
-        electricidad = request.POST.get('electricidad')
-        pre_voltaje = request.POST.get('voltaje')
+        sensibilidad = request.POST.get('sensibilidadInput')
+        frecuencia_inicial = request.POST.get('frecuenciaInput')
+        pausa = request.POST.get('pausa')
+        pasos = request.POST.get('pasosInput')
+        pre_voltaje = request.POST.get('voltajeInput')
         pdf_experimento = request.FILES.get('pdf_experimento')
 
-        rm = hl.ResourceManager()
+        if pausa:
+            tiempo_pausa = pausa
+        else:
+            rm = hl.ResourceManager()
 
-        generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+            generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
-        # Configura el generador de formas de onda
-        #generador.write('*RST')  # Restablecer la configuración
-        #generador.write('FUNC:SHAP SIN')  # Configurar la forma de onda como senoidal
-        #generador.write('FREQ 1000')  # Configurar la frecuencia en 1000 Hz
-        voltaje = 'VOLT '+ pre_voltaje
-        generador.write(voltaje)  # Configurar la amplitud en 1 V
+            # Configura el generador de formas de onda
+            #generador.write('*RST')  # Restablecer la configuración
+            #generador.write('FREQ 1000')  # Configurar la frecuencia en 1000 Hz
+            generador.write('FUNC:SHAP SIN')  # Configurar la forma de onda como senoidal
+            voltaje = 'VOLT '+ pre_voltaje
+            generador.write(voltaje)  # Configurar la amplitud en 1 V
 
+            frecuencia = 'FREQ ' +frecuencia_inicial
+            generador.write(frecuencia)
+
+            e_pasos = int(pasos)
+            e_sensibilidad = int(sensibilidad)
+            e_frecuencia_inicial = int(frecuencia_inicial)
+            e_frecuencia_final = e_frecuencia_inicial
+
+            for _ in range(pasos):
+                e_frecuencia_final += sensibilidad
+        """""
         # Crear un objeto Experimentos relacionado con el Fluido
         experimento = Experimentos(
             user=request.user,  # Usuario actual
             fluido=nombre_fluido,  # Usar el Fluido recién creado
             nombre_experimento=nombre_experimento,
-            frecuencia=electricidad,
-            voltaje=voltaje,
+            frecuencia_inicial=frecuencia_inicial,
+            voltaje=pre_voltaje,
             fecha_experimento=datetime.now().date(),
             pdf_experimento=pdf_experimento,
         )
         experimento.save()
+        """
 
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
