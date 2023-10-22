@@ -311,7 +311,7 @@ def crear_fluido(request):
             fecha_fluido=datetime.now().date()
         )
     fluido.save()
-    return redirect('fluidos')
+    return redirect('experimento_pausado')
 
 @login_required
 def eliminar_fluidos(request):
@@ -327,3 +327,43 @@ def eliminar_fluidos(request):
         return redirect('fluidos')
     else:
         return redirect('fluidos')
+
+from django.shortcuts import render, redirect
+from .models import Experimentos, Fluido
+from datetime import datetime
+
+def agregar_experimento(request):
+    if request.method == 'POST':
+        usuario = request.user
+        fluido = Fluido.objects.first()
+        nombre_experimento = request.POST.get('nombre_experimento')
+        corriente = request.POST.get('corriente')
+        voltaje = request.POST.get('voltaje')
+        frecuencia = request.POST.get('frecuencia')
+        tiempo = request.POST.get('tiempo')
+        sensibilidad = request.POST.get('sensibilidad')
+        pasos = request.POST.get('pasos')
+        pdf_experimento = request.FILES.get('pdf_experimento')
+        tiempo_pausa_hhmmss = request.POST.get('tiempo_pausa')
+
+        experimento = Experimentos(
+            user=usuario,
+            fluido=fluido,
+            nombre_experimento=nombre_experimento,
+            corriente=corriente,
+            voltaje=voltaje,
+            frecuencia=frecuencia,
+            tiempo=tiempo,
+            sensibilidad=sensibilidad,
+            pasos=pasos,
+            pdf_experimento=pdf_experimento,
+        )
+
+        experimento.set_tiempo_pausa_hhmmss(tiempo_pausa_hhmmss)
+
+        experimento.save()
+
+        return redirect('experimentos_pausado')  # Redirige a la página de experimentos o a donde desees
+
+    return render(request, 'experimentos_pausado.html', {})
+
