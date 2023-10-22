@@ -20,6 +20,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Fluido
+import pyvisa.highlevel as hl
 
 def editar_fluido(request, fluido_id):
     # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
@@ -92,23 +93,26 @@ def crear_experimento(request):
         descripcion = request.POST.get('descripcion')
         nombre_experimento = request.POST.get('nombre_experimento')
         electricidad = request.POST.get('electricidad')
-        voltaje = request.POST.get('voltaje')
+        pre_voltaje = request.POST.get('voltaje')
         pdf_experimento = request.FILES.get('pdf_experimento')
 
-        # Crear un objeto Fluido
-        fluido = Fluido(
-            nombre_fluido=nombre_fluido,
-            descripcion=descripcion,
-            fecha_fluido=datetime.now().date(),
-        )
-        fluido.save()
+        rm = hl.ResourceManager()
+
+        generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+
+        # Configura el generador de formas de onda
+        #generador.write('*RST')  # Restablecer la configuración
+        #generador.write('FUNC:SHAP SIN')  # Configurar la forma de onda como senoidal
+        #generador.write('FREQ 1000')  # Configurar la frecuencia en 1000 Hz
+        voltaje = 'VOLT '+ pre_voltaje
+        generador.write(voltaje)  # Configurar la amplitud en 1 V
 
         # Crear un objeto Experimentos relacionado con el Fluido
         experimento = Experimentos(
             user=request.user,  # Usuario actual
-            fluido=fluido,  # Usar el Fluido recién creado
+            fluido=nombre_fluido,  # Usar el Fluido recién creado
             nombre_experimento=nombre_experimento,
-            electricidad=electricidad,
+            frecuencia=electricidad,
             voltaje=voltaje,
             fecha_experimento=datetime.now().date(),
             pdf_experimento=pdf_experimento,
