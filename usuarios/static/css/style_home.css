@@ -1,0 +1,29 @@
+#greeting-container {
+    margin-left: 240px;  /* un poco más que el ancho del sidebar expandido para mayor seguridad */
+    padding: 20px 0;
+}
+.flatpickr-calendar .numInputWrapper,
+.flatpickr-calendar .flatpickr-days {
+    font-size: 0.85em;
+}
+
+.flatpickr-calendar .flatpickr-day {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.flatpickr-current-month .numInputWrapper {
+    height: 28px;
+    line-height: 28px;
+}
+
+.flatpickr-current-month .cur-year {
+    font-size: 1.5em;
+}
+#calendar-icon {
+    margin: 0;
+    padding: 0;
+    transform: translateY(-2px); /* Desplaza el ícono ligeramente hacia arriba */
+}
+
