@@ -169,4 +169,4 @@ def create_user_datos(request):
     return render(request, 'create_user_datos.html', context)
 
 def ajustes(request):
-    return render(request, 'usuarios/ajustes.html')
+    return render(request, 'ajustes.html')
