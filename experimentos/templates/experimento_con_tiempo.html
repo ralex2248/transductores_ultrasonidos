@@ -16,6 +16,7 @@ Experimento con Tiempo
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
 
@@ -45,11 +46,17 @@ Experimento con Tiempo
             <label for="nombre_experimento">Nombre del Experimento:</label>
             <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
 
-            <label for="resistenciaInput">Resistencia:</label>
-            <input type="number" id="resistenciaInput" min="0" name="resistenciaInput" required><br>
+            <label>
+                <label for="sensibilidadInput">Tiempo de pausa:</label>
+                <input type="checkbox" id="showInputCheckbox" onchange="toggleInput(this)">
+            </label>
+            
+            <div id="inputContainer" style="display: none;">
+                <input type="number" id="pause" min="1" placeholder="Tiempo de pausa"><br>
+            </div>
 
             <label for="sensibilidadInput">Sensibilidad:</label>
-            <input type="number" id="sensibilidadInput" min="0" name="sensibilidadInput" required><br>
+            <input type="number" id="sensibilidadInput" min="1" name="sensibilidadInput" required><br>
 
             <label for="pasosInput">Pasos:</label>
             <input type="number" id="pasosInput" min="1000" name="pasosInput" max="10000" step="1000" required><br>
@@ -58,7 +65,7 @@ Experimento con Tiempo
             <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
             
             <label for="voltajeInput">Voltaje (Volts):</label>
-            <input type="number" id="voltajeInput" min="0" step="0.1" max="5" name="voltajeInput" required><br>
+            <input type="number" id="voltajeInput" min="0.1" step="0.1" max="5" name="voltajeInput" required><br>
 
             <label for="comentario">Comentario:</label>
             <textarea id="comentario" name="comentario" required></textarea><br>
@@ -88,7 +95,7 @@ Experimento con Tiempo
         {% endif %}
         
         <div class="controls">
-            <button class="startButton" id="startButton">Iniciar</button>
+            <button class="startButton" onclick="checkAction('Iniciar')" id="startButton">Iniciar</button>
             <button class="stopButton" onclick="checkAction('Detener')" id="stopButton">Detener</button>
             <button class="cancelButton" onclick="checkAction('Cancelar')" id="cancelButton">Cancelar</button>
             <button class="clearButton" id="clearButton">Limpiar Datos</button>
@@ -151,7 +158,7 @@ Experimento con Tiempo
 <!-- Scripts JavaScript y Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-<script src="{% static 'js/script-ext.js' %}"></script>
+<script src="{% static 'js/script-exp.js' %}"></script>
 
 {% endblock %}
 <!-- Fin del contenido -->

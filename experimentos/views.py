@@ -189,38 +189,6 @@ def imprimir_experimento(request, format=None):
     print(exp_json)
     return print('exito')
 
-@login_required
-def crear_experimento(request):
-    if request.method == 'POST':
-        # Datos del formulario
-        nombre_fluido = request.POST.get('nombre_fluido')
-        descripcion = request.POST.get('descripcion')
-        nombre_experimento = request.POST.get('nombre_experimento')
-        electricidad = request.POST.get('electricidad')
-        voltaje = request.POST.get('voltaje')
-        pdf_experimento = request.FILES.get('pdf_experimento')
-
-        # Crear un objeto Fluido
-        fluido = Fluido(
-            nombre_fluido=nombre_fluido,
-            descripcion=descripcion,
-            fecha_fluido=datetime.now().date(),
-        )
-        fluido.save()
-
-        # Crear un objeto Experimentos relacionado con el Fluido
-        experimento = Experimentos(
-            user=request.user,  # Usuario actual
-            fluido=fluido,  # Usar el Fluido recién creado
-            nombre_experimento=nombre_experimento,
-            electricidad=electricidad,
-            voltaje=voltaje,
-            fecha_experimento=datetime.now().date(),
-            pdf_experimento=pdf_experimento,
-        )
-        experimento.save()
-
-        return HttpResponse("Experimento guardado exitosamente")
 
 @login_required
 def experimento_pausado(request):
@@ -334,8 +302,8 @@ def crear_fluido(request):
     nombre_fluido = request.POST.get('nombre_fluido')
     descripcion = request.POST.get('descripcion_fluido')
     fluido = Fluido(
-            nombre_fluido=nombre_fluido,
-            descripcion=descripcion,
+            nombre_fluido=nombre_fluido.capitalize(),
+            descripcion=descripcion.capitalize(),
             fecha_fluido=datetime.now().date()
         )
     fluido.save()
@@ -356,42 +324,7 @@ def eliminar_fluidos(request):
     else:
         return redirect('fluidos')
 
-from django.shortcuts import render, redirect
-from .models import Experimentos, Fluido
-from datetime import datetime
 
-def agregar_experimento(request):
-    if request.method == 'POST':
-        usuario = request.user
-        fluido = Fluido.objects.first()
-        nombre_experimento = request.POST.get('nombre_experimento')
-        corriente = request.POST.get('corriente')
-        voltaje = request.POST.get('voltaje')
-        frecuencia = request.POST.get('frecuencia')
-        tiempo = request.POST.get('tiempo')
-        sensibilidad = request.POST.get('sensibilidad')
-        pasos = request.POST.get('pasos')
-        pdf_experimento = request.FILES.get('pdf_experimento')
-        tiempo_pausa_hhmmss = request.POST.get('tiempo_pausa')
 
-        experimento = Experimentos(
-            user=usuario,
-            fluido=fluido,
-            nombre_experimento=nombre_experimento,
-            corriente=corriente,
-            voltaje=voltaje,
-            frecuencia=frecuencia,
-            tiempo=tiempo,
-            sensibilidad=sensibilidad,
-            pasos=pasos,
-            pdf_experimento=pdf_experimento,
-        )
 
-        experimento.set_tiempo_pausa_hhmmss(tiempo_pausa_hhmmss)
-
-        experimento.save()
-
-        return redirect('experimentos_pausado')  # Redirige a la página de experimentos o a donde desees
-
-    return render(request, 'experimentos_pausado.html', {})
 

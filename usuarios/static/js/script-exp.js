@@ -86,15 +86,47 @@ const clearButton = document.getElementById("clearButton");
 const guardarButton = document.getElementById("saveButton");
 
 function checkAction(action) {
-var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?");
+    var nombre_fluido = document.getElementById("nombre_fluido").value;
+    var sensibilidad = document.getElementById("sensibilidadInput").value;
+    var pasos = document.getElementById("pasosInput").value;
+    var frecuencia = document.getElementById("frecuenciaInput").value;
+    var voltaje = document.getElementById("voltajeInput").value;
+    var pausa = document.getElementById("pause").value;
+    if (action == 'Iniciar') {
+        if (pausa) {
+            var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?. \n\nNombre fluido: "+ nombre_fluido +"\nPausa: "+ pausa +"\nPasos: "+ pasos +
+        "\nFrecuencia: "+ frecuencia +" Hz\nVoltaje: "+ voltaje +" V\nSensibilidad: "+ sensibilidad);
+        } else {
+            var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?. \n\nNombre fluido: "+ nombre_fluido +"\nPasos: "+ pasos +
+        "\nFrecuencia: "+ frecuencia +" Hz\nVoltaje: "+ voltaje +" V\nSensibilidad: "+ sensibilidad);
+        }
+        
+    } else {
+        var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?.");
+    }
+    
 
-if (confirmation) {
-    // Aquí pones el código que se ejecuta si el usuario presiona "Aceptar"
-    console.log(action + " confirmado.");
-} else {
-    // Aquí pones el código que se ejecuta si el usuario presiona "Cancelar"
-    console.log(action + " cancelado.");
+    if (confirmation) {
+        // Aquí pones el código que se ejecuta si el usuario presiona "Aceptar"
+        console.log(action + " confirmado.");
+    } else {
+        // Aquí pones el código que se ejecuta si el usuario presiona "Cancelar"
+        console.log(action + " cancelado.");
+    }
 }
+
+function toggleInput(checkbox) {
+    var inputContainer = document.getElementById("inputContainer");
+    var textInput = document.getElementById("pause");
+
+    if (checkbox.checked) {
+        inputContainer.style.display = "block";
+        textInput.disabled = false;
+    } else {
+        inputContainer.style.display = "none";
+        textInput.disabled = true;
+        textInput.value = "";  // Establece el valor como cadena vacía al desmarcar
+    }
 }
 
 let simulationRunning = false;
