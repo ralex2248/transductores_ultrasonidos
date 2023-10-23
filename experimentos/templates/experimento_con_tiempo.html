@@ -28,7 +28,7 @@ Experimento con Tiempo
             {% csrf_token %}
             
             <!-- Datos del Fluido -->
-            <label for="nombre_fluido">Nombre del Fluido:</label>
+            <label for="nombre_fluido" class="labelStyle" >Nombre del Fluido:</label>
             <select id="nombre_fluido" name="nombre_fluido" required>
                 <option value="">Selecciona un fluido</option>
                 {% for fluido in fluidos %}

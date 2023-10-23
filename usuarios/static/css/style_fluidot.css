@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: 'Arial', sans-serif; 
+    font-family: 'Montserrat', sans-serif; 
 }
 
 .container {
@@ -149,4 +149,8 @@ a.addButton { /* Estilo para enlaces con la clase addButton */
 .addButton:hover {
     background-color: #0035ad; /* Cambia el color al pasar el mouse */
     transform: scale(1.05);
+}
+
+.labelStyle {
+    font: 'Montserrat', sans-serif;
 }
