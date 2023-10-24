@@ -1,4 +1,5 @@
 #greeting-container {
+    text-align: center; /* Center the greeting (title) */
     margin-left: 240px;  /* un poco más que el ancho del sidebar expandido para mayor seguridad */
     padding: 20px 0;
 }
@@ -24,6 +25,16 @@
 #calendar-icon {
     margin: 0;
     padding: 0;
-    transform: translateY(-2px); /* Desplaza el ícono ligeramente hacia arriba */
+    transform: translateY(-2px); 
+}
+#date-container {
+    padding-right: 30px; 
 }
 
+
+#frases-motivadoras-container h2 {
+    font-size: 0.9em; 
+    margin-top: -10px; 
+    margin-left: 240px; 
+    padding: 20px 0;
+}

@@ -438,8 +438,8 @@ function obtenerFraseMotivadoraAleatoria() {
 // Función para mostrar una frase motivadora
 function mostrarFraseMotivadora() {
     const fraseMotivadora = obtenerFraseMotivadoraAleatoria();
-    const mensajeGreeting = document.getElementById("greeting-message");
-    mensajeGreeting.innerHTML += `<p>${fraseMotivadora}</p>`;
+    const contenedorFrases = document.getElementById("frases-motivadoras-container");
+    contenedorFrases.innerHTML = `<h2>${fraseMotivadora}</h2>`;
 }
 
 // Llama a la función para mostrar la frase motivadora

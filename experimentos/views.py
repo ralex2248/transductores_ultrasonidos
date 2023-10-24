@@ -307,7 +307,8 @@ def crear_fluido(request):
             fecha_fluido=datetime.now().date()
         )
     fluido.save()
-    return redirect('experimento_pausado')
+    next_url = request.POST.get('next', 'fluidos')
+    return redirect(next_url)
 
 @login_required
 def eliminar_fluidos(request):

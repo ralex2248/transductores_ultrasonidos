@@ -35,7 +35,7 @@ Experimento con Tiempo
                     <option value="{{ fluido.nombre_fluido }}" data-descripcion="{{ fluido.descripcion }}">{{ fluido.nombre_fluido }}</option>
                 {% endfor %}
             </select>
-            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a><br>        
+            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
             
             <label for="descripcionInput">Descripción del Fluido:</label>
             <textarea id="descripcionInput" name="descripcionInput" required readonly>{{ fluidos.descripcion }}</textarea><br>

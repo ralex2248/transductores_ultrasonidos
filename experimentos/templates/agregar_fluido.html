@@ -18,6 +18,7 @@
         <label for="descripcion_fluido">Descripcion del fluido: </label>
         <input type="text" name="descripcion_fluido" id="descripcion_fluido" value="" placeholder="ej: agua de la llave" required><br>
         <a style="margin-top: 30px;" onclick="goBack()" class="addButton"><i class="fas fa-arrow-left"></i></a>
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
         <input type="submit" style="margin-top: 30px;" onclick="goBack()" value="Crear fluido" class="addButton"></input>
         
       </form>
