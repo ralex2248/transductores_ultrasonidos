@@ -34,7 +34,80 @@
 
 #frases-motivadoras-container h2 {
     font-size: 0.9em; 
-    margin-top: -10px; 
-    margin-left: 240px; 
+    margin-top: -40px; 
+    margin-left: 242px; 
     padding: 20px 0;
+}
+.home-page {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 60px; /* Este es solo un valor de marcador de posición. Necesitarás ajustarlo según la altura real de tu footer. */
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: auto;
+    left: 0;  
+    right: 0;
+}
+#contenido-adicional {
+    background-color: white;
+    border-radius: 10px; 
+    padding: 20px; 
+    margin-top: 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+
+    font-size: 14px;
+    line-height: 1.5;
+    
+    max-width: 800px;
+    margin-left: 240px;
+    padding: 20px 0;
+}
+
+#contenido-adicional h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.dashboard-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.dashboard-item {
+    flex: 1;
+    text-align: left; /* Align the icon to the left */
+    border-right: 2px solid #ECECEE;
+    padding: 0 15px;
+    display: flex;
+    align-items: center; /* Vertical align the icon in the middle */
+}
+
+
+.dashboard-item:last-child {
+    border-right: none;
+}
+
+
+
+
+
+
+.dashboard-fluid-title {
+    flex: 2;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.dashboard-icon {
+    margin-right: 20px; 
+    margin-bottom: 25px; /* Move the icon even further down */
+    font-size: 24px;     
 }

@@ -3,7 +3,9 @@
 {% block title %}
 Inicio
 {% endblock %}
+
 {% load static %}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
 <!-- Flatpickr CSS -->
@@ -14,23 +16,31 @@ Inicio
 <div id='greeting-container' style="display: flex; justify-content: space-between; align-items: center;">
     <h1 id='greeting-message'>{{ user }}. </h1>
     <div id="date-container" style="text-align: right;">
-        <!-- This is a simple SVG calendar icon -->
         <svg id="calendar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; vertical-align: middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span id="current-date">{% now "j" %} de {% now "F" %} del {% now "Y" %}</span>
-        <!-- Input for the Flatpickr datepicker -->
         <input type="text" id="datepicker" style="visibility: hidden;">
     </div>
 </div>
 
-<!-- Agrega un div para mostrar las frases motivadoras -->
 <div id="frases-motivadoras-container">
-    <!-- Las frases motivadoras se agregarán aquí como subtítulos -->
+    <!-- Aquí puedes colocar tus frases motivadoras si deseas -->
 </div>
 
-<!-- Dependencia del lenguaje español para Flatpickr -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+<!-- Nuevo div para el rectángulo redondeado -->
+<div id="contenido-adicional">
+    <div class="dashboard-content">
+        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
+        <div class="separator"></div>
+        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
+        <div class="separator"></div>
+        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
+        <div class="separator"></div>
+        <span class="dashboard-item"><i class="fas fa-flask"></i></span>
+    </div>
+    
+</div>
 
-<!-- Tu archivo JavaScript para las frases motivadoras -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="{% static 'js/frases_motivadoras.js' %}"></script>
 <script src="{% static 'js/script-home.js' %}"></script>
 
