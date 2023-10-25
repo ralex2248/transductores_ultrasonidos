@@ -168,5 +168,39 @@ def create_user_datos(request):
 
     return render(request, 'create_user_datos.html', context)
 
+
 def ajustes(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        current_email = request.POST.get('current_email')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+        new_email = request.POST.get('correo')
+        confirm_email = request.POST.get('confirmar_correo')
+        user = request.user
+
+
+        if current_password and new_password1 and new_password2:
+            if user.check_password(current_password):
+                if new_password1 == new_password2:
+                    user.set_password(new_password1)
+                    user.save()
+                    messages.success(request, 'Contraseña actualizada con éxito!')
+                else:
+                    messages.error(request, 'Las contraseñas no coinciden.')
+            else:
+                messages.error(request, 'La contraseña actual es incorrecta.')
+
+
+        elif current_email and new_email and confirm_email:
+            if user.email == current_email:
+                if new_email == confirm_email:
+                    user.email = new_email
+                    user.save()
+                    messages.success(request, 'Correo electrónico actualizado con éxito!')
+                else:
+                    messages.error(request, 'Los correos electrónicos no coinciden.')
+            else:
+                messages.error(request, 'El correo electrónico actual es incorrecto.')
+
     return render(request, 'ajustes.html')

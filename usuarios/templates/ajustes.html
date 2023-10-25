@@ -3,85 +3,56 @@
 {% block title %}
 Ajustes
 {% endblock %}
+
 {% load static %}
+
 {% block content %}
+    <link rel="stylesheet" href="{% static 'css/style_ajustes.css' %}">
 
-<style>
-    .right {
-        flex: 1;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-left: 255px;
-    }
-
-    .formulario-container {
-        padding: 20px;
-        border: 1px solid #ccc;
-        box-shadow: 3px 3px 5px #888888;
-        width: 300px;
-        margin: 0 auto;
-        border-radius: 10px;
-    }
-
-    .guardar-container {
-        text-align: center;
-        width: 100%;
-    }
-
-    .guardar {
-        background-color: red;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .guardar:hover {
-        background-color: #3e3e3e;
-    }
-</style>
-
-<div class="right">
-    <p style="font-size: 30px; color: #333; font-weight: bold;">Ajustes de Cuenta</p>
-    <div class="left">
-        <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de contraseña</p>
-    </div>
-    <div class="formulario-container">
-            <form method="post" action="{% url 'ajustes' %}">
-
-                {% csrf_token %}
-                <label for="new_pass1">Contraseña nueva:</label>
-                <input type="password" class="input-field" name="new_password1" placeholder="********" required><br><br>
-                <label for="new_pass2">Confirmar contraseña nueva:</label>
-                <input type="password" class="input-field" name="new_password2" placeholder="********" required><br><br>
-                <div class="guardar-container">
-                    
-                    <button class="guardar" type="submit">Guardar Cambios</button>
+    <div class="ajustes-container">
+        <div class="right">
+            <p style="font-size: 30px; color: #333; font-weight: bold;">Ajustes de Cuenta</p>
+            
+            <div class="left">
+                <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de contraseña</p>
+            </div>
+            
+            <div class="formulario-container">
+                <form method="post" action="{% url 'ajustes' %}">
+                    {% csrf_token %}
+                    <label for="current_pass">Ingrese contraseña actual:</label>
+                    <input type="password" class="input-field" name="current_password" placeholder="********" required><br><br>
+                    <label for="new_pass1">Contraseña nueva:</label>
+                    <input type="password" class="input-field" name="new_password1" placeholder="********" required><br><br>
+                    <label for="new_pass2">Confirmar contraseña nueva:</label>
+                    <input type="password" class="input-field" name="new_password2" placeholder="********" required><br><br>
+                    <div class="guardar-container">
+                        <button class="guardar" type="submit">Guardar Cambios</button>
+                    </div>
                 </form>
                 {% if message %}
                     <p class="error-message" style="margin-top: 20px;">{{message}}</p>
                 {% endif %}
-
-                </div>
             </div>
             
-
-    <div class="left">
-            <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de correo electrónico</p>
-        </div>
-        <div class="formulario-container">
-            <label for="correo"> Correo electrónico:</label>
-            <input type="email" id="correo" name="correo" placeholder="tucorreo@nuevo"><br><br>
-            <label for="confirmar_correo">Confirmar correo electrónico:</label>
-            <input type="email" id="confirmar_correo" name="confirmar_correo" placeholder="tucorreo@nuevo"><br><br>
-            <div class="guardar-container">
-                <button class="guardar" type="submit">Guardar Cambios</button>
+            <div class="left">
+                <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de correo electrónico</p>
             </div>
-
+            
+            <div class="formulario-container">
+                <form method="post" action="{% url 'ajustes' %}">
+                    {% csrf_token %}
+                    <label for="current_email">Ingrese correo actual:</label>
+                    <input type="email" id="current_email" name="current_email" placeholder="tucorreo@actual"><br><br>
+                    <label for="correo">Correo electrónico:</label>
+                    <input type="email" id="correo" name="correo" placeholder="tucorreo@nuevo"><br><br>
+                    <label for="confirmar_correo">Confirmar correo electrónico:</label>
+                    <input type="email" id="confirmar_correo" name="confirmar_correo" placeholder="tucorreo@nuevo"><br><br>
+                    <div class="guardar-container">
+                        <button class="guardar" type="submit">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-
 {% endblock %}
