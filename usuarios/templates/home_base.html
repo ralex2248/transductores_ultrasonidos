@@ -49,7 +49,15 @@
         </a>
     </div>
     
-    {% block content %}
+    
+{% if messages %}
+    {% for message in messages %}
+        <div class="{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% block content %}
     {% endblock %}
 
     <footer class="footer">
