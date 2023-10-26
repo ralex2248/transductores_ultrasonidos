@@ -320,7 +320,6 @@ def eliminar_fluidos(request):
         Fluido.objects.filter(id__in=selected_fluid_ids).delete()
         
         # Redirecting back to the fluidos page with a success message
-        messages.success(request, 'Fluido(s) eliminado(s) con éxito.')
         return redirect('fluidos')
     else:
         return redirect('fluidos')

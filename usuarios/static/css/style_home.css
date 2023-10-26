@@ -1,6 +1,6 @@
 #greeting-container {
-    text-align: center; /* Center the greeting (title) */
-    margin-left: 240px;  /* un poco más que el ancho del sidebar expandido para mayor seguridad */
+    text-align: center; 
+    margin-left: 240px;
     padding: 20px 0;
 }
 .flatpickr-calendar .numInputWrapper,
@@ -41,7 +41,7 @@
 .home-page {
     position: relative;
     min-height: 100vh;
-    padding-bottom: 60px; /* Este es solo un valor de marcador de posición. Necesitarás ajustarlo según la altura real de tu footer. */
+    padding-bottom: 60px;
   }
   
   .footer {
@@ -64,7 +64,7 @@
     
     max-width: 800px;
     margin-left: 240px;
-    padding: 20px 0;
+    padding: 23px 0;
 }
 
 #contenido-adicional h2 {
@@ -78,36 +78,112 @@
     align-items: center;
 }
 
-
 .dashboard-item {
     flex: 1;
-    text-align: left; /* Align the icon to the left */
+    text-align: left;
     border-right: 2px solid #ECECEE;
     padding: 0 15px;
-    display: flex;
-    align-items: center; /* Vertical align the icon in the middle */
+    display: flex; 
+    flex-direction: column; 
 }
 
+.dashboard-item i {
+    margin-right: 20px;
+}
 
 .dashboard-item:last-child {
     border-right: none;
 }
 
-
-
-
-
+.dashboard-icon {
+    margin-right: 20px;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
 
 .dashboard-fluid-title {
-    flex: 2;
     text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
+    font-size: 15px;
+    margin-top: -12px; 
+    color: #92959E;
+    margin-bottom: 10px;
+
 }
 
-.dashboard-icon {
-    margin-right: 20px; 
-    margin-bottom: 25px; /* Move the icon even further down */
-    font-size: 24px;     
+#dashboard-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+.total-fluidos {
+    text-align: center;
+    font-size: 14px; 
+    margin-top: -35px;
+}
+.icon-container {
+    display: inline-block;
+    position: relative;
+    padding: 10px; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 10px; 
+    background-color: #FFF2E9;
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+}
+
+.icon-container i {
+    vertical-align: middle;
+    margin: 0 auto;
+}
+
+.icon-container-user  {
+    display: inline-block;
+    position: relative;
+    padding: 10px; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 10px; 
+    background-color: #EAF9FF; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+}
+
+.icon-container-user i {
+    vertical-align: middle; 
+    margin: 0 auto; 
+}
+
+.icon-container-exp  {
+    display: inline-block;
+    position: relative;
+    padding: 10px; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 10px; 
+    background-color: #EDE8FF; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+}
+
+.icon-container-exp i {
+    vertical-align: middle; 
+    margin: 0 auto; 
+}
+
+
+
+
+
+
+
+
+  

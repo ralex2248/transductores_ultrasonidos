@@ -19,6 +19,7 @@ from django.core.mail import EmailMessage
 from . import views
 from django.contrib.auth.models import User
 from usuarios.models import User
+from experimentos.models import Fluido 
 
 
 
@@ -101,7 +102,11 @@ def logout_view(request):
 
 def home_view(request):
     user = request.user.first_name
-    return render(request, 'usuarios/home.html', {'user': user})
+    total_usuarios = get_user_model().objects.count()
+
+    total_fluidos = Fluido.objects.count() 
+    
+    return render(request, 'usuarios/home.html', {'user': user, 'total_fluidos': total_fluidos, 'total_usuarios': total_usuarios})
 
 def register(request):
     message = ""

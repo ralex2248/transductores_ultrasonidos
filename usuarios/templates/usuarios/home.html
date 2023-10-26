@@ -29,16 +29,41 @@ Inicio
 <!-- Nuevo div para el rectángulo redondeado -->
 <div id="contenido-adicional">
     <div class="dashboard-content">
-        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
-        <div class="separator"></div>
-        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
-        <div class="separator"></div>
-        <span class="dashboard-item"><i class="fas fa-flask"></i><span class="dashboard-fluid-title">Fluidos Totales</span></span>
-        <div class="separator"></div>
-        <span class="dashboard-item"><i class="fas fa-flask"></i></span>
+        <div class="dashboard-item">
+            <span class="dashboard-fluid-title"><strong>Fluidos Totales</strong></span>
+            <div class="icon-container">
+                <i class="fas fa-flask" style="color: #FF6A00;"></i>
+            </div>
+            <div class="total-fluidos">
+                <strong>{{ total_fluidos }}</strong>
+            </div>
+        </div>
+        <div class="dashboard-item">
+            <span class="dashboard-fluid-title"><strong>Historial Experimentos</strong></span>
+            <div class="icon-container-exp">
+                <i class="fas fa-history" style="color: #551FFF;"></i>
+            </div>
+            <div class="total-fluidos">
+                <strong>{{ 1 }}</strong>
+            </div>
+        </div>
+        <div class="dashboard-item">
+            <span class="dashboard-fluid-title"><strong>Usuarios Totales</strong></span>
+            <div class="icon-container-user">
+                <i class="fas fa-users" style="color: #00B7FE;"></i>
+
+            </div>
+            <div class="total-fluidos">
+                <strong>{{total_usuarios}}</strong>
+            </div>
+        </div>
+        <div class="dashboard-item">
+            <span class="dashboard-fluid-title"><strong>T. Inicio Sesion(24 hrs)</strong></span>
+            <i class="fas fa-flask"></i>
+        </div>
     </div>
-    
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="{% static 'js/frases_motivadoras.js' %}"></script>
