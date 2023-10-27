@@ -54,15 +54,19 @@ Inicio
 
             </div>
             <div class="total-fluidos">
-                <strong>{{total_usuarios}}</strong>
+                <strong>{{ total_usuarios }}</strong>
             </div>
         </div>
         <div class="dashboard-item">
-            <span class="dashboard-fluid-title"><strong>T. Inicio Sesion(24 hrs)</strong></span>
-            <i class="fas fa-flask"></i>
+            <span class="dashboard-fluid-title"><strong>T. Inicio Sesión (24 hrs)</strong></span>
+            <div class="icon-container-login">
+            <i class="fas fa-sign-in-alt" style="color: #FD2254;"></i>
+            </div>
+            <div class="total-fluidos">
+                <strong>{{ logins_last_24_hours }}</strong>
+            </div>
         </div>
-    </div>
-</div>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>

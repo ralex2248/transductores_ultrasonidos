@@ -5,6 +5,10 @@ import random
 import string
 
 
+class UserLoginTimestamp(models.Model):
+    user = models.ForeignKey('usuarios.User', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 class PasswordReset(models.Model):
     user = models.ForeignKey('usuarios.User', on_delete=models.CASCADE)
     code = models.CharField(max_length=6, blank=True, default='')

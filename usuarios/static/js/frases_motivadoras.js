@@ -64,7 +64,7 @@ const frasesMotivadoras = [
     "No importa lo lento que vayas, siempre y cuando no te detengas.",
     "Nunca te arrepientas de un día en tu vida. Los buenos días te dan felicidad y los malos te dan experiencia.",
     "La diferencia entre una persona exitosa y los demás no es la falta de fuerza, no es la falta de conocimiento, sino la falta de voluntad.",
-    "El trabajo arduo siempre supera al talento cuando el talento no trabaja duro.",
+    "El trabajo duro puede superar al talento, pero el talento con esfuerzo es insuperable (Messi).",
     "La perseverancia no es una carrera larga, es muchas carreras cortas, una tras otra.",
     "El éxito no es la clave de la felicidad. La felicidad es la clave del éxito. Si amas lo que haces, tendrás éxito.",
     "Nunca te arrepientas de un día en tu vida. Los buenos días te dan felicidad y los malos te dan experiencia.",

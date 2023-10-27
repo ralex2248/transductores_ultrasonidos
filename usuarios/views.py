@@ -20,7 +20,12 @@ from . import views
 from django.contrib.auth.models import User
 from usuarios.models import User
 from experimentos.models import Fluido 
+from .models import UserLoginTimestamp
 
+def count_logins_last_24_hours(user):
+    now = timezone.now()
+    start_time = now - timedelta(days=1)
+    return UserLoginTimestamp.objects.filter(user=user, timestamp__range=(start_time, now)).count()
 
 
 def change_password(request):
@@ -103,10 +108,18 @@ def logout_view(request):
 def home_view(request):
     user = request.user.first_name
     total_usuarios = get_user_model().objects.count()
-
     total_fluidos = Fluido.objects.count() 
-    
-    return render(request, 'usuarios/home.html', {'user': user, 'total_fluidos': total_fluidos, 'total_usuarios': total_usuarios})
+
+    # Obtener el conteo de inicios de sesión en las últimas 24 horas
+    logins_last_24_hours = count_logins_last_24_hours(request.user)
+
+    return render(request, 'usuarios/home.html', {
+        'user': user, 
+        'total_fluidos': total_fluidos, 
+        'total_usuarios': total_usuarios,
+        'logins_last_24_hours': logins_last_24_hours  # Pasa el conteo al contexto
+    })
+
 
 def register(request):
     message = ""
@@ -137,6 +150,11 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
+
+            # Registrar el inicio de sesión en UserLoginTimestamp
+            login_timestamp = UserLoginTimestamp(user=user)
+            login_timestamp.save()
+
             return redirect('home')
         elif User.objects.filter(username=username).count() == 0:
             message = "Este RUT no está registrado."
@@ -144,6 +162,7 @@ def login_view(request):
             message = "Contraseña incorrecta."
 
     return render(request, 'usuarios/login.html', {'message' : message, 'username': username})
+
 
 
 
