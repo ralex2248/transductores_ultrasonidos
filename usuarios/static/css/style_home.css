@@ -198,6 +198,38 @@
     margin: 0 auto; 
 }
 
+.recent-activity {
+    float: right; 
+    margin-right: 30px;
+    margin-top: 34px; 
+    width: 30%; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    padding: 10px; 
+    border-radius: 5px;
+    background-color: #FFFFFF;
+ 
+}
+
+
+.recent-activity h3 {
+    margin-top: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.recent-activity ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.recent-activity li {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
 
 
 

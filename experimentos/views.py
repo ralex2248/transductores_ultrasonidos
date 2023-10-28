@@ -21,6 +21,27 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Fluido
 import pyvisa.highlevel as hl
+from usuarios.models import UserActivity
+from django.urls import reverse
+
+
+def crear_fluido(request):
+    nombre_fluido = request.POST.get('nombre_fluido')
+    descripcion = request.POST.get('descripcion_fluido')
+
+    fluido = Fluido(
+        nombre_fluido=nombre_fluido.capitalize(),
+        descripcion=descripcion.capitalize(),
+        fecha_fluido=datetime.now().date()
+    )
+    fluido.save()
+
+    # Registrar la actividad de crear un fluido
+    activity_detail = f"Has creado un fluido llamado '{nombre_fluido.capitalize()}'"
+    UserActivity.objects.create(user=request.user, activity_type="created_fluid", detail=activity_detail)
+
+    return redirect(reverse('fluidos'))
+
 
 def editar_fluido(request, fluido_id):
     # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
@@ -297,18 +318,6 @@ def fluidos(request):
 def agregar_fluido(request):
     return render(request, 'agregar_fluido.html')
 
-def crear_fluido(request):
-
-    nombre_fluido = request.POST.get('nombre_fluido')
-    descripcion = request.POST.get('descripcion_fluido')
-    fluido = Fluido(
-            nombre_fluido=nombre_fluido.capitalize(),
-            descripcion=descripcion.capitalize(),
-            fecha_fluido=datetime.now().date()
-        )
-    fluido.save()
-    next_url = request.POST.get('next', 'fluidos')
-    return redirect(next_url)
 
 @login_required
 def eliminar_fluidos(request):

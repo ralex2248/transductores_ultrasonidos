@@ -21,6 +21,8 @@ from django.contrib.auth.models import User
 from usuarios.models import User
 from experimentos.models import Fluido 
 from .models import UserLoginTimestamp
+from .models import UserActivity
+
 
 def count_logins_last_24_hours(user):
     now = timezone.now()
@@ -112,13 +114,17 @@ def home_view(request):
 
     # Obtener el conteo de inicios de sesión en las últimas 24 horas
     logins_last_24_hours = count_logins_last_24_hours(request.user)
+    recent_activities = UserActivity.objects.filter(user=request.user)[:5]
+
 
     return render(request, 'usuarios/home.html', {
         'user': user, 
         'total_fluidos': total_fluidos, 
         'total_usuarios': total_usuarios,
+        'recent_activities': recent_activities,
         'logins_last_24_hours': logins_last_24_hours  # Pasa el conteo al contexto
     })
+
 
 
 def register(request):

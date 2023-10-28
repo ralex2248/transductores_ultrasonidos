@@ -1,76 +1,90 @@
 {% extends "home_base.html" %}
 
-{% block title %}
-Inicio
-{% endblock %}
-
 {% load static %}
 
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/style_home.css' %}">
-<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<!-- Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% block title %}
+  Inicio
+{% endblock %}
 
-<div id='greeting-container' style="display: flex; justify-content: space-between; align-items: center;">
-    <h1 id='greeting-message'>{{ user }}. </h1>
-    <div id="date-container" style="text-align: right;">
-        <svg id="calendar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; vertical-align: middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <div class="right-section">
+    <div id='greeting-container' style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 id='greeting-message'>{{ user }}. </h1>
+      <div id="date-container" style="text-align: right;">
+        <svg id="calendar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; vertical-align: middle;">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
         <span id="current-date">{% now "j" %} de {% now "F" %} del {% now "Y" %}</span>
         <input type="text" id="datepicker" style="visibility: hidden;">
+      </div>
     </div>
-</div>
+    <div class="recent-activity">
+      <h3>Actividad Reciente</h3>
+      <ul>
+        {% for activity in recent_activities %}
+          <li>{{ activity.detail }}, a las {{ activity.timestamp|date:"H:i" }}</li>
+        {% endfor %}
+      </ul>
+    </div>
 
-<div id="frases-motivadoras-container">
+  <div id="frases-motivadoras-container">
     <!-- Aquí puedes colocar tus frases motivadoras si deseas -->
-</div>
+  </div>
 
-<!-- Nuevo div para el rectángulo redondeado -->
-<div id="contenido-adicional">
+  <!-- Nuevo div para el rectángulo redondeado -->
+  <div id="contenido-adicional">
     <div class="dashboard-content">
-        <div class="dashboard-item">
-            <span class="dashboard-fluid-title"><strong>Fluidos Totales</strong></span>
-            <div class="icon-container">
-                <i class="fas fa-flask" style="color: #FF6A00;"></i>
-            </div>
-            <div class="total-fluidos">
-                <strong>{{ total_fluidos }}</strong>
-            </div>
+      <div class="dashboard-item">
+        <span class="dashboard-fluid-title"><strong>Fluidos Totales</strong></span>
+        <div class="icon-container">
+          <i class="fas fa-flask" style="color: #FF6A00;"></i>
         </div>
-        <div class="dashboard-item">
-            <span class="dashboard-fluid-title"><strong>Historial Experimentos</strong></span>
-            <div class="icon-container-exp">
-                <i class="fas fa-history" style="color: #551FFF;"></i>
-            </div>
-            <div class="total-fluidos">
-                <strong>{{ 1 }}</strong>
-            </div>
+        <div class="total-fluidos">
+          <strong>{{ total_fluidos }}</strong>
         </div>
-        <div class="dashboard-item">
-            <span class="dashboard-fluid-title"><strong>Usuarios Totales</strong></span>
-            <div class="icon-container-user">
-                <i class="fas fa-users" style="color: #00B7FE;"></i>
-
-            </div>
-            <div class="total-fluidos">
-                <strong>{{ total_usuarios }}</strong>
-            </div>
+      </div>
+      <div class="dashboard-item">
+        <span class="dashboard-fluid-title"><strong>Historial Experimentos</strong></span>
+        <div class="icon-container-exp">
+          <i class="fas fa-history" style="color: #551FFF;"></i>
         </div>
-        <div class="dashboard-item">
-            <span class="dashboard-fluid-title"><strong>T. Inicio Sesión (24 hrs)</strong></span>
-            <div class="icon-container-login">
-            <i class="fas fa-sign-in-alt" style="color: #FD2254;"></i>
-            </div>
-            <div class="total-fluidos">
-                <strong>{{ logins_last_24_hours }}</strong>
-            </div>
+        <div class="total-fluidos">
+          <strong>{{ 1 }}</strong>
         </div>
+      </div>
+      <div class="dashboard-item">
+        <span class="dashboard-fluid-title"><strong>Usuarios Totales</strong></span>
+        <div class="icon-container-user">
+          <i class="fas fa-users" style="color: #00B7FE;"></i>
+        </div>
+        <div class="total-fluidos">
+          <strong>{{ total_usuarios }}</strong>
+        </div>
+      </div>
+      <div class="dashboard-item">
+        <span class="dashboard-fluid-title"><strong>T. Inicio Sesión (24 hrs)</strong></span>
+        <div class="icon-container-login">
+          <i class="fas fa-sign-in-alt" style="color: #FD2254;"></i>
+        </div>
+        <div class="total-fluidos">
+          <strong>{{ logins_last_24_hours }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-<script src="{% static 'js/frases_motivadoras.js' %}"></script>
-<script src="{% static 'js/script-home.js' %}"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+  <script src="{% static 'js/frases_motivadoras.js' %}"></script>
+  <script src="{% static 'js/script-home.js' %}"></script>
 {% endblock %}
