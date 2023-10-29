@@ -24,6 +24,12 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
+import matlab.engine
+import time
+import pyvisa.highlevel as hl
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 def crear_fluido(request):
     nombre_fluido = request.POST.get('nombre_fluido')
@@ -112,6 +118,30 @@ def phase():
 def z():
     pass
 
+def data_acquisition_channel_0(frecuencies, generador, values, engine, actual_frecuency, steps, sensivity):
+    e_sensivity = sensivity
+    e_actual_frecuency = actual_frecuency
+    e_final_frecuency = actual_frecuency
+
+    for _ in range(steps):
+        frecuencies.append(e_final_frecuency)
+        generador.write('FREQ '+ str(e_final_frecuency))
+        max_val = engine.acquireData_channel_0()
+        values.append(max_val)
+        e_final_frecuency += sensivity
+    
+
+def data_acquisition_channel_1(generador, values, engine, actual_frecuency, steps, sensivity):
+    e_sensivity = sensivity
+    e_actual_frecuency = actual_frecuency
+    e_final_frecuency = actual_frecuency
+    for _ in range(steps):
+        generador.write('FREQ '+ str(e_final_frecuency))
+        max_val = engine.acquireData_channel_1()
+        values.append(max_val)
+        e_final_frecuency += sensivity
+
+
 @login_required
 def crear_experimento(request):
     if request.method == 'POST':
@@ -126,30 +156,35 @@ def crear_experimento(request):
         pre_voltaje = request.POST.get('voltajeInput')
         pdf_experimento = request.FILES.get('pdf_experimento')
 
+        e_sensibilidad = int(sensibilidad)
+        e_pasos = int(pasos)
+        e_voltaje = int(pre_voltaje)
+        e_frecuencia_inicial = int(frecuencia_inicial)
+
+        frecuencies = []
+
+        values_channel_0 = []
+        values_channel_1 = []
+
+        eng = matlab.engine.start_matlab()
+        rm = hl.ResourceManager()
+
+        generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+
+        generador.write('VOLT '+ pre_voltaje)
+
         if pausa:
             tiempo_pausa = pausa
         else:
-            rm = hl.ResourceManager()
 
-            generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+            eng.initializeStream_channel_0(nargout=0)  
+            time.sleep(2.8)
+            data_acquisition_channel_0(frecuencies, generador, values_channel_0, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
 
-            # Configura el generador de formas de onda
-            #generador.write('*RST')  # Restablecer la configuración
-            #generador.write('FREQ 1000')  # Configurar la frecuencia en 1000 Hz
-            generador.write('FUNC:SHAP SIN')  # Configurar la forma de onda como senoidal
-            voltaje = 'VOLT '+ pre_voltaje
-            generador.write(voltaje)  # Configurar la amplitud en 1 V
-
-            frecuencia = 'FREQ ' +frecuencia_inicial
-            generador.write(frecuencia)
-
-            e_pasos = int(pasos)
-            e_sensibilidad = int(sensibilidad)
-            e_frecuencia_inicial = int(frecuencia_inicial)
-            e_frecuencia_final = e_frecuencia_inicial
-
-            for _ in range(pasos):
-                e_frecuencia_final += sensibilidad
+            eng.initializeStream_channel_1(nargout=0)  
+            time.sleep(2.6)
+            data_acquisition_channel_1(generador, values_channel_1, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
+            
         """""
         # Crear un objeto Experimentos relacionado con el Fluido
         experimento = Experimentos(
