@@ -22,6 +22,43 @@ from usuarios.models import User
 from experimentos.models import Fluido 
 from .models import UserLoginTimestamp
 from .models import UserActivity
+from django.shortcuts import render, redirect
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.contrib.auth import get_user_model
+
+def forgot_rut(request):
+    message = ""
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            
+            # Dado que username se utiliza como el RUT
+            rut = user.username
+            
+            # Preparando el contenido del correo usando la plantilla rut_reset_email.html
+            context = {'user': user, 'rut': rut}
+            html_content = render_to_string('rut_reset_email.html', context)
+            
+            # Enviando el correo
+            email = EmailMessage(
+                'Recuperación de RUT',
+                html_content,
+                'TeamRocket@cloud.uautonoma.cl',
+                [user.email]
+            )
+            email.content_subtype = "html" 
+            email.send()
+            
+            # Redirigiendo a la página de inicio de sesión después de enviar el correo
+            return redirect('login')
+        else:
+            message = "No existe una cuenta con el correo ingresado."
+
+    return render(request, 'forgot_rut.html', {'message': message})
+
+
 
 
 def count_logins_last_24_hours(user):
@@ -71,6 +108,7 @@ def enter_code(request):
             message = "El código no es válido o ya ha sido utilizado."
 
     return render(request, 'code_password.html', {'message': message})
+
 
 
 

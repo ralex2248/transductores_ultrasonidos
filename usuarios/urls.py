@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls import url, include
 from django.contrib import admin
 from . import views
-from .views import forgot_password, enter_code
+from .views import forgot_password, enter_code, forgot_rut
 from experimentos.urls import experimentos_urlpatterns
 
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     path ('change_password',views.change_password,name='change_password'),
     path('', views.login_view, name='login'),
     path('forgot-password/', forgot_password, name='forgot_password'),
+    path('forgot-rut/', forgot_rut, name='forgot_rut'),
     path('enter-code/', enter_code, name='enter_code'),
     path('experimentos/', include(experimentos_urlpatterns)),
     path('logout/', views.logout_view, name='logout'),

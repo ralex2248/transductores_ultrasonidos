@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperación de RUT</title>
+    <style>
+        body, p, h2, h3, div {
+            color: white !important;
+            text-decoration: none !important;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            background-color: #282828;
+        }
+        .center-logo {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body style="color: white !important; background-color: #F5F5F5; font-family: Arial, sans-serif;">
+    <div class="container">
+        <p style="color: white !important;">Hola, {{ user.first_name }}!</p>
+        <p style="color: white !important;">Has solicitado que te recordemos tu RUT, el cual es:</p>
+        <h2 style="color: white !important;">{{ rut }}</h2>
+        <p style="color: white !important;">Si no has solicitado esto, por favor ignora este correo.</p>
+
+
+        <div style="display: flex; border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 20px;">
+
+            <div style="flex: 1; padding-right: 20px;">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQJHwC7gPtZXO9MrWnN2xD1g_QZe8PrDp_3YidmtQtIoPJPCUh_40oAsiCsimCVOB0SlTP2_dTJYL7q7WlGsnfE_oL299zKUV1nu3hyh2H9wAFC0yYK8zbsJstctRppLJLyl32JCDDz_QkqIT57WwK0qleGF8LtcIThRctoVF3K00wtMnHX2jaFFLf8-yM/s320/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(3).png" alt="Universidad Autónoma de Chile" style="width: 100%; max-width: 200px;">
+            </div>
+
+            <div style="flex: 2; padding-left: 20px; border-left: 1px solid #e0e0e0;">
+                <h3 style="color: white !important;">Team Rocket</h3>
+                <p style="color: white !important;">Encargados de transductores ultrasonicos</p>
+                <p style="color: white !important;">Facultad de Ingenieria Civil Informatica</p>
+                <p style="color: white !important;">Sede Providencia</p></p>
+            </div>
+        </div>
+        <div class="center-logo">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjY2PEcB__hQ9tG_0WXwL9MRQlqeBD-IUxhtY1PZETzGMU-AmnlgZcZ4Xl4SzGBhvhDoVT2pWQJ62YG2AhQkU7R3kP6jRS2Snv0elB8WTwFfkjyQsUL3AbvRweMD4LgiNXX9TVmmmgWNIjgIDEq943nm2KwEpHQifcx032I26MvN0L-zz-E9RTAVzcnMmPC/s320/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(2).png" alt="logo" style="width: 100%; max-width: 100px;">
+        </div>
+    </div>
+</body>
+</html>

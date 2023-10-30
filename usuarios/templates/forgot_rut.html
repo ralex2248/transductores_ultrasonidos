@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Restauración
+{% endblock %}
+
+{% block content %}
+<div class="create-container">
+    <div class="back-button">
+        <a href="{% url 'login' %}">
+            <div class="back-arrow">&larr;</div>
+        </a>
+    </div>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="password-title">Recuperar RUT</h1>
+            
+            <form method="post" action="{% url 'forgot_rut' %}">
+                {% csrf_token %}
+                <input type="text" class="input-field" name="email" id="correo" placeholder="Correo">
+                <button type="submit" class="login-button">Recuperar RUT</button>
+                {% if message %}
+                <p class="error-message" style="margin-top: 20px;">{{ message }}</p>
+                {% endif %}
+            </form>
+            
+        </div>
+    </div>
+{% endblock %}
