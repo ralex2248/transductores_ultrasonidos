@@ -59,7 +59,7 @@ Experimento con Tiempo
             <input type="number" id="sensibilidadInput" min="1" name="sensibilidadInput" required><br>
 
             <label for="pasosInput">Pasos:</label>
-            <input type="number" id="pasosInput" min="10" name="pasosInput" max="5000" step="10" required><br>
+            <input type="number" id="pasosInput" min="1000" name="pasosInput" max="10000" step="1000" required><br>
             
             <label for="frecuenciaInput">Frecuencia (kHz):</label>
             <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
@@ -94,12 +94,16 @@ Experimento con Tiempo
             <p>No se ha subido un archivo o el formato no es compatible.</p>
         {% endif %}
         
-        <div class="controls">
-            <button class="startButton" onclick="checkAction('Iniciar')" id="startButton">Iniciar</button>
-            <button class="stopButton" onclick="checkAction('Detener')" id="stopButton">Detener</button>
-            <button class="cancelButton" onclick="checkAction('Cancelar')" id="cancelButton">Cancelar</button>
-            <button class="clearButton" id="clearButton">Limpiar Datos</button>
+        <div class="btn-container">
+            <button class="btn start-button" onclick="checkAction('Iniciar')" id="start-button" >Iniciar</button>
+            <button class="btn stop-button" onclick="checkAction('Detener')" id="stop-button">Detener</button>
+            <button class="btn cancel-button" onclick="checkAction('Cancelar')" id="cancel-button" >Cancelar</button>
+            <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
         </div>
+
+
+        
+       
     </div>
 
     <!-- Gráficos en el lado derecho -->

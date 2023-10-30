@@ -44,8 +44,57 @@ body {
     transition: background-color 0.3s, transform 0.3s;
 }
 
+
 .controls button:hover {
     transform: scale(1.05);
+}
+
+.btn-container{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+
+}
+
+
+.btn button{
+    
+    
+    padding: 10px 20px;
+    border: none;
+    color: #9b9b9b;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.btn:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+#start-button{
+    background-color: #808080;
+    color: #e9e9e9;
+}
+
+#stop-button{
+    background-color: #808080;
+    color: #e9e9e9;
+}
+
+#cancel-button{
+    background-color: #808080;
+    color: #e9e9e9;
+}
+
+#clear-button{
+    background-color: #808080;
+    color: #e9e9e9;
 }
 
 /* Estilos para los elementos del formulario */
