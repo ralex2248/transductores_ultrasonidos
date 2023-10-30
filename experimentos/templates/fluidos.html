@@ -11,7 +11,7 @@
       <h1>Lista de Fluidos</h1>
       <form method="get" action="{% url 'fluidos' %}">
         <div class="action-buttons">
-            <input type="text" name="search" value="{{ search }}" placeholder="Buscar...">
+            <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
             <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
             <a href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
         </div>

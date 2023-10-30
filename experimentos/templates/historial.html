@@ -1,83 +1,60 @@
+
 {% extends "home_base.html" %}
 {% load static %}
-
+<title>{% block title %}Historial de Experimentos{% endblock %}</title>
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/style_historial.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style_fluido.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
-<style>
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
+<div class="container">
+  <div class="main-content">
+    <div class="left">
+      <h1>Historial de Experimentos</h1>
+      <form method="get" action="{% url 'historial' %}">
+        <div class="action-buttons">
+          <input type="text" name="search" value="{{ search }}" placeholder=" Buscar por nombre">
+          <input type="date" name="fecha" value="{{ fecha }}" placeholder="Fecha del Experimento">
+          <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
 
-    /* Estilo para el área principal */
-    .main-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* Alinea el contenido arriba */
-        padding: 20px;
-        margin-left: 250px; /* Ancho del sidebar */
-        margin-right: 20px; /* Espacio a la derecha del contenido */
-    }
+      <div class="grid">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre del Experimento</th>
+              <th>Fecha del Experimento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for experimento in experimentos %}
+              <tr>
+                <td>{{ experimento.nombre_experimento }}</td>
+                <td>{{ experimento.fecha_experimento }}</td>
+                <td>
+                  <a href="{% url 'editar_experimento' experimento.id %}">Editar</a>
+                  <a href="{% url 'eliminar_experimento' experimento.id %}">Eliminar</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-    .left {
-        flex: 1;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .right {
-        flex: 1;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    .grid {
-        margin-bottom: 20px;
-    }
-
-    .chart {
-        height: 300px;
-    }
-    
-    .select {
-        margin-bottom: 20px;
-        margin-top: 10px;
-    }
-
-    .title {
-        display: flex;
-        margin-left: 180px;
-        font-size: 30px;
-        
-    }
-    body {
-        font-family: 'Arial', sans-serif; 
-    }
-
-    
-
-</style>
-
-<html>
-    <head>
-        <body>
-            <div class="container">
-                <div class="title">
-                    <p>HISTORIAL</p>
-                </div>
-                <div class="main-content">
-                    
-                </div>
-                
-            </div>
-        </body>
-    </head>
-</html>
-
-{%  endblock %}
+      <div class="pagination">
+        <span>Página {{ experimentos.number }} de {{ experimentos.paginator.num_pages }}.</span>
+        {% if experimentos.has_previous %}
+          <a href="?page=1&search={{ search }}&fecha={{ fecha }}">first</a>
+          <a href="?page={{ experimentos.previous_page_number }}&search={{ search }}&fecha={{ fecha }}">previous</a>
+        {% endif %}
+        {% if experimentos.has_next %}
+          <a href="?page={{ experimentos.next_page_number }}&search={{ search }}&fecha={{ fecha }}">next</a>
+          <a href="?page={{ experimentos.paginator.num_pages }}&search={{ search }}&fecha={{ fecha }}">last</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

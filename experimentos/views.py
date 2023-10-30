@@ -24,11 +24,16 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-import matlab.engine
+## import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
 import matplotlib.pyplot as plt
+
+from django.core.paginator import Paginator, EmptyPage
+from django.shortcuts import render
+from .models import Experimentos
+
 
 
 def crear_fluido(request):
@@ -166,7 +171,7 @@ def crear_experimento(request):
         values_channel_0 = []
         values_channel_1 = []
 
-        eng = matlab.engine.start_matlab()
+        ## eng = matlab.engine.start_matlab()
         rm = hl.ResourceManager()
 
         generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
@@ -322,7 +327,35 @@ def upload_file_con_tiempo(request):
 
 
 def historial(request):
-    return render(request, "historial.html")
+    # Parámetros de paginación y búsqueda
+    page = request.GET.get('page', 1)
+    search = request.GET.get('search', '')
+    fecha = request.GET.get('fecha', '')
+
+    # Construyendo el filtro
+    query = Experimentos.objects.all()
+    if search:
+        query = query.filter(nombre_experimento__icontains=search)
+    if fecha:
+        query = query.filter(fecha_experimento=fecha)
+
+    # Ordenando por nombre y fecha
+    experimentos = query.order_by('nombre_experimento', 'fecha_experimento')
+
+    # Paginación
+    paginator = Paginator(experimentos, 5)
+    try:
+        experimentos_paginate = paginator.page(page)
+    except EmptyPage:
+        experimentos_paginate = paginator.page(paginator.num_pages)
+
+    return render(request, 'historial.html', {
+        'experimentos': experimentos_paginate,
+        'paginator': paginator,
+        'page': page,
+        'search': search,
+        'fecha': fecha
+    })
 
 
 
