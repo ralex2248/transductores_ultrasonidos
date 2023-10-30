@@ -2,7 +2,7 @@
 {% load static %}
 <title>{% block title %}Historial de Experimentos{% endblock %}</title>
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
+<link rel="stylesheet" href="{% static 'css/style_historial2.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
 <div class="container">
@@ -28,6 +28,10 @@
                     <th>Nombre</th>
                     <th>Comentario</th>
                     <th>Fecha</th>
+                    <th>Voltaje</th>
+                    <th>Frecuencia Inicial</th>
+                    <th>Frecuencia Final</th>
+                    <th>Tiempo</th>
                     <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
                 </tr>
             </thead>
@@ -40,6 +44,10 @@
                   <td>{{ experimento.nombre_experimento }}</td>
                   <td>{{ experimento.comentario }}</td>
                   <td>{{ experimento.fecha_experimento }}</td>
+                  <td>{{ experimento.voltaje }}</td>
+                  <td>{{ experimento.frecuencia_inicial }}</td>
+                  <td>{{ experimento.final_frecuency }}</td>
+                  <td>{{ experimento.tiempo }}</td>
                   <td>
                       <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
                           <i class="fas fa-edit"></i> Editar
