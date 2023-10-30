@@ -1,0 +1,33 @@
+{% extends "home_base.html" %}
+{% load static %}
+<title>{% block title %}Editar Experimentos{% endblock %}</title>
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
+
+<div class="container">
+  <div class="main-content">
+    <div class="left">
+      <h1>Editar Experimento</h1>
+      <form method="post">
+        {% csrf_token %}
+
+        <label for="nombre_experimento">Nombre del experimento:</label>
+        <input type="text" id="nombre_experimento" name="nombre_experimento" value="{{ experimento.nombre_experimento }}" required><br>
+
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" name="comentario" required>{{ experimento.comentario }}</textarea><br>
+
+        <!-- Puedes agregar más campos de edición según tus necesidades -->
+
+        <div class="button-group">
+          <a href="{% url 'historial' %}" class="addButton"><i class="fas fa-arrow-left"></i> Volver a la lista de experimentos</a>
+          <input type="submit" value="Guardar cambios" class="addButton right-button">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

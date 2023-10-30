@@ -146,7 +146,7 @@ def data_acquisition_channel_1(generador, values, engine, actual_frecuency, step
         values.append(max_val)
         e_final_frecuency += sensivity
 
-
+"""
 @login_required
 def crear_experimento(request):
     if request.method == 'POST':
@@ -190,7 +190,7 @@ def crear_experimento(request):
             time.sleep(2.6)
             data_acquisition_channel_1(generador, values_channel_1, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
             
-        """""
+        
         # Crear un objeto Experimentos relacionado con el Fluido
         experimento = Experimentos(
             user=request.user,  # Usuario actual
@@ -202,13 +202,13 @@ def crear_experimento(request):
             pdf_experimento=pdf_experimento,
         )
         experimento.save()
-        """
+        
 
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
     return HttpResponse("Experimento guardado exitosamente")
 
-
+"""
 
 # Create your views here.
 def insertar_datos_al_azar(request):
@@ -326,36 +326,29 @@ def upload_file_con_tiempo(request):
     return render(request, 'experimento_con_tiempo.html', {'plot_html': plot_html})
 
 
+@login_required
 def historial(request):
+    # Restricciones de acceso, asegurando que el usuario tiene el grupo adecuado
+
     # Parámetros de paginación y búsqueda
     page = request.GET.get('page', 1)
     search = request.GET.get('search', '')
-    fecha = request.GET.get('fecha', '')
 
-    # Construyendo el filtro
-    query = Experimentos.objects.all()
-    if search:
-        query = query.filter(nombre_experimento__icontains=search)
-    if fecha:
-        query = query.filter(fecha_experimento=fecha)
+    # Consulta de fluidos
+    if search and search != "None":
+        fluidos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by('nombre_experimento')
+    else:
+        fluidos = Experimentos.objects.all().order_by('nombre_experimento')
 
-    # Ordenando por nombre y fecha
-    experimentos = query.order_by('nombre_experimento', 'fecha_experimento')
-
-    # Paginación
-    paginator = Paginator(experimentos, 5)
+    # Paginación de la lista de fluidos
+    paginator = Paginator(fluidos, 5)
     try:
         experimentos_paginate = paginator.page(page)
     except EmptyPage:
         experimentos_paginate = paginator.page(paginator.num_pages)
 
-    return render(request, 'historial.html', {
-        'experimentos': experimentos_paginate,
-        'paginator': paginator,
-        'page': page,
-        'search': search,
-        'fecha': fecha
-    })
+    template_name = 'historial.html'
+    return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
 
 
 
@@ -400,8 +393,39 @@ def eliminar_fluidos(request):
         return redirect('fluidos')
     else:
         return redirect('fluidos')
+    
+def editar_experimento(request, experimento_id):
+    # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
+    experimento = get_object_or_404(Experimentos, pk=experimento_id)
 
+    if request.method == 'POST':
+        # Si se ha enviado un formulario POST, procesar los datos del formulario aquí
 
+        # Obtener los datos del formulario
+        nombre_experimento= request.POST.get('nombre_experimento')
+        comentario = request.POST.get('comentario')
 
+        # Actualizar el objeto Fluido con los nuevos datos
+        experimento.nombre_experimento = nombre_experimento
+        experimento.comentario = comentario
+        experimento.save()
 
+        # Redirigir a la página de lista de fluidos (fluidos.html)
+        return redirect('historial')  # Cambia 'fluidos' por el nombre de la URL correcta
 
+    # Si la solicitud es GET, renderizar la plantilla de edición del fluido
+    return render(request, 'editar_experimento.html', {'experimento': experimento})
+
+@login_required
+def eliminar_experimentos(request):
+    if request.method == 'POST':
+        # Getting the list of selected fluid IDs from the form
+        selected_experimentos_ids = request.POST.getlist('selected_experimentos')
+        
+        # Deleting the selected fluids using Django's ORM
+        Experimentos.objects.filter(id__in=selected_experimentos_ids).delete()
+        
+        # Redirecting back to the fluidos page with a success message
+        return redirect('historial')
+    else:
+        return redirect('historial')

@@ -13,7 +13,7 @@ class Experimentos(models.Model):
     fluido = models.ForeignKey(Fluido, on_delete=models.CASCADE)
     nombre_experimento = models.CharField(max_length=200, null=False)
     voltaje = models.FloatField(null=False)
-    frecuencia = models.FloatField(null=True)
+    frecuencia_inicial = models.FloatField(null=True)
     final_frecuency = models.FloatField(null=True)
     tiempo = models.TimeField(null=True)
     sensibilidad = models.FloatField(null=True)
