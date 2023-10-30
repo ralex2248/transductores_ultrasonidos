@@ -100,7 +100,7 @@ function checkAction(action) {
             var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?. \n\nNombre fluido: "+ nombre_fluido +"\nPasos: "+ pasos +
         "\nFrecuencia: "+ frecuencia +" Hz\nVoltaje: "+ voltaje +" V\nSensibilidad: "+ sensibilidad);
         }
-        
+        showLoadingOverlay();
     } else {
         var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?.");
     }
@@ -128,6 +128,22 @@ function toggleInput(checkbox) {
         textInput.value = "";  // Establece el valor como cadena vacía al desmarcar
     }
 }
+
+function showLoadingOverlay() {
+    document.querySelector('.loading-overlay').style.display = 'block';
+}
+
+function hideLoadingOverlay() {
+    document.querySelector('.loading-overlay').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('#experimentoForm').addEventListener('submit', function(event) {
+        showLoadingOverlay(); // Muestra el overlay de carga antes de enviar el formulario
+    });
+});
+
+
 
 let simulationRunning = false;
 
@@ -203,3 +219,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 }); 
+
+function showLoadingOverlay() {
+    document.querySelector('.loading-overlay').style.display = 'block';
+}
+
+function hideLoadingOverlay() {
+    document.querySelector('.loading-overlay').style.display = 'none';
+}

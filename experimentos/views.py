@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-## import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -33,6 +33,8 @@ import matplotlib.pyplot as plt
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render
 from .models import Experimentos
+import json
+from django.http import JsonResponse
 
 
 
@@ -146,7 +148,7 @@ def data_acquisition_channel_1(generador, values, engine, actual_frecuency, step
         values.append(max_val)
         e_final_frecuency += sensivity
 
-"""
+
 @login_required
 def crear_experimento(request):
     if request.method == 'POST':
@@ -171,7 +173,7 @@ def crear_experimento(request):
         values_channel_0 = []
         values_channel_1 = []
 
-        ## eng = matlab.engine.start_matlab()
+        eng = matlab.engine.start_matlab()
         rm = hl.ResourceManager()
 
         generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
@@ -190,6 +192,10 @@ def crear_experimento(request):
             time.sleep(2.6)
             data_acquisition_channel_1(generador, values_channel_1, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
             
+            response_data = {
+            'message': 'Experimento guardado exitosamente'}
+
+            return JsonResponse(response_data)
         
         # Crear un objeto Experimentos relacionado con el Fluido
         experimento = Experimentos(
@@ -203,12 +209,13 @@ def crear_experimento(request):
         )
         experimento.save()
         
-
+    return HttpResponse("No se realizó una solicitud POST a esta vista.")
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
-    return HttpResponse("Experimento guardado exitosamente")
+def resultados(request):
+    return render(request, 'resultados.html')
 
-"""
+
 
 # Create your views here.
 def insertar_datos_al_azar(request):

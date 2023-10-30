@@ -8,7 +8,7 @@ function initializeStream_channel_0()
 
     % Configure parameters.
     deviceDescription = 'PCIE-1840L,BID#0'; 
-    startChannel = int32(0);
+    startChannel = int32(1);
     channelCount = int32(1);
     intervalCount = int32(1024); 
     sampleCount = int32(2048);   

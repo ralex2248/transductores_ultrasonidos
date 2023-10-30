@@ -24,7 +24,7 @@ Experimento con Tiempo
 <div class="main-content">
     <!-- Rejillas ajustables en el lado izquierdo -->
     <div class="left">
-        <form method="post" enctype="multipart/form-data" id="experimentoForm">
+        <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
             {% csrf_token %}
             
             <!-- Datos del Fluido -->
@@ -48,7 +48,7 @@ Experimento con Tiempo
 
             <label>
                 <label for="sensibilidadInput">Tiempo de pausa:</label>
-                <input type="checkbox" id="showInputCheckbox" onchange="toggleInput(this)">
+                <input type="checkbox" id="showInputCheckbox" name="tiempoPausa" onchange="toggleInput(this)">
             </label>
             
             <div id="inputContainer" style="display: none;">
@@ -59,7 +59,7 @@ Experimento con Tiempo
             <input type="number" id="sensibilidadInput" min="1" name="sensibilidadInput" required><br>
 
             <label for="pasosInput">Pasos:</label>
-            <input type="number" id="pasosInput" min="1000" name="pasosInput" max="10000" step="1000" required><br>
+            <input type="number" id="pasosInput" min="10" name="pasosInput" max="10000" step="10" required><br>
             
             <label for="frecuenciaInput">Frecuencia (kHz):</label>
             <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
@@ -74,6 +74,12 @@ Experimento con Tiempo
             <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
             
             <button class="saveButton" id="saveButton">Guardar Experimento</button>
+            <div class="btn-container">
+                <button class="btn start-button" type="submit" onclick="checkAction('Iniciar')" id="start-button" >Iniciar</button>
+                <button class="btn stop-button" onclick="checkAction('Detener')" id="stop-button">Detener</button>
+                <button class="btn cancel-button" onclick="checkAction('Cancelar')" id="cancel-button" >Cancelar</button>
+                <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
+            </div>
         </form>
             
         <h6>Subir con datos de voltaje/tiempo.txt</h6>
@@ -94,12 +100,7 @@ Experimento con Tiempo
             <p>No se ha subido un archivo o el formato no es compatible.</p>
         {% endif %}
         
-        <div class="btn-container">
-            <button class="btn start-button" onclick="checkAction('Iniciar')" id="start-button" >Iniciar</button>
-            <button class="btn stop-button" onclick="checkAction('Detener')" id="stop-button">Detener</button>
-            <button class="btn cancel-button" onclick="checkAction('Cancelar')" id="cancel-button" >Cancelar</button>
-            <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
-        </div>
+        
 
 
         

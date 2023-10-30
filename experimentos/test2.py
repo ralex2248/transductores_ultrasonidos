@@ -4,21 +4,25 @@ import pyvisa.highlevel as hl
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 start = time.time()
 
 eng = matlab.engine.start_matlab()
-
-
 
 rm = hl.ResourceManager()
 
 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
-actual_frecuency = 1600
+
+actual_frecuency = 19470
+    
 frecuencies = []
+
 values_channel_0 = []
 values_channel_1 = []
+
+
+def phase():
+    pass
 
 def data_acquisition_channel_0(actual_frecuency, steps, sensivity):
     e_sensivity = sensivity
@@ -58,7 +62,7 @@ def main(actual_frecuency, steps, sensivity):
 
 
 
-main(actual_frecuency, 10, 10)
+main(actual_frecuency, 100, 10)
 
 
 final_values = [c0/c1 for c0, c1 in zip(values_channel_0, values_channel_1)]
@@ -68,7 +72,8 @@ end = time.time()
 #print(final_values)
 #print("\nARRAY DE FRECUENCIAS: \n")
 #print(frecuencies)
-
+print(values_channel_0)
+print(values_channel_1)
 final_frecuency = frecuencies[-1]
 print('Frecuencia final: ', final_frecuency)
 print("Time: " , (end - start))
@@ -81,6 +86,8 @@ plt.ylabel('f(z)')
 plt.title('f(z) vs Frecuencia')
 plt.legend()  
 plt.grid(True)  
+
+
 plt.show()
 
 
