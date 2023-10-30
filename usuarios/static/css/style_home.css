@@ -53,7 +53,7 @@
 }
 #contenido-adicional {
     background-color: white;
-    border-radius: 10px; 
+    border-radius: 20px; 
     padding: 20px; 
     margin-top: 20px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
@@ -205,7 +205,7 @@
     width: 30%; 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
     padding: 10px; 
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: #FFFFFF;
  
 }
@@ -230,11 +230,31 @@
     margin-bottom: 8px;
 }
 
+.recent-activity li {
+    font-size: 14px;
+    margin-bottom: 12px; 
+    padding-left: 28px;
+    position: relative; 
+    transition: transform 0.2s ease; 
+}
 
+.recent-activity li:hover {
+    transform: translateX(10px); 
+}
 
+.recent-activity li:before {
+    content: "\1F553"; 
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
 
+.fluidos-link:hover .dashboard-item {
+    background-color: #F5F5F5; /* Slight background color change on hover */
+    transform: scale(1.03); /* Make the section slightly bigger */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+    cursor: pointer; /* Change the cursor to indicate it's clickable */
+}
 
-
-
-
-  
