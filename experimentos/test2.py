@@ -13,7 +13,7 @@ rm = hl.ResourceManager()
 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
 
-actual_frecuency = 19470
+actual_frecuency = 15000
     
 frecuencies = []
 
@@ -62,7 +62,7 @@ def main(actual_frecuency, steps, sensivity):
 
 
 
-main(actual_frecuency, 100, 10)
+main(actual_frecuency, 10, 10)
 
 
 final_values = [c0/c1 for c0, c1 in zip(values_channel_0, values_channel_1)]
