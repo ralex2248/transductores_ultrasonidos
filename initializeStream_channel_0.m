@@ -1,7 +1,7 @@
 function initializeStream_channel_0()
     % Declare and initialize global variables
     global maxValueGlobal bufferedAiCtrl;
-    maxValueGlobal = -1;
+    maxValueGlobal = 1;
 
     % Make Automation.BDaq assembly visible to MATLAB.
     BDaq = NET.addAssembly('Automation.BDaq');

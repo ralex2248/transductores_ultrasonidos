@@ -6,74 +6,89 @@ import matplotlib.pyplot as plt
 
 start = time.time()
 
-eng = matlab.engine.start_matlab()
+
+
 
 rm = hl.ResourceManager()
 
 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
 
-actual_frecuency = 15000
-    
+actual_frecuency = 19470
 frecuencies = []
 
-values_channel_0 = []
 values_channel_1 = []
-
+values_channel_2 = []
+max_values_1 = []
+max_values_2 = []
 
 def phase():
     pass
 
+""""
 def data_acquisition_channel_0(actual_frecuency, steps, sensivity):
     e_sensivity = sensivity
     e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
 
     for _ in range(steps):
-        frecuencies.append(e_final_frecuency)
+        
         generador.write('FREQ '+ str(e_final_frecuency))
         max_val = eng.acquireData_channel_0()
         values_channel_0.append(max_val)
         e_final_frecuency += sensivity
     final_frecuency = e_final_frecuency
     
-
+"""
 def data_acquisition_channel_1(actual_frecuency, steps, sensivity):
+    
     e_sensivity = sensivity
     e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
     for _ in range(steps):
+        frecuencies.append(e_final_frecuency)
         generador.write('FREQ '+ str(e_final_frecuency))
         max_val = eng.acquireData_channel_1()
-        values_channel_1.append(max_val)
-        e_final_frecuency += sensivity
+        for i in max_val:
+            values_channel_1.append(i[0])
+            values_channel_2.append(i[1])
+        #values_channel_1.append(max_val)
+        max_values_1.append(np.max(values_channel_1))
+        max_values_2.append(np.max(values_channel_2))
+        e_final_frecuency += sensivity  
+
 
 
 def main(actual_frecuency, steps, sensivity):
+    global eng
 
-    eng.initializeStream_channel_0(nargout=0)  
-    time.sleep(2.8)
-    data_acquisition_channel_0(actual_frecuency, steps, sensivity)
-
+    eng =  matlab.engine.start_matlab()
+    time.sleep(3)
     eng.initializeStream_channel_1(nargout=0)  
-    time.sleep(2.6)
+    time.sleep(2)
+    #data_acquisition_channel_0(actual_frecuency, steps, sensivity)
+
+    #eng.initializeStream_channel_0(nargout=0)  
+    #time.sleep(2)
     data_acquisition_channel_1(actual_frecuency, steps, sensivity)
+    #print(values_channel_1)
+    print(max_values_1)
+    print(max_values_2)
 
 
 
 
-main(actual_frecuency, 10, 10)
+main(actual_frecuency, 100, 10)
 
-
-final_values = [c0/c1 for c0, c1 in zip(values_channel_0, values_channel_1)]
+final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
 end = time.time()
 
 #print("RESISTENCIA:\n")
 #print(final_values)
 #print("\nARRAY DE FRECUENCIAS: \n")
 #print(frecuencies)
-print(values_channel_0)
-print(values_channel_1)
+#print(values_channel_0)
+#print(values_channel_1)
 final_frecuency = frecuencies[-1]
 print('Frecuencia final: ', final_frecuency)
 print("Time: " , (end - start))

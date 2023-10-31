@@ -1,7 +1,7 @@
 function initializeStream_channel_1()
     % Declare and initialize global variables
     global maxValueGlobal bufferedAiCtrl;
-    maxValueGlobal = -1;
+    maxValueGlobal = 1;
 
     % Make Automation.BDaq assembly visible to MATLAB.
     BDaq = NET.addAssembly('Automation.BDaq');
@@ -9,10 +9,10 @@ function initializeStream_channel_1()
     % Configure parameters.
     deviceDescription = 'PCIE-1840L,BID#0'; 
     startChannel = int32(1);
-    channelCount = int32(1);
+    channelCount = int32(2);
     intervalCount = int32(1024); 
     sampleCount = int32(2048);   
-    convertClkRate = int32(100000);
+    convertClkRate = int32(500000);
 
     errorCode = Automation.BDaq.ErrorCode.Success;
     
@@ -54,7 +54,7 @@ function bufferedAiCtrl_DataReady(sender, e)
             end
         end
 
-        maxValue = max(max(Y));
+        maxValue = Y; %max(max(Y));
         maxValueGlobal = maxValue;
         disp(maxValue);
     end

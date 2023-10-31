@@ -165,7 +165,7 @@ def crear_experimento(request):
 
         e_sensibilidad = int(sensibilidad)
         e_pasos = int(pasos)
-        e_voltaje = int(pre_voltaje)
+        e_voltaje = float(pre_voltaje)
         e_frecuencia_inicial = int(frecuencia_inicial)
 
         frecuencies = []
