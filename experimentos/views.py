@@ -29,6 +29,7 @@ import time
 import pyvisa.highlevel as hl
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render
@@ -125,33 +126,44 @@ def phase():
 def z():
     pass
 
-def data_acquisition_channel_0(frecuencies, generador, values, engine, actual_frecuency, steps, sensivity):
-    e_sensivity = sensivity
-    e_actual_frecuency = actual_frecuency
-    e_final_frecuency = actual_frecuency
-
-    for _ in range(steps):
-        frecuencies.append(e_final_frecuency)
-        generador.write('FREQ '+ str(e_final_frecuency))
-        max_val = engine.acquireData_channel_0()
-        values.append(max_val)
-        e_final_frecuency += sensivity
+def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity):
     
-
-def data_acquisition_channel_1(generador, values, engine, actual_frecuency, steps, sensivity):
     e_sensivity = sensivity
     e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
     for _ in range(steps):
+        round_frequency = round(e_final_frecuency, 1)
+        frecuencies.append(round_frequency)
         generador.write('FREQ '+ str(e_final_frecuency))
         max_val = engine.acquireData_channel_1()
-        values.append(max_val)
+        for i in max_val:
+            values_ch1.append(i[0])
+            values_ch2.append(i[1])
+        max_ch1.append(np.max(values_ch1))
+        max_ch2.append(np.max(values_ch2))
         e_final_frecuency += sensivity
 
+frecuencies = []
+
+values_channel_1 = []
+values_channel_2 = []
+max_values_1 = []
+
+
+def replace_zeros_with_avg(nums):
+    # Calcula el promedio de los números que no son 0
+    avg = sum([num for num in nums if num != 0]) / len([num for num in nums if num != 0])
+
+    # Reemplaza los 0s en el array con el promedio
+    return [num if num != 0 else avg for num in nums]
 
 @login_required
 def crear_experimento(request):
     if request.method == 'POST':
+        global final_values
+        global max_values_2
+        global max_values2
+        max_values_2 = []
         # Datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
         descripcion = request.POST.get('descripcionInput')
@@ -162,16 +174,16 @@ def crear_experimento(request):
         pasos = request.POST.get('pasosInput')
         pre_voltaje = request.POST.get('voltajeInput')
         pdf_experimento = request.FILES.get('pdf_experimento')
+        comentario = request.POST.get('comentario')
+
+        fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
         e_sensibilidad = int(sensibilidad)
         e_pasos = int(pasos)
         e_voltaje = float(pre_voltaje)
-        e_frecuencia_inicial = int(frecuencia_inicial)
+        e_frecuencia_inicial = float(frecuencia_inicial)
 
-        frecuencies = []
-
-        values_channel_0 = []
-        values_channel_1 = []
+        start_time = time.time()
 
         eng = matlab.engine.start_matlab()
         rm = hl.ResourceManager()
@@ -183,37 +195,49 @@ def crear_experimento(request):
         if pausa:
             tiempo_pausa = pausa
         else:
-
-            eng.initializeStream_channel_0(nargout=0)  
-            time.sleep(2.8)
-            data_acquisition_channel_0(frecuencies, generador, values_channel_0, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
-
+            time.sleep(3)
             eng.initializeStream_channel_1(nargout=0)  
-            time.sleep(2.6)
-            data_acquisition_channel_1(generador, values_channel_1, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
-            
-            response_data = {
-            'message': 'Experimento guardado exitosamente'}
+            time.sleep(2)
+            data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
+            max_values2 = replace_zeros_with_avg(max_values_2)
+            final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values2)]
+            end_time = time.time()
+            total_time = round(end_time - start_time)
 
-            return JsonResponse(response_data)
-        
-        # Crear un objeto Experimentos relacionado con el Fluido
-        experimento = Experimentos(
+            hours = 0
+            minutes = 0
+            seconds = 0
+
+            # GUARDADO EN LA BASE DE DATOS POSTGRES
+
+            experimento = Experimentos(
             user=request.user,  # Usuario actual
-            fluido=nombre_fluido,  # Usar el Fluido recién creado
+            fluido=fluido,  # Usar el Fluido recién creado
+            sensibilidad = sensibilidad,
+            pasos = pasos,
+            comentario = comentario,
             nombre_experimento=nombre_experimento,
             frecuencia_inicial=frecuencia_inicial,
             voltaje=pre_voltaje,
             fecha_experimento=datetime.now().date(),
-            pdf_experimento=pdf_experimento,
-        )
-        experimento.save()
+            pdf_experimento=pdf_experimento
+            )
+            experimento.save()
+
+            return redirect('resultados')
+        
+        
+        
         
     return HttpResponse("No se realizó una solicitud POST a esta vista.")
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
 def resultados(request):
-    return render(request, 'resultados.html')
+    context = {
+        'final_values': json.dumps(final_values),
+        'frecuencies': json.dumps(frecuencies),
+    }
+    return render(request, 'resultados.html', context)
 
 
 

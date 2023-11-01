@@ -5,4 +5,78 @@
 Experimento con Tiempo
 {% endblock %}
 
-<p>RESULTS</p>
+{% block content %}
+
+<!-- Add Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Canvas for the graph -->
+<body>
+    <div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" style="display: none;"></div>
+    <canvas id="myChart"></canvas>
+</body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let chartDataDiv = document.getElementById('chartData');
+    
+    let finalValues = JSON.parse(chartDataDiv.getAttribute('data-final-values'));
+    let frecuencies = JSON.parse(chartDataDiv.getAttribute('data-frecuencies'));
+
+    let minValue = Math.min(...finalValues);
+    let maxValue = Math.max(...finalValues);
+    let margin = (maxValue - minValue) * 0.05;
+
+    minValue -= margin;
+    maxValue += margin;
+
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: frecuencies,
+            datasets: [{
+                label: 'Final Values',
+                data: finalValues,
+                fill: false,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    min: minValue,
+                    max: maxValue,
+                    title: {
+                        display: true,
+                        text: 'Tu etiqueta para el eje Y'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+<style>
+    #myChart {
+    width: 600px;
+    height: 500px;
+    display: block;
+    margin: 0 auto;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This will take the full height of the viewport */
+    margin: 0;
+}
+
+
+</style>
+
+{% endblock %}
