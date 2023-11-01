@@ -203,10 +203,11 @@ def crear_experimento(request):
             final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values2)]
             end_time = time.time()
             total_time = round(end_time - start_time)
-
-            hours = 0
-            minutes = 0
-            seconds = 0
+            hours, rem = divmod(total_time, 3600)
+            minutes, seconds = divmod(rem, 60)
+            formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
+            print(f"Tiempo transcurrido: {formatted_time}")
+            freq_final = frecuencies[-1]
 
             # GUARDADO EN LA BASE DE DATOS POSTGRES
 
@@ -220,7 +221,9 @@ def crear_experimento(request):
             frecuencia_inicial=frecuencia_inicial,
             voltaje=pre_voltaje,
             fecha_experimento=datetime.now().date(),
-            pdf_experimento=pdf_experimento
+            pdf_experimento=pdf_experimento,
+            tiempo = str(formatted_time),
+            final_frecuency = freq_final
             )
             experimento.save()
 

@@ -21,35 +21,33 @@ h1, h2, h3, h4, h5, h6 {
     padding: 20px;
 }
 
-
-/* Estilo para el área principal */
 .main-content {
+    margin: 0 auto;
     flex: 2;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Alinea el contenido arriba */
+    align-items: flex-start;
     padding: 20px;
-    margin-left: 250px; /* Ancho del sidebar */
-    margin-right: 20px; /* Espacio a la derecha del contenido */
+    margin-left: 250px;
+    margin-right: 20px;
+    max-width: 800px;
 }
 
-.left {
-    flex: 2;
+.left, .right {
     padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 5px
-    
-}
-
-.right {
-    flex: 1;
-    padding: 20px;
-    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
+.left {
+    flex: 2;
+    background-color: #f2f2f2;
+}
+
+.right {
+    flex: 1;
+    background-color: #fff;
+}
 
 .chart {
     height: 300px;
@@ -63,66 +61,64 @@ h1, h2, h3, h4, h5, h6 {
 .title {
     display: flex;
     font-size: 30px;
-    
-}
-body {
-    font-family: 'Arial', sans-serif; 
-}
-.addButton {
-    background-color: #05009c; /* azul */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-left: 20px;
 }
 
-.addButton:hover {
-    background-color: #0035ad; /* Cambia el color al pasar el mouse */
+.addButton, a.addButton, .deleteButton, .editButton {
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.addButton, a.addButton {
+    background-color: #05009c;
+    color: white;
+}
+
+.addButton:hover, a.addButton:hover {
+    background-color: #0336a6;
+    transform: translateY(-2px);
+}
+
+.addButton:active, a.addButton:active {
+    background-color: #002080;
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.deleteButton {
+    background-color: #ff0000;
+    color: white;
+}
+
+.deleteButton:hover {
+    background-color: #ff5555;
     transform: scale(1.05);
 }
 
-.grid {
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-
-.grid tr {
-    margin-bottom: 10px; /* Espacio entre filas */
-}
-
-.grid th,
-.grid td {
-    padding: 10px; /* Espacio interno entre celdas */
-    border: 1px solid #ccc;
-}
-
-.addButton, /* Estilo para botones */
-a.addButton { /* Estilo para enlaces con la clase addButton */
-    background-color: #05009c; /* azul */
+.editButton {
+    background-color: #008000;
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    display: inline-block; /* Alinea el enlace en línea con el texto */
-    text-decoration: none; /* Elimina el subrayado predeterminado */
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
-.addButton:hover {
-    background-color: #0035ad; /* Cambia el color al pasar el mouse */
+.editButton:hover {
+    background-color: #006400;
     transform: scale(1.05);
 }
-.main-content {
-  margin: 0 auto; /* Esto centrará el contenido horizontalmente */
-  max-width: 800px; /* Cambia el valor según sea necesario */
+
+.editButton:active {
+    background-color: #004000;
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-/* Agrega estilos para la tabla */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -130,141 +126,45 @@ table {
     background-color: #fff;
 }
 
-/* Estilos para las celdas del encabezado de la tabla */
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
 table th {
     background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
 }
 
-/* Estilos para las celdas de datos de la tabla */
-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
+td {
+    overflow-wrap: break-word;
+    word-break: break-all;
 }
 
-/* Estilos para filas alternas */
 table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-/* Estilos para la primera columna (nombre) */
 table td:first-child {
     font-weight: bold;
 }
 
-/* Estilos para la última columna (fecha) */
 table td:last-child {
     font-style: italic;
 }
 
-
-/* Estilos para el texto "1 de 1" */
 .current-page {
     font-size: 16px;
     font-weight: bold;
-    text-align: center; /* Añade esta propiedad para centrar el texto horizontalmente */
+    text-align: center;
 }
 
-
-/* Estilo para el botón de eliminación (clase deleteButton) */
-.deleteButton {
-    background-color: #ff0000; /* Cambia el color de fondo a rojo o el que desees */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.deleteButton:hover {
-    background-color: #ff5555; /* Cambia el color al pasar el mouse */
-    transform: scale(1.05);
-}
-
-/* Estilos para el texto "1 de 1" */
-.current-page {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center; /* Añade esta propiedad para centrar el texto horizontalmente */
-}
-.pagination {
+.pagination, .step-links {
     display: flex;
-    justify-content: center;  /* Centrar horizontalmente */
-    align-items: center;      /* Centrar verticalmente */
-}
-.step-links {
-    display: flex;
-    align-items: center;      /* Centrar verticalmente */
-}
-.addButton {
-    background-color: #05009c; /* azul */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px; /* Espaciado alrededor del texto */
-    font-size: 16px; /* Tamaño de la fuente */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombreado */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el hover */
+    align-items: center;
+    justify-content: center;
 }
 
-.addButton:hover {
-    background-color: #0336a6; /* Un azul un poco más oscuro en hover */
-    transform: translateY(-2px); /* Eleva el botón ligeramente en hover */
+.pagination a.addButton {
+    margin: 0 5px;
 }
-
-.addButton:active {
-    background-color: #002080; /* Un azul aún más oscuro cuando se hace clic */
-    transform: translateY(0); /* Regresa el botón a su posición original cuando se hace clic */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Reduce el sombreado cuando se hace clic */
-}
-
-/* Estilos para el botón de editar (clase editButton) */
-.editButton {
-    background-color: #008000; /* Cambia el color de fondo a verde o el que desees */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px; /* Ajusta el espaciado alrededor del texto según tus preferencias */
-    font-size: 14px; /* Tamaño de la fuente */
-    text-decoration: none; /* Elimina el subrayado predeterminado */
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.editButton:hover {
-    background-color: #006400; /* Cambia el color al pasar el mouse */
-    transform: scale(1.05);
-}
-
-.editButton:active {
-    background-color: #004000; /* Cambia el color cuando se hace clic */
-    transform: translateY(0);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Estilos para las celdas del encabezado de la tabla */
-table th {
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    padding: 40px; /* Aumenta el espaciado interior de las celdas del encabezado */
-    text-align: left;
-}
-
-/* Estilos para las celdas de datos de la tabla */
-table td {
-    border: 1px solid #ccc;
-    padding: 40px; /* Aumenta el espaciado interior de las celdas de datos */
-    text-align: left;
-}
-
-
-
-
-
-
-
-

@@ -18,7 +18,7 @@
     
       
       
-      <form method="post" action="{% url 'eliminar_experimentos' %}"" id="delete_fluidos_form">
+      <form method="post" action="{% url 'eliminar_experimentos' %}" id="delete_fluidos_form">
         {% csrf_token %}
         <div class="grid">
           <table>
@@ -64,12 +64,12 @@
 
       <div class="pagination">
         <span class="step-links">
-          {% if fluidos_paginate.has_previous %}
+          {% if experimentos_paginate.has_previous %}
           <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
           <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
           {% endif %}
-          <span class="current-page">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
-          {% if fluidos_paginate.has_next %}
+          <span class="current-page">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
+          {% if experimentos_paginate.has_next %}
           <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
           <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
           {% endif %}
