@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+import mongoengine
+
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,6 +80,10 @@ WSGI_APPLICATION = 'transductores_ultrasonicos.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+MONGODB_DATABASE_NAME = 'z_database' 
+MONGODB_HOST = 'localhost'
+MONGODB_PORT = 27017
 
 DATABASES = {
     'default': {
@@ -142,3 +151,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'alexthunder42@gmail.com'
 EMAIL_HOST_PASSWORD = '4ak3Y8TLnRFmQA2q'
+
+mongoengine.connect(db=MONGODB_DATABASE_NAME, host=MONGODB_HOST, port=MONGODB_PORT)
+

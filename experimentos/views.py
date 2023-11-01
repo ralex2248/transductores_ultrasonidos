@@ -36,6 +36,7 @@ from django.shortcuts import render
 from .models import Experimentos
 import json
 from django.http import JsonResponse
+from .models import ExperimentoMongo
 
 
 
@@ -159,6 +160,7 @@ def replace_zeros_with_avg(nums):
 
 @login_required
 def crear_experimento(request):
+    fluidos = Fluido.objects.all()
     if request.method == 'POST':
         global final_values
         global max_values_2
@@ -176,63 +178,80 @@ def crear_experimento(request):
         pdf_experimento = request.FILES.get('pdf_experimento')
         comentario = request.POST.get('comentario')
 
-        fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
+        message = ''
 
-        e_sensibilidad = int(sensibilidad)
-        e_pasos = int(pasos)
-        e_voltaje = float(pre_voltaje)
-        e_frecuencia_inicial = float(frecuencia_inicial)
+        if Experimentos.objects.filter(nombre_experimento=nombre_experimento).exists():
+            message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
 
-        start_time = time.time()
-
-        eng = matlab.engine.start_matlab()
-        rm = hl.ResourceManager()
-
-        generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
-
-        generador.write('VOLT '+ pre_voltaje)
-
-        if pausa:
-            tiempo_pausa = pausa
         else:
-            time.sleep(3)
-            eng.initializeStream_channel_1(nargout=0)  
-            time.sleep(2)
-            data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
-            max_values2 = replace_zeros_with_avg(max_values_2)
-            final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values2)]
-            end_time = time.time()
-            total_time = round(end_time - start_time)
-            hours, rem = divmod(total_time, 3600)
-            minutes, seconds = divmod(rem, 60)
-            formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
-            print(f"Tiempo transcurrido: {formatted_time}")
-            freq_final = frecuencies[-1]
+            
+            fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
-            # GUARDADO EN LA BASE DE DATOS POSTGRES
+            e_sensibilidad = int(sensibilidad)
+            e_pasos = int(pasos)
+            e_voltaje = float(pre_voltaje)
+            e_frecuencia_inicial = float(frecuencia_inicial)
 
-            experimento = Experimentos(
-            user=request.user,  # Usuario actual
-            fluido=fluido,  # Usar el Fluido recién creado
-            sensibilidad = sensibilidad,
-            pasos = pasos,
-            comentario = comentario,
-            nombre_experimento=nombre_experimento,
-            frecuencia_inicial=frecuencia_inicial,
-            voltaje=pre_voltaje,
-            fecha_experimento=datetime.now().date(),
-            pdf_experimento=pdf_experimento,
-            tiempo = str(formatted_time),
-            final_frecuency = freq_final
-            )
-            experimento.save()
+            start_time = time.time()
+
+            eng = matlab.engine.start_matlab()
+            rm = hl.ResourceManager()
+
+            generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+
+            generador.write('VOLT '+ pre_voltaje)
+
+            if pausa:
+                tiempo_pausa = pausa
+            else:
+                time.sleep(3)
+                eng.initializeStream_channel_1(nargout=0)  
+                time.sleep(2)
+                data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
+                max_values2 = replace_zeros_with_avg(max_values_2)
+                final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values2)]
+                end_time = time.time()
+                total_time = round(end_time - start_time)
+                hours, rem = divmod(total_time, 3600)
+                minutes, seconds = divmod(rem, 60)
+                formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
+                print(f"Tiempo transcurrido: {formatted_time}")
+                freq_final = frecuencies[-1]
+
+                # GUARDADO EN LA BASE DE DATOS POSTGRES
+
+                experimento = Experimentos(
+                user=request.user,  # Usuario actual
+                fluido=fluido,  # Usar el Fluido recién creado
+                sensibilidad = sensibilidad,
+                pasos = pasos,
+                comentario = comentario,
+                nombre_experimento=nombre_experimento,
+                frecuencia_inicial=frecuencia_inicial,
+                voltaje=pre_voltaje,
+                fecha_experimento=datetime.now().date(),
+                pdf_experimento=pdf_experimento,
+                tiempo = str(formatted_time),
+                final_frecuency = freq_final
+                )
+                experimento.save()
+
+                
+
+                experimento_Mongo = ExperimentoMongo(
+                nombre_experimento=nombre_experimento,
+                comentario=comentario,
+                max_values2=max_values2,
+                frecuencia=frecuencies
+                )
+                experimento_Mongo.save()
 
             return redirect('resultados')
         
         
         
         
-    return HttpResponse("No se realizó una solicitud POST a esta vista.")
+    return render(request, 'experimento_con_tiempo.html', {'message': message, 'fluidos': fluidos})
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
 def resultados(request):
@@ -242,7 +261,18 @@ def resultados(request):
     }
     return render(request, 'resultados.html', context)
 
+def ver_experimento(request):
+    #esto es para visualizar uno solo
+    
+    context = {
+        'final_values': json.dumps(final_values),
+        'frecuencies': json.dumps(frecuencies),
+    }
+    return render(request, 'resultados.html', context)
 
+def comparar_Experimentos():
+    # esta compara
+    pass
 
 # Create your views here.
 def insertar_datos_al_azar(request):

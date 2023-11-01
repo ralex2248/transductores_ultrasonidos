@@ -17,5 +17,6 @@ experimentos_urlpatterns = [
     path('editar_fluido/<int:fluido_id>/', views.editar_fluido, name='editar_fluido'),  
     path('editar_experimento/<int:experimento_id>/', views.editar_experimento, name='editar_experimento'),      
     path('eliminar_experimentos/', views.eliminar_experimentos, name='eliminar_experimentos'),
-    path('resultados/', views.resultados, name='resultados')
+    path('resultados/', views.resultados, name='resultados'),
+    path('ver_experimento/<nombre_experimento>/', views.ver_experimento, name='ver_experimento')
 ]

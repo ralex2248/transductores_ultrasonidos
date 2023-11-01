@@ -1,8 +1,16 @@
 from django.db import models
 from django.conf import settings
 from datetime import timedelta
-# Create your models here.
+from mongoengine import Document, StringField, ListField, FloatField
 
+class ExperimentoMongo(Document):
+    nombre_experimento = StringField(max_length=100)
+    comentario = StringField(max_length=100)
+    max_values2 = ListField(FloatField())
+    frecuencia = ListField(FloatField())
+
+    def __str__(self):
+        return self.nombre_experimento
 class Fluido(models.Model):
     nombre_fluido=models.CharField(max_length=200,null=False)
     descripcion=models.TextField(max_length=200,null=False)
