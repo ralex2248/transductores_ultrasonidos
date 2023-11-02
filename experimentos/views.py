@@ -37,6 +37,7 @@ from .models import Experimentos
 import json
 from django.http import JsonResponse
 from .models import ExperimentoMongo
+import mongoengine
 
 
 
@@ -166,6 +167,16 @@ def crear_experimento(request):
         global max_values_2
         global max_values2
         max_values_2 = []
+        final_values = []
+        max_values2 = []
+        final_values.clear()
+        frecuencies.clear()
+
+        values_channel_1.clear()
+        values_channel_2.clear()
+        max_values_1.clear()
+        max_values_2.clear()
+        max_values2.clear()
         # Datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
         descripcion = request.POST.get('descripcionInput')
@@ -236,15 +247,17 @@ def crear_experimento(request):
                 )
                 experimento.save()
 
-                
+                print("FRECUENCIAS ANTES DE GUARDARLAS: \n", frecuencies)
 
                 experimento_Mongo = ExperimentoMongo(
                 nombre_experimento=nombre_experimento,
                 comentario=comentario,
-                max_values2=max_values2,
+                max_values2=final_values,
                 frecuencia=frecuencies
                 )
                 experimento_Mongo.save()
+
+                
 
             return redirect('resultados')
         
@@ -261,12 +274,21 @@ def resultados(request):
     }
     return render(request, 'resultados.html', context)
 
-def ver_experimento(request):
+def ver_experimento(request, nombre_experimento):
+    print(frecuencies)
     #esto es para visualizar uno solo
+    experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre_experimento)
+    experimento_mongo = ExperimentoMongo.objects.get(nombre_experimento=nombre_experimento)
+
+    max_values2_mongo = experimento_mongo.max_values2
+    frecuencias_mongo = experimento_mongo.frecuencia  
+
+    print("\nFRECUENCIAS MONGO\n", frecuencias_mongo)
     
+
     context = {
-        'final_values': json.dumps(final_values),
-        'frecuencies': json.dumps(frecuencies),
+        'final_values': json.dumps(max_values2_mongo),
+        'frecuencies': json.dumps(frecuencias_mongo),
     }
     return render(request, 'resultados.html', context)
 
@@ -400,12 +422,12 @@ def historial(request):
 
     # Consulta de fluidos
     if search and search != "None":
-        fluidos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by('nombre_experimento')
+        experimentos = Experimentos.objects.filter(fecha_experimento__icontains=search).order_by('-fecha_experimento')
     else:
-        fluidos = Experimentos.objects.all().order_by('nombre_experimento')
+        experimentos = Experimentos.objects.all().order_by('-fecha_experimento')
 
     # Paginación de la lista de fluidos
-    paginator = Paginator(fluidos, 5)
+    paginator = Paginator(experimentos, 5)
     try:
         experimentos_paginate = paginator.page(page)
     except EmptyPage:
@@ -486,8 +508,11 @@ def eliminar_experimentos(request):
         # Getting the list of selected fluid IDs from the form
         selected_experimentos_ids = request.POST.getlist('selected_experimentos')
         
+        
+        ExperimentoMongo.objects(nombre_experimento__in=selected_experimentos_ids).delete()
+        
         # Deleting the selected fluids using Django's ORM
-        Experimentos.objects.filter(id__in=selected_experimentos_ids).delete()
+        Experimentos.objects.filter(nombre_experimento__in=selected_experimentos_ids).delete()
         
         # Redirecting back to the fluidos page with a success message
         return redirect('historial')

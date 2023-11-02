@@ -85,34 +85,49 @@ const cancelButton = document.getElementById("cancelButton");
 const clearButton = document.getElementById("clearButton");
 const guardarButton = document.getElementById("saveButton");
 
-function checkAction(action) {
+
+
+function checkAction(event, action) {
+    event.preventDefault(); // Detiene el envío automático del formulario.
+
     var nombre_fluido = document.getElementById("nombre_fluido").value;
     var sensibilidad = document.getElementById("sensibilidadInput").value;
     var pasos = document.getElementById("pasosInput").value;
     var frecuencia = document.getElementById("frecuenciaInput").value;
     var voltaje = document.getElementById("voltajeInput").value;
     var pausa = document.getElementById("pause").value;
-    if (action == 'Iniciar') {
-        if (pausa) {
-            var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?. \n\nNombre fluido: "+ nombre_fluido +"\nPausa: "+ pausa +"\nPasos: "+ pasos +
-        "\nFrecuencia: "+ frecuencia +" Hz\nVoltaje: "+ voltaje +" V\nSensibilidad: "+ sensibilidad);
-        } else {
-            var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?. \n\nNombre fluido: "+ nombre_fluido +"\nPasos: "+ pasos +
-        "\nFrecuencia: "+ frecuencia +" Hz\nVoltaje: "+ voltaje +" V\nSensibilidad: "+ sensibilidad);
-        }
-        showLoadingOverlay();
-    } else {
-        var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?.");
-    }
-    
+    var formulario = document.getElementById("experimentoForm");
 
-    if (confirmation) {
-        // Aquí pones el código que se ejecuta si el usuario presiona "Aceptar"
-        console.log(action + " confirmado.");
+    var mensajeConfirmacion = "¿Estás seguro de que quieres " + action + "?";
+
+    if (action === 'Iniciar') {
+        // Construye el mensaje de confirmación con los detalles del experimento
+        mensajeConfirmacion += "\n\nNombre del fluido: " + nombre_fluido +
+        (pausa ? "\nTiempo de pausa: " + pausa : "") +
+        "\nPasos: " + pasos +
+        "\nFrecuencia: " + frecuencia + " Hz" +
+        "\nVoltaje: " + voltaje + " V" +
+        "\nSensibilidad: " + sensibilidad;
+
+        // Muestra la ventana de confirmación
+        if (window.confirm(mensajeConfirmacion)) {
+            mostrarOverlayCargando(); // Mostrar el overlay de carga si es necesario// Si el usuario confirma, envía el formulario
+            formulario.submit();
+        } else {
+            // Si el usuario cancela, simplemente registra la acción
+            console.log(action + " cancelado.");
+        }
     } else {
-        // Aquí pones el código que se ejecuta si el usuario presiona "Cancelar"
-        console.log(action + " cancelado.");
+        // Para otras acciones que no sean 'Iniciar', solo muestra el mensaje de confirmación básico
+        if (window.confirm("¿Estás seguro de que quieres " + action + "?")) {
+            // Aquí podrías manejar otras acciones como 'Detener' o 'Cancelar'
+        }
     }
+}
+
+
+function mostrarOverlayCargando() {
+    document.getElementById("loadingOverlay").style.display = "flex"; // Mostrar el overlay de carga
 }
 
 function toggleInput(checkbox) {
@@ -128,21 +143,6 @@ function toggleInput(checkbox) {
         textInput.value = "";  // Establece el valor como cadena vacía al desmarcar
     }
 }
-
-function showLoadingOverlay() {
-    document.querySelector('.loading-overlay').style.display = 'block';
-}
-
-function hideLoadingOverlay() {
-    document.querySelector('.loading-overlay').style.display = 'none';
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('#experimentoForm').addEventListener('submit', function(event) {
-        showLoadingOverlay(); // Muestra el overlay de carga antes de enviar el formulario
-    });
-});
-
 
 
 let simulationRunning = false;
@@ -220,10 +220,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 }); 
 
-function showLoadingOverlay() {
-    document.querySelector('.loading-overlay').style.display = 'block';
-}
-
-function hideLoadingOverlay() {
-    document.querySelector('.loading-overlay').style.display = 'none';
-}

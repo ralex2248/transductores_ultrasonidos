@@ -86,17 +86,7 @@ const cancelButton = document.getElementById("cancelButton");
 const clearButton = document.getElementById("clearButton");
 const guardarButton = document.getElementById("saveButton");
 
-function checkAction(action) {
-    var confirmation = window.confirm("¿Estás seguro de que quieres " + action + "?");
 
-    if (confirmation) {
-        // Aquí pones el código que se ejecuta si el usuario presiona "Aceptar"
-        console.log(action + " confirmado.");
-    } else {
-        // Aquí pones el código que se ejecuta si el usuario presiona "Cancelar"
-        console.log(action + " cancelado.");
-    }
-}
 
 let simulationRunning = false;
 

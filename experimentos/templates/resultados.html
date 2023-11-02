@@ -10,11 +10,18 @@ Experimento con Tiempo
 <!-- Add Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Canvas for the graph -->
-<body>
-    <div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" style="display: none;"></div>
-    <canvas id="myChart"></canvas>
-</body>
+<div class="chart-container">
+    <div class="chart-card">
+        <div class="chart-title">
+            <h2>Gráficos</h2>
+        </div>
+        <!-- Canvas para el gráfico -->
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+<!-- Datos del gráfico -->
+<div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" style="display: none;"></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -29,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     minValue -= margin;
     maxValue += margin;
-
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -47,36 +53,60 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
             scales: {
                 y: {
+                    beginAtZero: false,
                     min: minValue,
                     max: maxValue,
                     title: {
                         display: true,
-                        text: 'Tu etiqueta para el eje Y'
+                        text: 'f(z)'
                     }
+                }
+            },
+            animation: {
+                onComplete: function() {
+                    // Función para ocultar el mensaje de carga, si aplica
+                    function hideLoadingOverlay() {
+    document.getElementById("loadingOverlay").style.display = "none";
+}
+
                 }
             }
         }
     });
 });
+
 </script>
 
 <style>
+    .chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 20px;
+    }
+
+    .chart-card {
+        background: #ffffff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 50px;
+        width: 640px; /* Ancho de la tarjeta */
+    }
+
+    .chart-title {
+        text-align: center;
+    }
+
     #myChart {
-    width: 600px;
-    height: 500px;
-    display: block;
-    margin: 0 auto;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* This will take the full height of the viewport */
-    margin: 0;
-}
-
-
+        width: 600px;
+        height: 500px;
+        display: block;
+        margin: 0 auto;
+    }
 </style>
 
 {% endblock %}

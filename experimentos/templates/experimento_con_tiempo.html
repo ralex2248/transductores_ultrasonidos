@@ -80,13 +80,13 @@ Experimento con Tiempo
             
             <button class="saveButton" id="saveButton">Guardar Experimento</button>
             <div class="btn-container">
-                <button class="btn start-button" type="submit" onclick="checkAction('Iniciar')" id="start-button" >Iniciar</button>
-                <button class="btn stop-button" onclick="checkAction('Detener')" id="stop-button">Detener</button>
+                <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
+                <button class="btn stop-button" onclick="checkAction(event,'Detener')" id="stop-button">Detener</button>
                 <button class="btn cancel-button" onclick="checkAction('Cancelar')" id="cancel-button" >Cancelar</button>
                 <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
             </div>
         </form>
-
+       
         
             
         <h6>Subir con datos de voltaje/tiempo.txt</h6>
@@ -114,7 +114,12 @@ Experimento con Tiempo
        
     </div>
 
+</div>
+
+  
+
     <!-- Gráficos en el lado derecho -->
+    <!-- 
     <div class="right">
         <div class="chart">
             <canvas id="chart1"></canvas>
@@ -122,50 +127,17 @@ Experimento con Tiempo
         <div class="chart">
             <canvas id="chart2"></canvas>
         </div>
-    </div>
-</div>
+    </div>-->
+</div> 
 
-<!-- Modal para el botón de Detener -->
-<div class="modal" tabindex="-1" id="stopModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detener Experimento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas detener el experimento?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmStop">Detener</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- mostrar el cargando-->
 
-<!-- Modal para el botón de Cancelar -->
-<div class="modal" tabindex="-1" id="cancelModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Cancelar Experimento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas cancelar el experimento? Todos los datos se perderán.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirmCancel">Cancelar Experimento</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; color:white; font-size:2em;">
+    Cargando...
+</div>s
+
+
+
 
 <!-- Scripts JavaScript y Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
