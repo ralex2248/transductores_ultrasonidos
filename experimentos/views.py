@@ -122,18 +122,14 @@ def imprimir_experimento(request, format=None):
     print(exp_json)
     return print('exito')
 
-def phase():
-    pass
 
-def z():
-    pass
 
 def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity):
     
     e_sensivity = sensivity
     e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
-    for _ in range(steps):
+    for step in range(steps):
         round_frequency = round(e_final_frecuency, 1)
         frecuencies.append(round_frequency)
         generador.write('FREQ '+ str(e_final_frecuency))
@@ -143,13 +139,26 @@ def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, ma
             values_ch2.append(i[1])
         max_ch1.append(np.max(values_ch1))
         max_ch2.append(np.max(values_ch2))
+
+        # SHIFT PHASE
+
+        time = (1 / 500000) * (step)
+        step+=1
+        # Calcular la correlación cruzada entre las dos señales
+        cross_corr = np.correlate(values_ch1, values_ch2, mode='full')
+
+        # Encontrar el desplazamiento de fase que maximiza la correlación
+        max_corr_idx = np.argmax(cross_corr)
+        shift_phase_value = (max_corr_idx - len(values_ch1) + 1) * time
+        shift_phase.append(shift_phase_value)
         e_final_frecuency += sensivity
 
 frecuencies = []
-
+times = []
 values_channel_1 = []
 values_channel_2 = []
 max_values_1 = []
+shift_phase = []
 
 
 def replace_zeros_with_avg(nums):
@@ -177,6 +186,7 @@ def crear_experimento(request):
         max_values_1.clear()
         max_values_2.clear()
         max_values2.clear()
+        shift_phase.clear()
         # Datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
         descripcion = request.POST.get('descripcionInput')
@@ -228,7 +238,8 @@ def crear_experimento(request):
                 formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
                 print(f"Tiempo transcurrido: {formatted_time}")
                 freq_final = frecuencies[-1]
-
+                
+                print(shift_phase)
                 # GUARDADO EN LA BASE DE DATOS POSTGRES
 
                 experimento = Experimentos(
@@ -271,6 +282,7 @@ def resultados(request):
     context = {
         'final_values': json.dumps(final_values),
         'frecuencies': json.dumps(frecuencies),
+        'shift_phase': json.dumps(shift_phase)
     }
     return render(request, 'resultados.html', context)
 
@@ -518,3 +530,4 @@ def eliminar_experimentos(request):
         return redirect('historial')
     else:
         return redirect('historial')
+        

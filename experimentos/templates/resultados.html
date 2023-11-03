@@ -13,15 +13,26 @@ Experimento con Tiempo
 <div class="chart-container">
     <div class="chart-card">
         <div class="chart-title">
-            <h2>Gráficos</h2>
+            <h2>Gráfico f(z)</h2>
         </div>
         <!-- Canvas para el gráfico -->
         <canvas id="myChart"></canvas>
     </div>
 </div>
 
+<div class="chart-container">
+    <div class="chart-card">
+        <div class="chart-title">
+            <h2>Gráfico Shift Phase</h2>
+        </div>
+        <!-- Canvas para el gráfico -->
+        <canvas id="myChart2"></canvas>
+    </div>
+</div>
+
 <!-- Datos del gráfico -->
-<div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" style="display: none;"></div>
+<div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" data-shift-phase="{{ shift_phase }}" style="display: none;"></div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -29,10 +40,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let finalValues = JSON.parse(chartDataDiv.getAttribute('data-final-values'));
     let frecuencies = JSON.parse(chartDataDiv.getAttribute('data-frecuencies'));
+    let shift_phase = JSON.parse(chartDataDiv.getAttribute('data-shift-phase'));
+
+    let minValue_2 = Math.min(...shift_phase);
+    let maxValue_2= Math.max(...shift_phase);
+    let margin_2 = (maxValue_2 - minValue_2) * 0.05;
+
+    minValue_2 -= margin_2;
+    maxValue_2 += margin_2;
 
     let minValue = Math.min(...finalValues);
     let maxValue = Math.max(...finalValues);
     let margin = (maxValue - minValue) * 0.05;
+    
+
 
     minValue -= margin;
     maxValue += margin;
@@ -56,6 +77,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     beginAtZero: false,
                     min: minValue,
                     max: maxValue,
+                    title: {
+                        display: true,
+                        text: 'f(z)'
+                    }
+                }
+            },
+            animation: {
+                onComplete: function() {
+                    // Función para ocultar el mensaje de carga, si aplica
+                    function hideLoadingOverlay() {
+    document.getElementById("loadingOverlay").style.display = "none";
+}
+
+                }
+            }
+        }
+    });
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: frecuencies,
+            datasets: [{
+                label: 'Shift phase',
+                data: shift_phase,
+                fill: false,
+                borderColor: 'rgba(255, 0, 0, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: minValue_2,
+                    max: maxValue_2,
                     title: {
                         display: true,
                         text: 'f(z)'
