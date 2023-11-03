@@ -8,7 +8,7 @@ class ExperimentoMongo(Document):
     comentario = StringField(max_length=100)
     max_values2 = ListField(FloatField())
     frecuencia = ListField(FloatField())
-
+    shift_phase = ListField(FloatField())
     def __str__(self):
         return self.nombre_experimento
 class Fluido(models.Model):
@@ -30,6 +30,7 @@ class Experimentos(models.Model):
     comentario = models.CharField(max_length=500, null=True)
     pdf_experimento = models.FileField(upload_to='experimento_pdf/', null=True, blank=True)
     tiempo_pausa = models.DurationField(default=timedelta(seconds=0))  # Valor predeterminado de 0 segundos
+    favorito = models.BooleanField(default=False)
 
     def get_tiempo_pausa_hhmmss(self):
         if self.tiempo_pausa:

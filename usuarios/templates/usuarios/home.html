@@ -57,10 +57,10 @@
       <div class="dashboard-item">
         <span class="dashboard-fluid-title"><strong>Historial Experimentos</strong></span>
         <div class="icon-container-exp">
-          <i class="fas fa-history" style="color: #551FFF;"></i>
+          <a class="fas fa-history" href="{% url 'historial' %}"  style="color: #551FFF;"></a>
         </div>
         <div class="total-fluidos">
-          <strong>{{ 1 }}</strong>
+          <strong>{{ total_experimentos }}</strong>
         </div>
       </div>
       <div class="dashboard-item">

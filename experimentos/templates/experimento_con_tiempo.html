@@ -53,7 +53,7 @@ Experimento con Tiempo
 
             <label>
                 <label for="sensibilidadInput">Tiempo de pausa:</label>
-                <input type="checkbox" id="showInputCheckbox" name="tiempoPausa" onchange="toggleInput(this)">
+                <input type="checkbox" id="checkboxPausa" onchange="toggleInput(this)">
             </label>
             
             <div id="inputContainer" style="display: none;">
@@ -132,9 +132,10 @@ Experimento con Tiempo
 
 <!-- mostrar el cargando-->
 
-<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; color:white; font-size:2em;">
-    Cargando...
-</div>s
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center; color: white; font-size: 2em;">
+    <div id="loadingText">Cargando</div>
+</div>
+
 
 
 

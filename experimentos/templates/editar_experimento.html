@@ -13,7 +13,7 @@
         {% csrf_token %}
 
         <label for="nombre_experimento">Nombre del experimento:</label>
-        <input type="text" id="nombre_experimento" name="nombre_experimento" value="{{ experimento.nombre_experimento }}" required><br>
+        <input type="text" id="nombre_experimento" name="nombre_experimento" value="{{ experimento.nombre_experimento }}" readonly><br>
 
         <label for="comentario">Comentario:</label>
         <textarea id="comentario" name="comentario" required>{{ experimento.comentario }}</textarea><br>

@@ -95,15 +95,22 @@ function checkAction(event, action) {
     var pasos = document.getElementById("pasosInput").value;
     var frecuencia = document.getElementById("frecuenciaInput").value;
     var voltaje = document.getElementById("voltajeInput").value;
+    var checkboxPausa = document.getElementById("checkboxPausa").checked; // Estado del checkbox
     var pausa = document.getElementById("pause").value;
     var formulario = document.getElementById("experimentoForm");
 
     var mensajeConfirmacion = "¿Estás seguro de que quieres " + action + "?";
 
     if (action === 'Iniciar') {
+        // Comprobar si hay campos vacíos
+        if (!nombre_fluido || !sensibilidad || !pasos || !frecuencia || !voltaje || (checkboxPausa && !pausa)) {
+            alert('Todos los campos requeridos deben estar llenos para iniciar el experimento.');
+            return; // Detiene la función si hay campos vacíos
+        }
+
         // Construye el mensaje de confirmación con los detalles del experimento
         mensajeConfirmacion += "\n\nNombre del fluido: " + nombre_fluido +
-        (pausa ? "\nTiempo de pausa: " + pausa : "") +
+        (checkboxPausa ? "\nTiempo de pausa: " + pausa : "") +
         "\nPasos: " + pasos +
         "\nFrecuencia: " + frecuencia + " Hz" +
         "\nVoltaje: " + voltaje + " V" +
@@ -111,8 +118,8 @@ function checkAction(event, action) {
 
         // Muestra la ventana de confirmación
         if (window.confirm(mensajeConfirmacion)) {
-            mostrarOverlayCargando(); // Mostrar el overlay de carga si es necesario// Si el usuario confirma, envía el formulario
-            formulario.submit();
+            mostrarOverlayCargando(); // Mostrar el overlay de carga si es necesario
+            formulario.submit(); // Si el usuario confirma, envía el formulario
         } else {
             // Si el usuario cancela, simplemente registra la acción
             console.log(action + " cancelado.");
@@ -124,6 +131,9 @@ function checkAction(event, action) {
         }
     }
 }
+
+
+
 
 
 function mostrarOverlayCargando() {

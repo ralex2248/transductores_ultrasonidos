@@ -19,7 +19,7 @@ from django.core.mail import EmailMessage
 from . import views
 from django.contrib.auth.models import User
 from usuarios.models import User
-from experimentos.models import Fluido 
+from experimentos.models import Fluido, Experimentos 
 from .models import UserLoginTimestamp
 from .models import UserActivity
 from django.shortcuts import render, redirect
@@ -149,6 +149,7 @@ def home_view(request):
     user = request.user.first_name
     total_usuarios = get_user_model().objects.count()
     total_fluidos = Fluido.objects.count() 
+    total_experiementos = Experimentos.objects.count()
 
     # Obtener el conteo de inicios de sesión en las últimas 24 horas
     logins_last_24_hours = count_logins_last_24_hours(request.user)
@@ -160,6 +161,7 @@ def home_view(request):
         'total_fluidos': total_fluidos, 
         'total_usuarios': total_usuarios,
         'recent_activities': recent_activities,
+        'total_experimentos': total_experiementos,
         'logins_last_24_hours': logins_last_24_hours  # Pasa el conteo al contexto
     })
 

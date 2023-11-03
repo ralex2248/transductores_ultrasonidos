@@ -19,4 +19,5 @@ experimentos_urlpatterns = [
     path('eliminar_experimentos/', views.eliminar_experimentos, name='eliminar_experimentos'),
     path('resultados/', views.resultados, name='resultados'),
     path('ver_experimento/<nombre_experimento>/', views.ver_experimento, name='ver_experimento')
+    
 ]
