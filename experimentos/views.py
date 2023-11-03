@@ -264,7 +264,8 @@ def crear_experimento(request):
                 nombre_experimento=nombre_experimento,
                 comentario=comentario,
                 max_values2=final_values,
-                frecuencia=frecuencies
+                frecuencia=frecuencies,
+                shift_phase=shift_phase
                 )
                 experimento_Mongo.save()
 
@@ -279,28 +280,32 @@ def crear_experimento(request):
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
 def resultados(request):
+    
     context = {
         'final_values': json.dumps(final_values),
         'frecuencies': json.dumps(frecuencies),
-        'shift_phase': json.dumps(shift_phase)
+        'shift_phase': json.dumps(shift_phase),
+
     }
     return render(request, 'resultados.html', context)
 
 def ver_experimento(request, nombre_experimento):
-    print(frecuencies)
     #esto es para visualizar uno solo
     experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre_experimento)
     experimento_mongo = ExperimentoMongo.objects.get(nombre_experimento=nombre_experimento)
 
     max_values2_mongo = experimento_mongo.max_values2
-    frecuencias_mongo = experimento_mongo.frecuencia  
-
-    print("\nFRECUENCIAS MONGO\n", frecuencias_mongo)
+    frecuencias_mongo = experimento_mongo.frecuencia 
+    shift_phase_mongo = experimento_mongo.shift_phase 
+    tiempo_formateado = experimento_postgres.tiempo.strftime('%H:%M:%S')
     
 
     context = {
         'final_values': json.dumps(max_values2_mongo),
         'frecuencies': json.dumps(frecuencias_mongo),
+        'shift_phase': json.dumps(shift_phase_mongo),
+        'experimento': experimento_postgres,
+        'tiempo_formateado':tiempo_formateado,
     }
     return render(request, 'resultados.html', context)
 
@@ -426,9 +431,6 @@ def upload_file_con_tiempo(request):
 
 @login_required
 def historial(request):
-    # Restricciones de acceso, asegurando que el usuario tiene el grupo adecuado
-
-    # Parámetros de paginación y búsqueda
     page = request.GET.get('page', 1)
     search = request.GET.get('search', '')
 

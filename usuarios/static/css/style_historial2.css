@@ -171,3 +171,14 @@ table td:last-child {
 .pagination a.addButton {
     margin: 0 5px;
 }
+
+.star {
+    font-size: 50px;
+    color: gray;
+    cursor: pointer;
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}

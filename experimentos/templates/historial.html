@@ -31,7 +31,7 @@
                     <th>Voltaje</th>
                     <th>Frecuencia Inicial</th>
                     <th>Frecuencia Final</th>
-                    <th>Tiempo</th>
+                    <th>Favorito</th>
                     <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
                 </tr>
             </thead>
@@ -47,7 +47,7 @@
                   <td>{{ experimento.voltaje }}</td>
                   <td>{{ experimento.frecuencia_inicial }}</td>
                   <td>{{ experimento.final_frecuency }}</td>
-                  <td>{{ experimento.tiempo }}</td>
+                  <td><div class="star" onclick="this.classList.toggle('active')">&#9733;</td>
                   <td>
                       <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
                           <i class="fas fa-edit"></i> Editar
@@ -65,7 +65,7 @@
             </tbody>
         </table>
         </div>
-        <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+        <button type="submit" class="deleteButton" style="margin-top: 10px;" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
       </form>
 
       <div class="pagination">

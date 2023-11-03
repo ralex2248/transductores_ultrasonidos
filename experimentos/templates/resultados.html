@@ -10,25 +10,48 @@ Experimento con Tiempo
 <!-- Add Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="chart-container">
-    <div class="chart-card">
-        <div class="chart-title">
-            <h2>Gráfico f(z)</h2>
+
+<div class="detail-container">
+    <div class="experiment-data-card" style="float: left;">
+        <div class="chart-card experiment-data-card">
+            <div class="chart-title">
+                <h2>Datos del Experimento</h2>
+            </div>
+            
+            <div class="experiment-data">
+                <p>Nombre del Experimento: {{ experimento.nombre_experimento }}</p>
+                <p>Sensibilidad: {{ experimento.sensibilidad }}</p>
+                <p>Pasos: {{ experimento.pasos }}</p>
+                <p>Frecuencia inicial: {{ experimento.frecuencia_inicial }}</p>
+                <p>Frecuencia final: {{ experimento.final_frecuency }}</p>
+                <p>Voltaje: {{ experimento.voltaje }}</p>
+                <p>Tiempo total: {{ tiempo_formateado }}</p>
+                <p>Comentario: {{ experimento.comentario }}</p>
+            </div>
+            
         </div>
-        <!-- Canvas para el gráfico -->
-        <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="chart-container" style="float: left;">
+        <div class="chart-card">
+            <div class="chart-title">
+                <h2>Gráfico f(z)</h2>
+            </div>
+            <!-- Canvas para el gráfico -->
+            <canvas id="myChart" style="display: inline-block;"></canvas>
+        </div>
+
+        <div class="chart-card" style="display: inline-block;">
+            <div class="chart-title">
+                <h2>Gráfico Shift Phase</h2>
+            </div>
+            <!-- Canvas para el gráfico -->
+            <canvas id="myChart2"></canvas>
+        </div>
     </div>
 </div>
 
-<div class="chart-container">
-    <div class="chart-card">
-        <div class="chart-title">
-            <h2>Gráfico Shift Phase</h2>
-        </div>
-        <!-- Canvas para el gráfico -->
-        <canvas id="myChart2"></canvas>
-    </div>
-</div>
+
 
 <!-- Datos del gráfico -->
 <div id="chartData" data-final-values="{{ final_values }}" data-frecuencies="{{ frecuencies }}" data-shift-phase="{{ shift_phase }}" style="display: none;"></div>
@@ -67,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 label: 'Final Values',
                 data: finalValues,
                 fill: false,
-                borderColor: 'rgba(75, 192, 192, 1)',
+                borderColor: 'rgba(0, 0, 255, 1)',
                 tension: 0.1
             }]
         },
@@ -138,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .chart-container {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
@@ -152,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         padding: 20px;
         margin-top: 50px;
         width: 640px; /* Ancho de la tarjeta */
+        margin-left: 270px;
     }
 
     .chart-title {
@@ -161,9 +185,30 @@ document.addEventListener('DOMContentLoaded', function() {
     #myChart {
         width: 600px;
         height: 500px;
-        display: block;
-        margin: 0 auto;
     }
+
+    #myChart2 {
+        width: 600px;
+        height: 500px;
+    }
+
+    .experiment-data-card {
+        width: 320px; 
+        margin-right: 20px; 
+    }
+
+    .experiment-data {
+        padding: 20px;
+        font-size: 16px;
+
+    }
+    .detail-container {
+        display: flex;
+    }
+
+
+
+
 </style>
 
 {% endblock %}

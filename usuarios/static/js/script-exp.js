@@ -135,6 +135,7 @@ function checkAction(event, action) {
 
 
 
+
 function mostrarOverlayCargando() {
     document.getElementById("loadingOverlay").style.display = "flex"; // Mostrar el overlay de carga
 }
