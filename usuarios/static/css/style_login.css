@@ -15,10 +15,13 @@
   font-size: 18px; 
   font-family: 'Montserrat', sans-serif; 
   font-weight: bold; 
-  z-index: -1;
+   z-index: -1;
   transition: margin-left 0.3s;
-  margin-left: 80px;
+   margin-left: 80px;
+   margin-top: auto;
+
 }
+
 .sidebar:hover ~ .footer {
   margin-left: 230px;
 }
