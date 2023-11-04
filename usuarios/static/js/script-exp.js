@@ -98,6 +98,8 @@ function checkAction(event, action) {
     var checkboxPausa = document.getElementById("checkboxPausa").checked; // Estado del checkbox
     var pausa = document.getElementById("pause").value;
     var formulario = document.getElementById("experimentoForm");
+    var frecuencia_final = Math.round(((parseFloat(frecuencia) + parseFloat(sensibilidad*parseFloat(pasos))) - parseFloat(sensibilidad))*10)/10;
+
 
     var mensajeConfirmacion = "¿Estás seguro de que quieres " + action + "?";
 
@@ -108,11 +110,13 @@ function checkAction(event, action) {
             return; // Detiene la función si hay campos vacíos
         }
 
+
         // Construye el mensaje de confirmación con los detalles del experimento
         mensajeConfirmacion += "\n\nNombre del fluido: " + nombre_fluido +
         (checkboxPausa ? "\nTiempo de pausa: " + pausa : "") +
         "\nPasos: " + pasos +
-        "\nFrecuencia: " + frecuencia + " Hz" +
+        "\nFrecuencia inicial: " + frecuencia + " Hz" +
+        "\nFrecuencia final: " + String(frecuencia_final) + " Hz" +
         "\nVoltaje: " + voltaje + " V" +
         "\nSensibilidad: " + sensibilidad;
 

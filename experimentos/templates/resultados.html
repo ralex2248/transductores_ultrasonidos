@@ -8,7 +8,11 @@ Experimento con Tiempo
 {% block content %}
 
 <!-- Add Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js"></script>
+
+
 
 
 <div class="detail-container">
@@ -19,14 +23,14 @@ Experimento con Tiempo
             </div>
             
             <div class="experiment-data">
-                <p>Nombre del Experimento: {{ experimento.nombre_experimento }}</p>
-                <p>Sensibilidad: {{ experimento.sensibilidad }}</p>
-                <p>Pasos: {{ experimento.pasos }}</p>
-                <p>Frecuencia inicial: {{ experimento.frecuencia_inicial }}</p>
-                <p>Frecuencia final: {{ experimento.final_frecuency }}</p>
-                <p>Voltaje: {{ experimento.voltaje }}</p>
-                <p>Tiempo total: {{ tiempo_formateado }}</p>
-                <p>Comentario: {{ experimento.comentario }}</p>
+                <p>Nombre del Experimento: <b>{{ experimento.nombre_experimento }}</b></p>
+                <p>Sensibilidad: <b>{{ experimento.sensibilidad }}</b></p>
+                <p>Pasos: <b>{{ experimento.pasos }}</b></p>
+                <p>Frecuencia inicial: <b>{{ experimento.frecuencia_inicial }} Hz</b></p>
+                <p>Frecuencia final: <b>{{ experimento.final_frecuency }} Hz</b></p>
+                <p>Voltaje: <b>{{ experimento.voltaje }} V</b></p>
+                <p>Tiempo total: <b>{{ tiempo_formateado }}</b></p>
+                <p>Comentario: <b>{{ experimento.comentario }}</b></p>
             </div>
             
         </div>
@@ -95,17 +99,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    min: minValue,
-                    max: maxValue,
-                    title: {
-                        display: true,
-                        text: 'f(z)'
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x'
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        drag: {
+                            enabled: false
+                        },
+                        pinch: {
+                            enabled: false
+                        },
+                        mode: 'x'
                     }
                 }
-            },
+            }
+        },
             animation: {
                 onComplete: function() {
                     // Función para ocultar el mensaje de carga, si aplica
@@ -113,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("loadingOverlay").style.display = "none";
 }
 
-                }
+                
             }
         }
     });
@@ -131,28 +145,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    min: minValue_2,
-                    max: maxValue_2,
-                    title: {
-                        display: true,
-                        text: 'f(z)'
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x'
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        drag: {
+                            enabled: false
+                        },
+                        pinch: {
+                            enabled: false
+                        },
+                        mode: 'x'
                     }
                 }
-            },
+            }
+        },
             animation: {
                 onComplete: function() {
                     // Función para ocultar el mensaje de carga, si aplica
                     function hideLoadingOverlay() {
     document.getElementById("loadingOverlay").style.display = "none";
-}
 
+
+                    }
                 }
             }
-        }
-    });
+        });
 });
 
 </script>

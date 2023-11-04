@@ -47,7 +47,7 @@
                   <td>{{ experimento.voltaje }}</td>
                   <td>{{ experimento.frecuencia_inicial }}</td>
                   <td>{{ experimento.final_frecuency }}</td>
-                  <td><div class="star" onclick="this.classList.toggle('active')">&#9733;</td>
+                  <td><div class="star {% if experimento.favorito %}active{% endif %}" id="star-{{ experimento.nombre_experimento }}" onclick="toggleFavorite('{{ experimento.nombre_experimento }}')">&#9733;</div></td>
                   <td>
                       <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
                           <i class="fas fa-edit"></i> Editar
@@ -93,6 +93,37 @@
       event.preventDefault();
     }
   });
+
+  function toggleFavorite(nombre_experimento) {
+			var star = document.getElementById('star-' + nombre_experimento);
+			var active = star.classList.contains('active');
+
+			// Enviar una solicitud AJAX al servidor para actualizar el modelo
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/actualizar_favorito/');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+					if (response.success) {
+						if (active) {
+							star.classList.remove('active');
+						} else {
+							star.classList.add('active');
+						}
+					} else {
+						alert(response.error);
+					}
+				} else {
+					alert('Error ' + xhr.status + ': ' + xhr.statusText);
+				}
+			};
+			xhr.send(JSON.stringify({
+				nombre_experimento: nombre_experimento,
+				favorito: !active
+			}));
+		}
+
 </script>
 
 {% endblock %}

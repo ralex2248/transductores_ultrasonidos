@@ -129,7 +129,11 @@ def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, ma
     e_sensivity = sensivity
     e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
-    for step in range(steps):
+    ti = 1/e_final_frecuency
+
+        
+    timee = (1 / 500000)
+    for _ in range(steps):
         round_frequency = round(e_final_frecuency, 1)
         frecuencies.append(round_frequency)
         generador.write('FREQ '+ str(e_final_frecuency))
@@ -137,20 +141,26 @@ def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, ma
         for i in max_val:
             values_ch1.append(i[0])
             values_ch2.append(i[1])
+
         max_ch1.append(np.max(values_ch1))
         max_ch2.append(np.max(values_ch2))
-
         # SHIFT PHASE
 
-        time = (1 / 500000) * (step)
-        step+=1
+        
         # Calcular la correlación cruzada entre las dos señales
         cross_corr = np.correlate(values_ch1, values_ch2, mode='full')
 
         # Encontrar el desplazamiento de fase que maximiza la correlación
         max_corr_idx = np.argmax(cross_corr)
-        shift_phase_value = (max_corr_idx - len(values_ch1) + 1) * time
+        shift_phase_time = (max_corr_idx - len(values_ch1) + 1) * timee
+        shift_phase_value=2*np.pi*shift_phase_time/ti
         shift_phase.append(shift_phase_value)
+        
+        print(max_ch1)
+        print(max_ch2)
+        values_ch1.clear()
+        values_ch2.clear()
+        
         e_final_frecuency += sensivity
 
 frecuencies = []
@@ -160,24 +170,14 @@ values_channel_2 = []
 max_values_1 = []
 shift_phase = []
 
-
-def replace_zeros_with_avg(nums):
-    # Calcula el promedio de los números que no son 0
-    avg = sum([num for num in nums if num != 0]) / len([num for num in nums if num != 0])
-
-    # Reemplaza los 0s en el array con el promedio
-    return [num if num != 0 else avg for num in nums]
-
 @login_required
 def crear_experimento(request):
     fluidos = Fluido.objects.all()
     if request.method == 'POST':
         global final_values
         global max_values_2
-        global max_values2
         max_values_2 = []
         final_values = []
-        max_values2 = []
         final_values.clear()
         frecuencies.clear()
 
@@ -185,7 +185,6 @@ def crear_experimento(request):
         values_channel_2.clear()
         max_values_1.clear()
         max_values_2.clear()
-        max_values2.clear()
         shift_phase.clear()
         # Datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
@@ -208,7 +207,7 @@ def crear_experimento(request):
             
             fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
-            e_sensibilidad = int(sensibilidad)
+            e_sensibilidad = float(sensibilidad)
             e_pasos = int(pasos)
             e_voltaje = float(pre_voltaje)
             e_frecuencia_inicial = float(frecuencia_inicial)
@@ -229,8 +228,7 @@ def crear_experimento(request):
                 eng.initializeStream_channel_1(nargout=0)  
                 time.sleep(2)
                 data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
-                max_values2 = replace_zeros_with_avg(max_values_2)
-                final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values2)]
+                final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
                 end_time = time.time()
                 total_time = round(end_time - start_time)
                 hours, rem = divmod(total_time, 3600)
@@ -239,7 +237,7 @@ def crear_experimento(request):
                 print(f"Tiempo transcurrido: {formatted_time}")
                 freq_final = frecuencies[-1]
                 
-                print(shift_phase)
+                
                 # GUARDADO EN LA BASE DE DATOS POSTGRES
 
                 experimento = Experimentos(
@@ -258,8 +256,6 @@ def crear_experimento(request):
                 )
                 experimento.save()
 
-                print("FRECUENCIAS ANTES DE GUARDARLAS: \n", frecuencies)
-
                 experimento_Mongo = ExperimentoMongo(
                 nombre_experimento=nombre_experimento,
                 comentario=comentario,
@@ -271,7 +267,7 @@ def crear_experimento(request):
 
                 
 
-            return redirect('resultados')
+            return redirect('ver_experimento', nombre_experimento=nombre_experimento)
         
         
         
@@ -449,6 +445,25 @@ def historial(request):
 
     template_name = 'historial.html'
     return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
+
+
+def actualizar_favorito(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        nombre_experimento = data.get('nombre_experimento')
+        favorito = data.get('favorito')
+        print(nombre_experimento)
+
+        # Actualizar el valor del modelo en la base de datos
+        try:
+            experimento = Experimentos.objects.get(nombre_experimento=nombre_experimento)
+            experimento.favorito = favorito
+            experimento.save()
+            return JsonResponse({'success': True})
+        except Experimentos.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Experimento no encontrado'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Método no permitido'})
 
 
 

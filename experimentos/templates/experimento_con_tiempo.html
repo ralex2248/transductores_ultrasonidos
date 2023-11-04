@@ -24,113 +24,76 @@ Experimento con Tiempo
 <div class="main-content">
     <!-- Rejillas ajustables en el lado izquierdo -->
     <div class="left">
+        <h1>Experimento</h1><br>
         <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
             {% csrf_token %}
-            
-            <!-- Datos del Fluido -->
-            <label for="nombre_fluido" class="labelStyle" >Nombre del Fluido:</label>
-            <select id="nombre_fluido" name="nombre_fluido" required>
-                <option value="">Selecciona un fluido</option>
-                {% for fluido in fluidos %}
-                    <option value="{{ fluido.nombre_fluido }}" data-descripcion="{{ fluido.descripcion }}">{{ fluido.nombre_fluido }}</option>
-                {% endfor %}
-            </select>
-            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
-            
-            <label for="descripcionInput">Descripción del Fluido:</label>
-            <textarea id="descripcionInput" name="descripcionInput" required readonly>{{ fluidos.descripcion }}</textarea><br>
-            
-            
-            <!-- Datos del Experimento -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Datos del Fluido -->
+                    <label for="nombre_fluido" class="labelStyle" >Nombre del Fluido:</label>
+                    <select id="nombre_fluido" name="nombre_fluido" required>
+                        <option value="">Selecciona un fluido</option>
+                        {% for fluido in fluidos %}
+                            <option value="{{ fluido.nombre_fluido }}" data-descripcion="{{ fluido.descripcion }}">{{ fluido.nombre_fluido }}</option>
+                        {% endfor %}
+                    </select>
+                    <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
+                    
+                    <label for="descripcionInput">Descripción del Fluido:</label>
+                    <textarea id="descripcionInput" name="descripcionInput" required readonly>{{ fluidos.descripcion }}</textarea><br>
+                    
+                    
+                    <!-- Datos del Experimento -->
 
-            <label for="nombre_experimento">Nombre del Experimento:</label>
-            <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
-            {% if message %}
-                <div class="alert alert-info">
-                    {{ message }}
+                    <label for="nombre_experimento">Nombre del Experimento:</label>
+                    <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
+                    {% if message %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+
+                    <label>
+                        <label for="sensibilidadInput">Tiempo de pausa:</label>
+                        <input type="checkbox" id="checkboxPausa" onchange="toggleInput(this)">
+                    </label>
+                    
+                    <div id="inputContainer" style="display: none;">
+                        <input type="number" id="pause" min="1" placeholder="Tiempo de pausa"><br>
+                    </div>
+
+                    <label for="sensibilidadInput">Sensibilidad:</label>
+                    <input type="number" id="sensibilidadInput" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
+
+                    <label for="pasosInput">Pasos:</label>
+                    <input type="number" id="pasosInput" min="10" name="pasosInput" max="10000" step="10" required><br>
+                    
+                    <label for="frecuenciaInput">Frecuencia (kHz):</label>
+                    <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
+                    
+                    <label for="voltajeInput">Voltaje (Volts):</label>
+                    <input type="number" id="voltajeInput" min="0.1" step="0.1" max="5" name="voltajeInput" required><br>
+
                 </div>
-            {% endif %}
-
-            <label>
-                <label for="sensibilidadInput">Tiempo de pausa:</label>
-                <input type="checkbox" id="checkboxPausa" onchange="toggleInput(this)">
-            </label>
-            
-            <div id="inputContainer" style="display: none;">
-                <input type="number" id="pause" min="1" placeholder="Tiempo de pausa"><br>
-            </div>
-
-            <label for="sensibilidadInput">Sensibilidad:</label>
-            <input type="number" id="sensibilidadInput" min="1" name="sensibilidadInput" required><br>
-
-            <label for="pasosInput">Pasos:</label>
-            <input type="number" id="pasosInput" min="10" name="pasosInput" max="10000" step="10" required><br>
-            
-            <label for="frecuenciaInput">Frecuencia (kHz):</label>
-            <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
-            
-            <label for="voltajeInput">Voltaje (Volts):</label>
-            <input type="number" id="voltajeInput" min="0.1" step="0.1" max="5" name="voltajeInput" required><br>
-
-            <label for="comentario">Comentario:</label>
-            <textarea id="comentario" name="comentario" required></textarea><br>
-            
-            <label for="pdf_experimento">Archivo PDF del Experimento:</label>
-            <input type="file" id="pdf_experimento" name="pdf_experimento"><br>
-            
-            <button class="saveButton" id="saveButton">Guardar Experimento</button>
-            <div class="btn-container">
-                <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
-                <button class="btn stop-button" onclick="checkAction(event,'Detener')" id="stop-button">Detener</button>
-                <button class="btn cancel-button" onclick="checkAction('Cancelar')" id="cancel-button" >Cancelar</button>
-                <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
+                <div class="col-sm-6">
+                    <label for="comentario">Comentario:</label>
+                    <textarea id="comentario" name="comentario" required></textarea><br>
+                
+                    <div class="btn-container">
+                        <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
+                        <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
+                    </div>
+                </div>
             </div>
         </form>
-       
-        
-            
-        <h6>Subir con datos de voltaje/tiempo.txt</h6>
-        <form method="post" action="{% url 'cargar_voltaje_con_tiempo' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="txt_file" id="file-input" style="display: none;">
-            <label for="file-input" class="upload-button">
-                Subir Archivo <i class="fas fa-arrow-up"></i>
-            </label>
-            <button type="submit" style="display: none;">Subir</button>
-        </form>
-        
-        
-        
-        {% if plot_html %}
-            {{ plot_html|safe }}
-        {% else %}
-            <p>No se ha subido un archivo o el formato no es compatible.</p>
-        {% endif %}
-        
-        
 
-
-        
        
     </div>
 
 </div>
 
-  
 
-    <!-- Gráficos en el lado derecho -->
-    <!-- 
-    <div class="right">
-        <div class="chart">
-            <canvas id="chart1"></canvas>
-        </div>
-        <div class="chart">
-            <canvas id="chart2"></canvas>
-        </div>
-    </div>-->
 </div> 
-
-<!-- mostrar el cargando-->
 
 <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center; color: white; font-size: 2em;">
     <div id="loadingText">Cargando</div>
