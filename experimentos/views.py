@@ -156,8 +156,6 @@ def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, ma
         shift_phase_value=2*np.pi*shift_phase_time/ti
         shift_phase.append(shift_phase_value)
         
-        print(max_ch1)
-        print(max_ch2)
         values_ch1.clear()
         values_ch2.clear()
         
@@ -447,23 +445,19 @@ def historial(request):
     return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
 
 
-def actualizar_favorito(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        nombre_experimento = data.get('nombre_experimento')
-        favorito = data.get('favorito')
-        print(nombre_experimento)
-
-        # Actualizar el valor del modelo en la base de datos
-        try:
-            experimento = Experimentos.objects.get(nombre_experimento=nombre_experimento)
-            experimento.favorito = favorito
-            experimento.save()
-            return JsonResponse({'success': True})
-        except Experimentos.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Experimento no encontrado'})
+def actualizar_favorito(request, experimento_id):
+    experimento = get_object_or_404(Experimentos, pk=experimento_id)
+    print(experimento.favorito)
+    
+    if experimento.favorito == False:
+        experimento.favorito = True
+        experimento.save()
     else:
-        return JsonResponse({'success': False, 'error': 'Método no permitido'})
+        experimento.favorito = False
+        experimento.save()
+    # Redirige de nuevo a donde corresponda, por ejemplo al listado de experimentos
+    return redirect('historial')
+
 
 
 
@@ -498,37 +492,24 @@ def agregar_fluido(request):
 @login_required
 def eliminar_fluidos(request):
     if request.method == 'POST':
-        # Getting the list of selected fluid IDs from the form
         selected_fluid_ids = request.POST.getlist('selected_fluidos')
         
-        # Deleting the selected fluids using Django's ORM
         Fluido.objects.filter(id__in=selected_fluid_ids).delete()
         
-        # Redirecting back to the fluidos page with a success message
         return redirect('fluidos')
     else:
         return redirect('fluidos')
     
 def editar_experimento(request, experimento_id):
-    # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
     experimento = get_object_or_404(Experimentos, pk=experimento_id)
-
+    print(experimento.favorito)
     if request.method == 'POST':
-        # Si se ha enviado un formulario POST, procesar los datos del formulario aquí
-
-        # Obtener los datos del formulario
         nombre_experimento= request.POST.get('nombre_experimento')
         comentario = request.POST.get('comentario')
-
-        # Actualizar el objeto Fluido con los nuevos datos
         experimento.nombre_experimento = nombre_experimento
         experimento.comentario = comentario
         experimento.save()
-
-        # Redirigir a la página de lista de fluidos (fluidos.html)
-        return redirect('historial')  # Cambia 'fluidos' por el nombre de la URL correcta
-
-    # Si la solicitud es GET, renderizar la plantilla de edición del fluido
+        return redirect('historial') 
     return render(request, 'editar_experimento.html', {'experimento': experimento})
 
 @login_required
