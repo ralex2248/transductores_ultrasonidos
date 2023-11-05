@@ -430,7 +430,7 @@ def historial(request):
 
     # Consulta de fluidos
     if search and search != "None":
-        experimentos = Experimentos.objects.filter(fecha_experimento__icontains=search).order_by('-fecha_experimento')
+        experimentos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by('nombre_experimento')
     else:
         experimentos = Experimentos.objects.all().order_by('-fecha_experimento')
 
