@@ -48,7 +48,7 @@
                   <td>{{ experimento.frecuencia_inicial }}</td>
                   <td>{{ experimento.final_frecuency }}</td>
                   <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star {% if experimento.favorito %}active{% endif %}">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
                 </a></td>
                   <td>
                       <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
@@ -57,18 +57,22 @@
                         <a href="{% url 'ver_experimento' experimento.nombre_experimento %}" class="editButton">
                           <i class="fas fa-edit"></i> Ver experimento
                       </a>
-                        <a href="" class="editButton">
-                          <i class="fas fa-edit"></i> Comparar experimento
-                      </a>
                   </td>
               </tr>
               
-                {% endfor %}
+              
+
+              {% endfor %}
             </tbody>
+            
         </table>
         </div>
-        <button type="submit" class="deleteButton" style="margin-top: 10px;" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+        <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+        <a href="{% url 'comparar_experimentos' %}" class="compareButton">
+          <i >Comparar</i>
+        </a>
       </form>
+      
 
       <div class="pagination">
         <span class="step-links">

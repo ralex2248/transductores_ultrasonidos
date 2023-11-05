@@ -63,11 +63,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 30px;
 }
 
-.addButton, a.addButton, .deleteButton, .editButton {
+.addButton, a.addButton, .deleteButton, .editButton, .compareButton {
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     padding: 10px 20px;
     text-decoration: none;
@@ -94,12 +93,29 @@ h1, h2, h3, h4, h5, h6 {
 .deleteButton {
     background-color: #ff0000;
     color: white;
+    margin-top: 10px;
 }
 
 .deleteButton:hover {
     background-color: #ff5555;
     transform: scale(1.05);
 }
+.compareButton {
+    background-color: #05009c;
+    color: white;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-style: normal;
+}
+
+.compareButton:hover {
+    background-color: #0336a6;
+    transform: scale(1.05);
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
 
 .editButton {
     background-color: #008000;
@@ -107,11 +123,14 @@ h1, h2, h3, h4, h5, h6 {
     margin:5px ;
     padding: 5px 10px;
     font-size: 14px;
+    
 }
 
 .editButton:hover {
     background-color: #006400;
     transform: scale(1.05);
+    color: white;
+    text-decoration: none;
 }
 
 .editButton:active {
@@ -153,7 +172,7 @@ table td:first-child {
 }
 
 table td:last-child {
-    font-style: italic;
+    font-style: normal;
 }
 
 .current-page {
@@ -173,7 +192,7 @@ table td:last-child {
 }
 
 .star {
-    font-size: 50px;
+    font-size: 25px;
     color: gray;
     cursor: pointer;
 }

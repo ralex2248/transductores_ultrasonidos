@@ -238,6 +238,8 @@ table td:last-child {
 .editButton:hover {
     background-color: #006400; /* Cambia el color al pasar el mouse */
     transform: scale(1.05);
+    color: white;
+    text-decoration: none;
 }
 
 .editButton:active {

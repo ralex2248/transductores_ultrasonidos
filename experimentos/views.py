@@ -82,46 +82,6 @@ def editar_fluido(request, fluido_id):
     return render(request, 'editar_fluido.html', {'fluido': fluido})
 
 
-# Create your views here.
-def insertar_datos_al_azar(request):
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client.transductores_ultrasonicos
-    fluido=Fluido.objects.create(
-        nombre_fluido='prueba',
-        descripcion='test',
-        
-    )
-    experimento = Experimentos.objects.create(
-        user=request.user,
-        nombre_experimento='Experimento Aleatorio',
-        electricidad=random.uniform(0, 10),
-        voltaje=random.uniform(0, 5), 
-        tiempo=None,
-        pdf_experimento=None,
-        fluido=fluido,
-    )
-    documento = {
-        "id_experimento":experimento.id,
-        "sensor": [25, 30, 22]
-    }
-    mi_coleccion = db.sensores
-    mi_coleccion.insert_one(documento)
-    client.close()
-    return print('exito')
-
-def imprimir_experimento(request, format=None):
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client.transductores_ultrasonicos
-    mi_coleccion = db.sensores
-    exp_list = Experimentos.objects.all()
-    exp_json = []
-    for es in exp_list:
-        resultado = mi_coleccion.find_one({"id_experimento": es.id})
-        exp_json.append({'id':es.id,'nombre':es.nombre_experimento,'resultado':resultado})
-    client.close()
-    print(exp_json)
-    return print('exito')
-
 
 
 def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity):
@@ -273,15 +233,6 @@ def crear_experimento(request):
     return render(request, 'experimento_con_tiempo.html', {'message': message, 'fluidos': fluidos})
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
-def resultados(request):
-    
-    context = {
-        'final_values': json.dumps(final_values),
-        'frecuencies': json.dumps(frecuencies),
-        'shift_phase': json.dumps(shift_phase),
-
-    }
-    return render(request, 'resultados.html', context)
 
 def ver_experimento(request, nombre_experimento):
     #esto es para visualizar uno solo
@@ -303,124 +254,17 @@ def ver_experimento(request, nombre_experimento):
     }
     return render(request, 'resultados.html', context)
 
-def comparar_Experimentos():
-    # esta compara
-    pass
-
-# Create your views here.
-def insertar_datos_al_azar(request):
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client.transductores_ultrasonicos
-    fluido=Fluido.objects.create(
-        nombre_fluido='prueba',
-        descripcion='test',
-        
-    )
-    experimento = Experimentos.objects.create(
-        user=request.user,
-        nombre_experimento='Experimento Aleatorio',
-        electricidad=random.uniform(0, 10),
-        voltaje=random.uniform(0, 5), 
-        tiempo=None,
-        pdf_experimento=None,
-        fluido=fluido,
-    )
-    documento = {
-        "id_experimento":experimento.id,
-        "sensor": [25, 30, 22]
-    }
-    mi_coleccion = db.sensores
-    mi_coleccion.insert_one(documento)
-    client.close()
-    return print('exito')
-
-def imprimir_experimento(request, format=None):
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client.transductores_ultrasonicos
-    mi_coleccion = db.sensores
-    exp_list = Experimentos.objects.all()
-    exp_json = []
-    for es in exp_list:
-        resultado = mi_coleccion.find_one({"id_experimento": es.id})
-        exp_json.append({'id':es.id,'nombre':es.nombre_experimento,'resultado':resultado})
-    client.close()
-    print(exp_json)
-    return print('exito')
-
-
 @login_required
-def experimento_pausado(request):
-    fluidos = Fluido.objects.all()
-    return render(request, 'experimento_pausado.html', {'fluidos': fluidos})
+def comparar_experimentos(request):
+
+    return render(request, 'resultados.html', context)
+
 
 @login_required
 def experimento_con_tiempo(request):
     fluidos = Fluido.objects.all()    
     return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos})
 
-@login_required
-def upload_file_pausado(request):
-    plot_html = None
-
-    if request.method == 'POST':
-        uploaded_file = request.FILES['txt_file']
-        if uploaded_file.name.endswith('.txt'):
-            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
-            with open(file_path, 'wb') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
-
-            with open(file_path, 'r') as file:
-                time = []
-                voltage = []
-                for line in file:
-                    data = line.strip().split(',')
-                    if len(data) == 2:
-                        time.append(float(data[0]))
-                        voltage.append(float(data[1]))
-
-            plt.plot(time, voltage)
-            plt.xlabel('Tiempo')
-            plt.ylabel('Voltaje')
-            plt.title('Gráfico Tiempo-Voltaje')
-
-            # Renderiza el gráfico en formato HTML
-            plot_html = mpld3.fig_to_html(plt.gcf())
-            plt.close()
-
-    return render(request, 'experimento_pausado.html', {'plot_html': plot_html})
-
-@login_required
-def upload_file_con_tiempo(request):
-    plot_html = None
-
-    if request.method == 'POST':
-        uploaded_file = request.FILES['txt_file']
-        if uploaded_file.name.endswith('.txt'):
-            file_path = os.path.join(settings.MEDIA_ROOT, uploaded_file.name)
-            with open(file_path, 'wb') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
-
-            with open(file_path, 'r') as file:
-                time = []
-                voltage = []
-                for line in file:
-                    data = line.strip().split(',')
-                    if len(data) == 2:
-                        time.append(float(data[0]))
-                        voltage.append(float(data[1]))
-
-            plt.plot(time, voltage)
-            plt.xlabel('Tiempo')
-            plt.ylabel('Voltaje')
-            plt.title('Gráfico Tiempo-Voltaje')
-
-            # Renderiza el gráfico en formato HTML
-            plot_html = mpld3.fig_to_html(plt.gcf())
-            plt.close()
-
-    return render(request, 'experimento_con_tiempo.html', {'plot_html': plot_html})
 
 
 @login_required
@@ -444,7 +288,7 @@ def historial(request):
     template_name = 'historial.html'
     return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
 
-
+@login_required
 def actualizar_favorito(request, experimento_id):
     experimento = get_object_or_404(Experimentos, pk=experimento_id)
     print(experimento.favorito)
@@ -455,7 +299,7 @@ def actualizar_favorito(request, experimento_id):
     else:
         experimento.favorito = False
         experimento.save()
-    # Redirige de nuevo a donde corresponda, por ejemplo al listado de experimentos
+    
     return redirect('historial')
 
 
@@ -463,9 +307,6 @@ def actualizar_favorito(request, experimento_id):
 
 @login_required
 def fluidos(request):
-    # Restricciones de acceso, asegurando que el usuario tiene el grupo adecuado
-
-    # Parámetros de paginación y búsqueda
     page = request.GET.get('page', 1)
     search = request.GET.get('search', '')
 
@@ -475,7 +316,7 @@ def fluidos(request):
     else:
         fluidos = Fluido.objects.all().order_by('nombre_fluido')
 
-    # Paginación de la lista de fluidos
+    
     paginator = Paginator(fluidos, 5)
     try:
         fluidos_paginate = paginator.page(page)
@@ -515,16 +356,13 @@ def editar_experimento(request, experimento_id):
 @login_required
 def eliminar_experimentos(request):
     if request.method == 'POST':
-        # Getting the list of selected fluid IDs from the form
         selected_experimentos_ids = request.POST.getlist('selected_experimentos')
-        
-        
+    
         ExperimentoMongo.objects(nombre_experimento__in=selected_experimentos_ids).delete()
         
-        # Deleting the selected fluids using Django's ORM
         Experimentos.objects.filter(nombre_experimento__in=selected_experimentos_ids).delete()
         
-        # Redirecting back to the fluidos page with a success message
+        
         return redirect('historial')
     else:
         return redirect('historial')
