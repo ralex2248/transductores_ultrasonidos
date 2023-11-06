@@ -1,6 +1,6 @@
 #greeting-container {
     text-align: center; 
-    margin-left: 240px;
+    margin-left: 260px;
     padding: 20px 0;
 }
 .flatpickr-calendar .numInputWrapper,
@@ -34,7 +34,7 @@
 #frases-motivadoras-container h2 {
     font-size: 0.9em; 
     margin-top: -40px; 
-    margin-left: 242px; 
+    margin-left: 262px; 
     padding: 20px 0;
 }
 
@@ -51,7 +51,7 @@
     line-height: 1.5;
     
     max-width: 800px;
-    margin-left: 240px;
+    margin-left: 260px;
         padding: 23px 0;
 }
 
@@ -238,10 +238,29 @@
 }
 
 .fluidos-link:hover .dashboard-item {
-    background-color: #F5F5F5; /* Slight background color change on hover */
-    transform: scale(1.03); /* Make the section slightly bigger */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
-    cursor: pointer; /* Change the cursor to indicate it's clickable */
+    background-color: #F5F5F5; 
+    transform: scale(1.03); 
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+    cursor: pointer; 
 }
-
-
+#chartContainer {
+    display: block; 
+    width: 800px;
+    height: 410px; 
+    margin: 20px auto 65px; 
+    background-color: white;
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-left: 260px;
+    margin-top: -100px; 
+  }
+  
+  #userActivityChart {
+    width: 100% !important; 
+    height: 100% !important; 
+    object-fit: cover; 
+  }
+  
+  
+    

@@ -23,9 +23,27 @@ document.getElementById("dark-mode-toggle").addEventListener("click", function()
     } else {
         body.classList.add("dark-mode");
         document.cookie = "dark-mode=enabled; path=/";
-        // Update the toggle button
+
         button.innerHTML = ' Modo Claro';
         button.classList.add("dark-mode-button");
     }
 });
+
+let inactivityTime = function () {
+    let time;
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+
+    function logout() {
+        window.location.href = '/logout/';
+    }
+
+    function resetTimer() {
+        clearTimeout(time);
+        time = setTimeout(logout, (1 * 60 * 60 + 30 * 60) * 1000); 
+    }
+};
+
+inactivityTime();
 

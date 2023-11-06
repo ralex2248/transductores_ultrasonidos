@@ -14,9 +14,18 @@ class UserActivity(models.Model):
         ordering = ['-timestamp']
 
 
+# Modificación del modelo para incluir logout_timestamp
 class UserLoginTimestamp(models.Model):
     user = models.ForeignKey('usuarios.User', on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    login_timestamp = models.DateTimeField(auto_now_add=True)
+    logout_timestamp = models.DateTimeField(null=True, blank=True)
+
+# Función para calcular los segundos pasados
+def calculate_seconds(login_time, logout_time):
+    return (logout_time - login_time).total_seconds()
+
+
+
 
 class PasswordReset(models.Model):
     user = models.ForeignKey('usuarios.User', on_delete=models.CASCADE)

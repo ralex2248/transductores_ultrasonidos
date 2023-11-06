@@ -26,6 +26,59 @@ from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
+from django.db.models import Sum, F, ExpressionWrapper, fields
+from django.db.models.functions import TruncDay
+
+def get_user_activity(request):
+    user = request.user
+
+
+    today = timezone.now()
+    start_of_week = today - timedelta(days=today.weekday())
+
+    start_of_week = start_of_week.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    activities = UserLoginTimestamp.objects.filter(
+        user=user,
+        login_timestamp__gte=start_of_week,
+        logout_timestamp__isnull=False
+    ).annotate(
+        day=TruncDay('login_timestamp'),
+        seconds_spent=ExpressionWrapper(
+            F('logout_timestamp') - F('login_timestamp'),
+            output_field=fields.DurationField()
+        )
+    ).values('day').annotate(total_seconds=Sum('seconds_spent'))
+
+
+    days_of_week = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+    activity_data = {day: 0 for day in days_of_week}
+    for activity in activities:
+
+        day_name = activity['day'].strftime('%A')  
+
+        day_name_es = translate_day_to_spanish(day_name)
+        activity_data[day_name_es] += activity['total_seconds'].total_seconds()
+
+
+    ordered_data = [activity_data[day] for day in days_of_week]
+
+    return JsonResponse({
+        'seconds_per_day': ordered_data
+    })
+
+def translate_day_to_spanish(day_name):
+    translation = {
+        'Monday': 'Lunes',
+        'Tuesday': 'Martes',
+        'Wednesday': 'Miércoles',
+        'Thursday': 'Jueves',
+        'Friday': 'Viernes',
+        'Saturday': 'Sábado',
+        'Sunday': 'Domingo'
+    }
+    return translation.get(day_name, day_name)
 
 def forgot_rut(request):
     message = ""
@@ -64,7 +117,8 @@ def forgot_rut(request):
 def count_logins_last_24_hours(user):
     now = timezone.now()
     start_time = now - timedelta(days=1)
-    return UserLoginTimestamp.objects.filter(user=user, timestamp__range=(start_time, now)).count()
+    return UserLoginTimestamp.objects.filter(user=user, login_timestamp__range=(start_time, now)).count()
+
 
 
 def change_password(request):
@@ -141,8 +195,12 @@ def forgot_password(request):
     return render(request, 'forgot_password.html', {'message': message})
 
 def logout_view(request):
+    last_login = UserLoginTimestamp.objects.filter(user=request.user, logout_timestamp__isnull=True).last()
+    if last_login:
+        last_login.logout_timestamp = timezone.now()
+        last_login.save()
     logout(request)
-    return redirect('login')  # Redirigir al usuario a la página de inicio de sesión después de cerrar sesión
+    return redirect('login')
 
 
 def home_view(request):
@@ -162,7 +220,7 @@ def home_view(request):
         'total_usuarios': total_usuarios,
         'recent_activities': recent_activities,
         'total_experimentos': total_experiementos,
-        'logins_last_24_hours': logins_last_24_hours  # Pasa el conteo al contexto
+        'logins_last_24_hours': logins_last_24_hours
     })
 
 
@@ -197,7 +255,7 @@ def login_view(request):
         if user:
             login(request, user)
 
-            # Registrar el inicio de sesión en UserLoginTimestamp
+
             login_timestamp = UserLoginTimestamp(user=user)
             login_timestamp.save()
 

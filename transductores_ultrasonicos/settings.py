@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'transductores_ultrasonicos.urls'
@@ -88,9 +89,9 @@ MONGODB_PORT = 27017
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'trans', ##nombrebd
+        'NAME': 'consu', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'password',  ##passdb
+        'PASSWORD': 'AGUANTEMESSI2023$',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -153,4 +154,7 @@ EMAIL_HOST_USER = 'alexthunder42@gmail.com'
 EMAIL_HOST_PASSWORD = '4ak3Y8TLnRFmQA2q'
 
 mongoengine.connect(db=MONGODB_DATABASE_NAME, host=MONGODB_HOST, port=MONGODB_PORT)
+
+SESSION_COOKIE_AGE = 5460
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

@@ -19,7 +19,8 @@ urlpatterns = [
     path('enter-code/', enter_code, name='enter_code'),
     path('experimentos/', include(experimentos_urlpatterns)),
     path('logout/', views.logout_view, name='logout'),
-    path('ajustes/', views.ajustes, name='ajustes')
+    path('ajustes/', views.ajustes, name='ajustes'),
+    path('api/user_activity/', views.get_user_activity, name='user_activity_api'),
 
 
 
