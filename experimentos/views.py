@@ -85,24 +85,25 @@ def editar_fluido(request, fluido_id):
 
 
 def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity):
-    
+    #Se declaran variables
     e_sensivity = sensivity
-    e_actual_frecuency = actual_frecuency
     e_final_frecuency = actual_frecuency
-    ti = 1/e_final_frecuency
+    
+    ti = 1/e_final_frecuency                                #ti es un valor utilizando para la fórmula de shift phase
 
-        
-    timee = (1 / 500000)
-    for _ in range(steps):
-        round_frequency = round(e_final_frecuency, 1)
-        frecuencies.append(round_frequency)
-        generador.write('FREQ '+ str(e_final_frecuency))
-        max_val = engine.acquireData_channel_1()
+    
+    timee = (1 / 500000)                                    #timee es el tiempo teórico entre cada toma de datos
+    
+    for _ in range(steps):                                  #Se ejecuta el ciclo for según los pasos establecidos
+        round_frequency = round(e_final_frecuency, 1)       #Se redondea la frecuencia para un guardado más prolijo
+        frecuencies.append(round_frequency)                 #Se agrega la frecuencia al array de frecuencias
+        generador.write('FREQ '+ str(e_final_frecuency))    #Se cambia la frecuencia del generador de ondas
+        max_val = engine.acquireData_channel_1()            #Se ejecuta la toma de datos para el motor de Matlab
         for i in max_val:
-            values_ch1.append(i[0])
+            values_ch1.append(i[0])                         #Se ordenan los datos recibidos y se separaran en distintos arrays para los distintos canales
             values_ch2.append(i[1])
 
-        max_ch1.append(np.max(values_ch1))
+        max_ch1.append(np.max(values_ch1))                  #Se agregan los valores máximos por canal a un array de valores máximos
         max_ch2.append(np.max(values_ch2))
         # SHIFT PHASE
 
@@ -254,10 +255,44 @@ def ver_experimento(request, nombre_experimento):
     }
     return render(request, 'resultados.html', context)
 
+
+def mostrar_favoritos(request):
+    mostrar_favoritos = request.GET.get('favoritos', 'false')
+    
+    if mostrar_favoritos == 'true':
+        experimentos = Experimentos.objects.filter(favorito=True)
+    else:
+        experimentos = Experimentos.objects.all()
+    
+    context = {'experimentos': experimentos}
+    return render(request, 'historial.html', context)
+
 @login_required
 def comparar_experimentos(request):
+    context = {}
+    if request.method == 'POST':
+        nombres_experimentos = request.GET.getlist('selected_experimentos[]')
+        experimentos_postgres = list(Experimentos.objects.filter(nombre_experimento__in=nombres_experimentos))
+        experimentos_mongo = list(ExperimentoMongo.objects.filter(nombre_experimento__in=nombres_experimentos))
 
+        data_sets = []
+        for i, exp_mongo in enumerate(experimentos_mongo):
+            exp_postgres = experimentos_postgres[i]
+            data_set = {
+                'max_values2': exp_mongo.max_values2,
+                'frecuencias': exp_mongo.frecuencia,
+                'shift_phase': exp_mongo.shift_phase,
+                'nombre_experimento': exp_postgres.nombre_experimento,
+                'tiempo_formateado': exp_postgres.tiempo.strftime('%H:%M:%S'),
+            }
+            data_sets.append(data_set)
+
+        context = {
+            'data_sets': data_sets,
+        }
     return render(request, 'resultados.html', context)
+
+
 
 
 @login_required
@@ -271,14 +306,15 @@ def experimento_con_tiempo(request):
 def historial(request):
     page = request.GET.get('page', 1)
     search = request.GET.get('search', '')
+    favoritos = request.GET.get('favoritos', 'false')
 
-    # Consulta de fluidos
-    if search and search != "None":
+    if favoritos == 'true':
+        experimentos = Experimentos.objects.filter(favorito=True).order_by('-fecha_experimento')
+    elif search and search != "None":
         experimentos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by('nombre_experimento')
     else:
         experimentos = Experimentos.objects.all().order_by('-fecha_experimento')
 
-    # Paginación de la lista de fluidos
     paginator = Paginator(experimentos, 5)
     try:
         experimentos_paginate = paginator.page(page)
@@ -287,6 +323,9 @@ def historial(request):
 
     template_name = 'historial.html'
     return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
+
+
+
 
 @login_required
 def actualizar_favorito(request, experimento_id):
