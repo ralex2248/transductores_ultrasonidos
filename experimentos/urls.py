@@ -16,5 +16,6 @@ experimentos_urlpatterns = [
     path('ver_experimento/<str:nombre_experimento>/', views.ver_experimento, name='ver_experimento'),
     path('actualizar_favorito/<int:experimento_id>/', views.actualizar_favorito, name='actualizar_favorito'),
     path('comparar_experimentos/', views.comparar_experimentos, name='comparar_experimentos'),
+    path('mostrar_favoritos/', views.mostrar_favoritos, name="mostar_favoritos"),
     
 ]

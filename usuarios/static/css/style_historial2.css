@@ -7,19 +7,14 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
+
 .action-buttons {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
+
 
 .main-content {
     margin: 0 auto;
@@ -137,6 +132,13 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #004000;
     transform: translateY(0);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.fav_checkbox {
+    align-items: center;
+
+}
+.fav_checkbox:hover {
+    cursor: pointer;
 }
 
 table {

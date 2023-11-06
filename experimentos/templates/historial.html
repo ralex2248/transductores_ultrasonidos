@@ -5,6 +5,37 @@
 <link rel="stylesheet" href="{% static 'css/style_historial2.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
+<style>
+ body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+    z-index: 1;
+}
+
+.container::before {
+    content: "";
+    background-image: url('{% static "img/background1.webp" %}');
+    background-size: auto; /* Usar auto para mantener el tamaño original de la imagen */
+    background-position: center center; /* La imagen principal estará centrada */
+    background-repeat: repeat; /* La imagen se repetirá en ambas direcciones */
+    background-attachment: fixed;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+</style>
+
 <div class="container">
   <div class="main-content">
     <div class="left">
@@ -13,6 +44,8 @@
         <div class="action-buttons">
             <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
             <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
+            <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
+            <label for="favs_checkbox">Mostrar solo favoritos</label>
         </div>
     </form>
     
@@ -39,7 +72,7 @@
                 {% for experimento in experimentos_paginate %}
                 <tr>
                   <td>
-                      <input type="checkbox" name="selected_experimentos" value="{{ experimento.nombre_experimento }}">
+                      <input type="checkbox" name="selected_experimentos[]" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
                   </td>
                   <td>{{ experimento.nombre_experimento }}</td>
                   <td>{{ experimento.comentario }}</td>
@@ -99,6 +132,26 @@
       event.preventDefault();
     }
   });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const favCheckbox = document.getElementById('favs_checkbox');
+
+    // Verificar el valor actual de 'favoritos' en la consulta y establecer el estado del checkbox.
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('favoritos') === 'true') {
+        favCheckbox.checked = true;
+    } else {
+        favCheckbox.checked = false;
+    }
+
+    favCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            window.location.href = window.location.pathname + '?favoritos=true';
+        } else {
+            window.location.href = window.location.pathname;
+        }
+    });
+});
 
 
 </script>
