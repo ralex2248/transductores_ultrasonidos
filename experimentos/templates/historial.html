@@ -12,18 +12,18 @@
     height: 100%;
 }
 
-.container {
+.container1 {
     position: relative;
     min-height: 100vh;
     z-index: 1;
 }
 
-.container::before {
+.container1::before {
     content: "";
     background-image: url('{% static "img/background1.webp" %}');
-    background-size: auto; /* Usar auto para mantener el tamaño original de la imagen */
-    background-position: center center; /* La imagen principal estará centrada */
-    background-repeat: repeat; /* La imagen se repetirá en ambas direcciones */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
     background-attachment: fixed;
     opacity: 0.4;
     top: 0;
@@ -34,92 +34,94 @@
     z-index: -1;
 }
 
+
 </style>
-
-<div class="container">
-  <div class="main-content">
-    <div class="left">
-      <h1>Historial de Experimentos</h1>
-      <form method="get" action="{% url 'historial' %}">
-        <div class="action-buttons">
-            <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
-            <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
-            <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
-            <label for="favs_checkbox">Mostrar solo favoritos</label>
-        </div>
-    </form>
-    
-      
-      
-      <form method="post" action="{% url 'eliminar_experimentos' %}" id="delete_fluidos_form">
-        {% csrf_token %}
-        <div class="grid">
-          <table>
-            <thead>
-                <tr>
-                    <th></th> <!-- Columna para checkboxes -->
-                    <th>Nombre</th>
-                    <th>Comentario</th>
-                    <th>Fecha</th>
-                    <th>Voltaje</th>
-                    <th>Frecuencia Inicial</th>
-                    <th>Frecuencia Final</th>
-                    <th>Favorito</th>
-                    <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for experimento in experimentos_paginate %}
-                <tr>
-                  <td>
-                      <input type="checkbox" name="selected_experimentos[]" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
-                  </td>
-                  <td>{{ experimento.nombre_experimento }}</td>
-                  <td>{{ experimento.comentario }}</td>
-                  <td>{{ experimento.fecha_experimento }}</td>
-                  <td>{{ experimento.voltaje }}</td>
-                  <td>{{ experimento.frecuencia_inicial }}</td>
-                  <td>{{ experimento.final_frecuency }}</td>
-                  <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star {% if experimento.favorito %}active{% endif %}">
-                    <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
-                </a></td>
-                  <td>
-                      <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
-                          <i class="fas fa-edit"></i> Editar
-                      </a>
-                        <a href="{% url 'ver_experimento' experimento.nombre_experimento %}" class="editButton">
-                          <i class="fas fa-edit"></i> Ver experimento
-                      </a>
-                  </td>
-              </tr>
-              
-              
-
-              {% endfor %}
-            </tbody>
-            
-        </table>
-        </div>
-        <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
-        <a href="{% url 'comparar_experimentos' %}" class="compareButton">
-          <i >Comparar</i>
-        </a>
+<div class="container1">
+  <div class="container">
+    <div class="main-content">
+      <div class="left">
+        <h1>Historial de Experimentos</h1>
+        <form method="get" action="{% url 'historial' %}">
+          <div class="action-buttons">
+              <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
+              <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
+              <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
+              <label for="favs_checkbox">Mostrar solo favoritos</label>
+          </div>
       </form>
       
+        
+        
+        <form method="post" action="{% url 'eliminar_experimentos' %}" id="delete_fluidos_form">
+          {% csrf_token %}
+          <div class="grid">
+            <table>
+              <thead>
+                  <tr>
+                      <th></th> <!-- Columna para checkboxes -->
+                      <th>Nombre</th>
+                      <th>Comentario</th>
+                      <th>Fecha</th>
+                      <th>Voltaje</th>
+                      <th>Frecuencia Inicial</th>
+                      <th>Frecuencia Final</th>
+                      <th>Favorito</th>
+                      <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for experimento in experimentos_paginate %}
+                  <tr>
+                    <td>
+                        <input type="checkbox" name="selected_experimentos[]" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
+                    </td>
+                    <td>{{ experimento.nombre_experimento }}</td>
+                    <td>{{ experimento.comentario }}</td>
+                    <td>{{ experimento.fecha_experimento }}</td>
+                    <td>{{ experimento.voltaje }}</td>
+                    <td>{{ experimento.frecuencia_inicial }}</td>
+                    <td>{{ experimento.final_frecuency }}</td>
+                    <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star {% if experimento.favorito %}active{% endif %}">
+                      <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
+                  </a></td>
+                    <td>
+                        <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                          <a href="{% url 'ver_experimento' experimento.nombre_experimento %}" class="editButton">
+                            <i class="fas fa-edit"></i> Ver experimento
+                        </a>
+                    </td>
+                </tr>
+                
+                
 
-      <div class="pagination">
-        <span class="step-links">
-          {% if experimentos_paginate.has_previous %}
-          <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
-          <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
-          
-          {% endif %}
-          <span class="current-page">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
-          {% if experimentos_paginate.has_next %}
-          <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
-          <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
-          {% endif %}
-        </span>
+                {% endfor %}
+              </tbody>
+              
+          </table>
+          </div>
+          <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+          <a href="{% url 'comparar_experimentos' %}" class="compareButton">
+            <i >Comparar</i>
+          </a>
+        </form>
+        
+
+        <div class="pagination">
+          <span class="step-links">
+            {% if experimentos_paginate.has_previous %}
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
+            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
+            
+            {% endif %}
+            <span class="current-page">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
+            {% if experimentos_paginate.has_next %}
+            <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
+            <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
+            {% endif %}
+          </span>
+        </div>
       </div>
     </div>
   </div>

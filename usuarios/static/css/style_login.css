@@ -50,6 +50,7 @@ main {
   background-color: rgba(60, 56, 52, 0.95);
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  z-index: 2;
 }
 
 .sidebar-item {
