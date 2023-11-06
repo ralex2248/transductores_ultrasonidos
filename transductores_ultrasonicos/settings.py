@@ -89,9 +89,9 @@ MONGODB_PORT = 27017
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'trans', ##nombrebd
+        'NAME': 'db2', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'password',  ##passdb
+        'PASSWORD': 'toto',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
