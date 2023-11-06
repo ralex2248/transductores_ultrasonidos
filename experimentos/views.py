@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -84,7 +84,7 @@ def editar_fluido(request, fluido_id):
 
 
 
-def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity):
+def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, max_ch2, engine, actual_frecuency, steps, sensivity, pausa):
     #Se declaran variables
     e_sensivity = sensivity
     e_final_frecuency = actual_frecuency
@@ -93,8 +93,9 @@ def data_acquisition(frecuencies, generador, values_ch1, values_ch2, max_ch1, ma
 
     
     timee = (1 / 500000)                                    #timee es el tiempo teórico entre cada toma de datos
-    
-    for _ in range(steps):                                  #Se ejecuta el ciclo for según los pasos establecidos
+
+    for _ in range(steps):
+        time.sleep(pausa)                                  #Se ejecuta el ciclo for según los pasos establecidos
         round_frequency = round(e_final_frecuency, 1)       #Se redondea la frecuencia para un guardado más prolijo
         frecuencies.append(round_frequency)                 #Se agrega la frecuencia al array de frecuencias
         generador.write('FREQ '+ str(e_final_frecuency))    #Se cambia la frecuencia del generador de ondas
@@ -151,19 +152,17 @@ def crear_experimento(request):
         nombre_experimento = request.POST.get('nombre_experimento')
         sensibilidad = request.POST.get('sensibilidadInput')
         frecuencia_inicial = request.POST.get('frecuenciaInput')
-        pausa = request.POST.get('pausa')
+        pausa = request.POST.get('pause')
         pasos = request.POST.get('pasosInput')
         pre_voltaje = request.POST.get('voltajeInput')
         pdf_experimento = request.FILES.get('pdf_experimento')
         comentario = request.POST.get('comentario')
 
         message = ''
-
         if Experimentos.objects.filter(nombre_experimento=nombre_experimento).exists():
             message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
 
         else:
-            
             fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
             e_sensibilidad = float(sensibilidad)
@@ -173,56 +172,62 @@ def crear_experimento(request):
 
             start_time = time.time()
 
-            #eng = matlab.engine.start_matlab()
+            eng = matlab.engine.start_matlab()
             rm = hl.ResourceManager()
 
             generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
             generador.write('VOLT '+ pre_voltaje)
-
-            if pausa:
-                tiempo_pausa = pausa
+            if pausa != None:
+                e_pausa = int(pausa)
+                pausa_time = e_pausa * e_pasos
+                hours2, rem2 = divmod(pausa_time, 3600)
+                minutes2, seconds2 = divmod(rem2, 60)
+                formatted_time2 = "{:02}:{:02}:{:02}".format(int(hours2), int(minutes2), int(seconds2))
+                pausa = str(formatted_time2)
             else:
-                time.sleep(3)
-                eng.initializeStream_channel_1(nargout=0)  
-                time.sleep(2)
-                data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad)
-                final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
-                end_time = time.time()
-                total_time = round(end_time - start_time)
-                hours, rem = divmod(total_time, 3600)
-                minutes, seconds = divmod(rem, 60)
-                formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
-                print(f"Tiempo transcurrido: {formatted_time}")
-                freq_final = frecuencies[-1]
-                
-                
-                # GUARDADO EN LA BASE DE DATOS POSTGRES
+                pausa = '00:00:00'
+                e_pausa = 0
+            time.sleep(3)
+            eng.initializeStream_channel_1(nargout=0)  
+            time.sleep(2)
+            data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad, e_pausa)
+            final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
+            end_time = time.time()
+            total_time = round(end_time - start_time)
+            hours, rem = divmod(total_time, 3600)
+            minutes, seconds = divmod(rem, 60)
+            formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
+            freq_final = frecuencies[-1]
+            
+            
+            # GUARDADO EN LA BASE DE DATOS POSTGRES
+            
+            experimento = Experimentos(
+            user=request.user,  # Usuario actual
+            fluido=fluido,  # Usar el Fluido recién creado
+            sensibilidad = sensibilidad,
+            pasos = pasos,
+            comentario = comentario,
+            nombre_experimento=nombre_experimento,
+            frecuencia_inicial=frecuencia_inicial,
+            voltaje=pre_voltaje,
+            fecha_experimento=datetime.now().date(),
+            pdf_experimento=pdf_experimento,
+            tiempo = str(formatted_time),
+            tiempo_pausa = pausa,
+            final_frecuency = freq_final
+            )
+            experimento.save()
 
-                experimento = Experimentos(
-                user=request.user,  # Usuario actual
-                fluido=fluido,  # Usar el Fluido recién creado
-                sensibilidad = sensibilidad,
-                pasos = pasos,
-                comentario = comentario,
-                nombre_experimento=nombre_experimento,
-                frecuencia_inicial=frecuencia_inicial,
-                voltaje=pre_voltaje,
-                fecha_experimento=datetime.now().date(),
-                pdf_experimento=pdf_experimento,
-                tiempo = str(formatted_time),
-                final_frecuency = freq_final
-                )
-                experimento.save()
-
-                experimento_Mongo = ExperimentoMongo(
-                nombre_experimento=nombre_experimento,
-                comentario=comentario,
-                max_values2=final_values,
-                frecuencia=frecuencies,
-                shift_phase=shift_phase
-                )
-                experimento_Mongo.save()
+            experimento_Mongo = ExperimentoMongo(
+            nombre_experimento=nombre_experimento,
+            comentario=comentario,
+            max_values2=final_values,
+            frecuencia=frecuencies,
+            shift_phase=shift_phase
+            )
+            experimento_Mongo.save()
 
                 
 
@@ -236,7 +241,6 @@ def crear_experimento(request):
 
 
 def ver_experimento(request, nombre_experimento):
-    #esto es para visualizar uno solo
     experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre_experimento)
     experimento_mongo = ExperimentoMongo.objects.get(nombre_experimento=nombre_experimento)
 
@@ -244,6 +248,7 @@ def ver_experimento(request, nombre_experimento):
     frecuencias_mongo = experimento_mongo.frecuencia 
     shift_phase_mongo = experimento_mongo.shift_phase 
     tiempo_formateado = experimento_postgres.tiempo.strftime('%H:%M:%S')
+    tiempo_formateado_pausa = experimento_postgres.tiempo_pausa
     
 
     context = {
@@ -252,6 +257,7 @@ def ver_experimento(request, nombre_experimento):
         'shift_phase': json.dumps(shift_phase_mongo),
         'experimento': experimento_postgres,
         'tiempo_formateado':tiempo_formateado,
+        'tiempo_formateado_pausa':tiempo_formateado_pausa,
     }
     return render(request, 'resultados.html', context)
 
@@ -396,7 +402,7 @@ def editar_experimento(request, experimento_id):
 def eliminar_experimentos(request):
     if request.method == 'POST':
         selected_experimentos_ids = request.POST.getlist('selected_experimentos')
-    
+        
         ExperimentoMongo.objects(nombre_experimento__in=selected_experimentos_ids).delete()
         
         Experimentos.objects.filter(nombre_experimento__in=selected_experimentos_ids).delete()

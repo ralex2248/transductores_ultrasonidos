@@ -156,7 +156,10 @@ function toggleInput(checkbox) {
         textInput.disabled = true;
         textInput.value = "";  // Establece el valor como cadena vacía al desmarcar
     }
+
+    textInput.disabled = !checkbox.checked; // Asegura que el campo esté habilitado/deshabilitado según el estado del checkbox
 }
+
 
 
 let simulationRunning = false;

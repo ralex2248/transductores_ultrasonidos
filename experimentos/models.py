@@ -31,18 +31,3 @@ class Experimentos(models.Model):
     pdf_experimento = models.FileField(upload_to='experimento_pdf/', null=True, blank=True)
     tiempo_pausa = models.DurationField(default=timedelta(seconds=0))  # Valor predeterminado de 0 segundos
     favorito = models.BooleanField(default=False)
-
-    def get_tiempo_pausa_hhmmss(self):
-        if self.tiempo_pausa:
-            return str(self.tiempo_pausa)
-        return None
-
-    def set_tiempo_pausa_hhmmss(self, tiempo_formato_hhmmss):
-        try:
-            tiempo_pausa = timedelta(hours=int(tiempo_formato_hhmmss[0:2]),
-                                    minutes=int(tiempo_formato_hhmmss[3:5]),
-                                    seconds=int(tiempo_formato_hhmmss[6:8]))
-            self.tiempo_pausa = tiempo_pausa
-        except ValueError:
-            # Manejar cualquier error de formato
-            pass
