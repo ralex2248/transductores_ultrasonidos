@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np

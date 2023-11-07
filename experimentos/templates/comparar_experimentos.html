@@ -12,6 +12,25 @@ Experimento con Tiempo
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js"></script>
 
+<div class="detail-container">
+    <div class="chart-container" style="float: left;">
+        <div class="chart-card">
+            <div class="chart-title">
+                <h2>Gráfico f(z)</h2>
+            </div>
+            <!-- Canvas para el gráfico -->
+            <canvas id="myChart" style="display: inline-block;"></canvas>
+        </div>
+
+        <div class="chart-card" style="display: inline-block;">
+            <div class="chart-title">
+                <h2>Gráfico Shift Phase</h2>
+            </div>
+            <!-- Canvas para el gráfico -->
+            <canvas id="myChart2"></canvas>
+        </div>
+    </div>
+</div>
 
 
     {% for experimento in experimentos %}
@@ -25,10 +44,7 @@ Experimento con Tiempo
     {% endfor %}
 
     <!-- El contenedor y el canvas del gráfico -->
-    <div style="position: relative; height:40vh; width:80vw">
-        <canvas id="myChart"></canvas>
-    </div>
-</div>
+
 
 
 
@@ -41,11 +57,13 @@ Experimento con Tiempo
         let chartDataElements = document.getElementsByClassName('chartData');
         let datasets = [];
         let allFrequencies = new Set();
+        let shift_phase_dataset = [];
     
         // Crear datasets basados en los datos de cada experimento
         Array.from(chartDataElements).forEach(function(chartDataDiv) {
             let finalValues = JSON.parse(chartDataDiv.getAttribute('data-final-values'));
             let frecuencies = JSON.parse(chartDataDiv.getAttribute('data-frecuencies'));
+            let shift_phase = JSON.parse(chartDataDiv.getAttribute('data-shift-phase'));
             let nombre = chartDataDiv.getAttribute('data-nombre');
     
             frecuencies.forEach(frequency => allFrequencies.add(frequency));
@@ -53,7 +71,19 @@ Experimento con Tiempo
             datasets.push({
                 label: nombre,
                 data: finalValues,
+                fill: false,
+                borderWidth: 1.8, 
+                pointRadius: 0.5,
+                tension: 0.4
                 // Estilos personalizados para cada conjunto de datos, si es necesario
+            });
+            shift_phase_dataset.push({
+                label: nombre,
+                data: shift_phase,
+                fill: false,
+                borderWidth: 1.8, 
+                pointRadius: 0.5, 
+                tension: 0.4
             });
         });
     
@@ -65,7 +95,43 @@ Experimento con Tiempo
             type: 'line',
             data: {
                 labels: allFrequencies,
-                datasets: datasets
+                datasets: datasets,
+            },
+            options: {
+                plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x'
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        drag: {
+                            enabled: false
+                        },
+                        pinch: {
+                            enabled: false
+                        },
+                        mode: 'x'
+                    }
+                }
+            }
+            }
+        });
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: allFrequencies,
+                datasets: shift_phase_dataset,
+                fill: false,
+                borderColor: 'rgba(255, 0, 0, 1)',
+                borderWidth: 1.8, 
+                pointRadius: 0.5, 
+                pointBackgroundColor: 'rgba(255, 0, 0, 1)',
+                tension: 0.4
             },
             options: {
                 plugins: {
@@ -92,4 +158,60 @@ Experimento con Tiempo
         });
     });
     </script>
+
+
+<style>
+    .chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 20px;
+    }
+
+    .chart-card {
+        background: #ffffff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 50px;
+        width: 640px; /* Ancho de la tarjeta */
+        margin-left: 270px;
+    }
+
+    .chart-title {
+        text-align: center;
+    }
+
+    #myChart {
+        width: 600px;
+        height: 500px;
+    }
+
+    #myChart2 {
+        width: 600px;
+        height: 500px;
+    }
+
+    .experiment-data-card {
+        width: 320px; 
+        margin-right: 20px; 
+    }
+
+    .experiment-data {
+        padding: 20px;
+        font-size: 16px;
+
+    }
+    .detail-container {
+        display: flex;
+    }
+
+
+
+
+</style>
+
 {% endblock %}
