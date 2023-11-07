@@ -68,7 +68,9 @@
       <div class="dashboard-item">
         <span class="dashboard-fluid-title"><strong>Fluidos Totales</strong></span>
         <div class="icon-container">
-          <a href="{% url 'fluidos' %}"i class="fas fa-flask" style="color: #FF6A00;"></i></a>
+          <a href="{% url 'fluidos' %}" style="color: #FF6A00;">
+            <i class="fas fa-flask"></i>
+          </a>
         </div>
         <div class="total-fluidos">
           <strong>{{ total_fluidos }}</strong>
