@@ -5,38 +5,6 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
 
-<style>
-  html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    position: center;
-    min-height: 100vh;
-    z-index: 1;
-  }
-  
-  .container::before {
-    content: "";
-    background-image: url('{% static "img/background1.webp" %}');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: repeat;
-    background-attachment: fixed;
-    opacity: 0.4;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    z-index: -1;
-  }
-</style>
-
-
   <div class="container">
   <div class="main-content">
     <div class="left">
@@ -58,10 +26,7 @@
   </div>
 </div>
 
-<script>
-    function goBack() {
-      window.history.back();
-    }
-</script>
+<script src="{% static 'js/script-home.js' %}"></script>
+
 
 {% endblock %}
