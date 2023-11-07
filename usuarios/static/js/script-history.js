@@ -24,3 +24,5 @@ document.getElementById('delete_fluidos_button').addEventListener('click', funct
         }
     });
 });
+
+

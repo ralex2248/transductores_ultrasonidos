@@ -71,9 +71,9 @@
           </table>
           </div>
           <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
-          <a href="{% url 'comparar_experimentos' %}" class="compareButton">
-            <i >Comparar</i>
-          </a>
+          <button type="button" id="compareButton" class="compareButton">
+            <i>Comparar</i>
+          </button>
         </form>
         
 
@@ -97,5 +97,17 @@
 </div>
 
 <script src="{% static 'js/script-history.js' %}"></script>
+
+<script>
+  document.getElementById('delete_fluidos_button').addEventListener('click', function() {
+    document.getElementById('delete_fluidos_form').action = "{% url 'eliminar_experimentos' %}";
+    document.getElementById('delete_fluidos_form').submit();
+  });
+
+  document.getElementById('compareButton').addEventListener('click', function() {
+    document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
+    document.getElementById('delete_fluidos_form').submit();
+  });
+</script>
 
 {% endblock %}

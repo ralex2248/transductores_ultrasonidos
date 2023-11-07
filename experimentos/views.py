@@ -267,7 +267,7 @@ def ver_experimento(request, nombre_experimento):
 @login_required
 def comparar_experimentos(request):
     nombres_experimentos = request.POST.getlist('selected_experimentos')
-
+    print(nombres_experimentos)
     datos_experimentos = []
     for nombre in nombres_experimentos:
         experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre)
@@ -278,6 +278,7 @@ def comparar_experimentos(request):
         shift_phase_mongo = experimento_mongo.shift_phase 
         tiempo_formateado = experimento_postgres.tiempo.strftime('%H:%M:%S')
         tiempo_formateado_pausa = experimento_postgres.tiempo_pausa
+        print(max_values2_mongo)
 
         datos_experimentos.append({
             'nombre': nombre,
