@@ -1,17 +1,13 @@
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const selectFluido = document.getElementById("nombre_fluido");
-    const descripcionFluido = document.getElementById("descripcionInput");
-
-    selectFluido.addEventListener("change", function() {
-        const selectedFluido = selectFluido.value;
-
-        const fluidoSeleccionado = Array.from(selectFluido.options).find(option => option.value === selectedFluido);
-        
-
-        descripcionFluido.value = fluidoSeleccionado.dataset.descripcion;
-    });
+function updateDescripcion() {
+    var select = document.getElementById('nombre_fluido');
+    var descripcion = select.options[select.selectedIndex].getAttribute('data-descripcion');
+    document.getElementById('descripcionInput').textContent = descripcion;
+}
+// Llamada a la función updateDescripcion para establecer la descripción al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    updateDescripcion(); // Esto establecerá la descripción cuando la página se cargue
 });
 
 // Obtener los valores de las entradas ajustables

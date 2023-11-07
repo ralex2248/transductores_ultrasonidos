@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -163,77 +163,79 @@ def crear_experimento(request):
             message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
 
         else:
-            fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
+            try:
+                fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
-            e_sensibilidad = float(sensibilidad)
-            e_pasos = int(pasos)
-            e_voltaje = float(pre_voltaje)
-            e_frecuencia_inicial = float(frecuencia_inicial)
+                e_sensibilidad = float(sensibilidad)
+                e_pasos = int(pasos)
+                e_voltaje = float(pre_voltaje)
+                e_frecuencia_inicial = float(frecuencia_inicial)
 
-            start_time = time.time()
+                start_time = time.time()
 
-            #eng = matlab.engine.start_matlab()
-            rm = hl.ResourceManager()
+                eng = matlab.engine.start_matlab()
+                rm = hl.ResourceManager()
 
-            generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
+                generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
-            generador.write('VOLT '+ pre_voltaje)
-            if pausa != '':
-                e_pausa = int(pausa)
-                pausa_time = e_pausa * e_pasos
-                hours2, rem2 = divmod(pausa_time, 3600)
-                minutes2, seconds2 = divmod(rem2, 60)
-                formatted_time2 = "{:02}:{:02}:{:02}".format(int(hours2), int(minutes2), int(seconds2))
-                pausa = str(formatted_time2)
-            else:
-                pausa = '00:00:00'
-                e_pausa = 0
-            time.sleep(3)
-            eng.initializeStream_channel_1(nargout=0)  
-            time.sleep(2)
-            data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad, e_pausa)
-            final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
-            end_time = time.time()
-            total_time = round(end_time - start_time)
-            hours, rem = divmod(total_time, 3600)
-            minutes, seconds = divmod(rem, 60)
-            formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
-            freq_final = frecuencies[-1]
-            eng.quit()
-            generador.close()
-            
-            # GUARDADO EN LA BASE DE DATOS POSTGRES
-            
-            experimento = Experimentos(
-            user=request.user,  # Usuario actual
-            fluido=fluido,  # Usar el Fluido recién creado
-            sensibilidad = sensibilidad,
-            pasos = pasos,
-            comentario = comentario,
-            nombre_experimento=nombre_experimento,
-            frecuencia_inicial=frecuencia_inicial,
-            voltaje=pre_voltaje,
-            fecha_experimento=datetime.now().date(),
-            pdf_experimento=pdf_experimento,
-            tiempo = str(formatted_time),
-            tiempo_pausa = pausa,
-            final_frecuency = freq_final
-            )
-            experimento.save()
-
-            experimento_Mongo = ExperimentoMongo(
-            nombre_experimento=nombre_experimento,
-            comentario=comentario,
-            max_values2=final_values,
-            frecuencia=frecuencies,
-            shift_phase=shift_phase
-            )
-            experimento_Mongo.save()
-
+                generador.write('VOLT '+ pre_voltaje)
+                if pausa != '':
+                    e_pausa = int(pausa)
+                    pausa_time = e_pausa * e_pasos
+                    hours2, rem2 = divmod(pausa_time, 3600)
+                    minutes2, seconds2 = divmod(rem2, 60)
+                    formatted_time2 = "{:02}:{:02}:{:02}".format(int(hours2), int(minutes2), int(seconds2))
+                    pausa = str(formatted_time2)
+                else:
+                    pausa = '00:00:00'
+                    e_pausa = 0
+                time.sleep(3)
+                eng.initializeStream_channel_1(nargout=0)  
+                time.sleep(2)
+                data_acquisition(frecuencies, generador, values_channel_1, values_channel_2, max_values_1, max_values_2, eng, e_frecuencia_inicial, e_pasos, e_sensibilidad, e_pausa)
+                final_values = [c0/c1 for c0, c1 in zip(max_values_1, max_values_2)]
+                end_time = time.time()
+                total_time = round(end_time - start_time)
+                hours, rem = divmod(total_time, 3600)
+                minutes, seconds = divmod(rem, 60)
+                formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
+                freq_final = frecuencies[-1]
+                eng.quit()
+                generador.close()
                 
+                # GUARDADO EN LA BASE DE DATOS POSTGRES
+                
+                experimento = Experimentos(
+                user=request.user,  # Usuario actual
+                fluido=fluido,  # Usar el Fluido recién creado
+                sensibilidad = sensibilidad,
+                pasos = pasos,
+                comentario = comentario,
+                nombre_experimento=nombre_experimento,
+                frecuencia_inicial=frecuencia_inicial,
+                voltaje=pre_voltaje,
+                fecha_experimento=datetime.now().date(),
+                pdf_experimento=pdf_experimento,
+                tiempo = str(formatted_time),
+                tiempo_pausa = pausa,
+                final_frecuency = freq_final
+                )
+                experimento.save()
 
-            return redirect('ver_experimento', nombre_experimento=nombre_experimento)
-        
+                experimento_Mongo = ExperimentoMongo(
+                nombre_experimento=nombre_experimento,
+                comentario=comentario,
+                max_values2=final_values,
+                frecuencia=frecuencies,
+                shift_phase=shift_phase
+                )
+                experimento_Mongo.save()
+
+                    
+
+                return redirect('ver_experimento', nombre_experimento=nombre_experimento)
+            except:
+                message = 'Hubo un error al inciar el experimeto.'
         
         
         
@@ -304,8 +306,13 @@ def comparar_experimentos(request):
 
 @login_required
 def experimento_con_tiempo(request):
+    try:
+        ultimo_experimento = Experimentos.objects.latest('id')
+    except Experimentos.DoesNotExist:
+        ultimo_experimento = None
+
     fluidos = Fluido.objects.all()    
-    return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos})
+    return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos, 'ultimo_experimento': ultimo_experimento})
 
 
 

@@ -5,12 +5,7 @@ body {
     font-family: 'Montserrat', sans-serif; 
 }
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
+
 
 .upload-button {
     background-color: #3498db;
@@ -154,11 +149,12 @@ form label, form input, form textarea, form button {
 .main-content {
     flex: 1;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start; /* Alinea el contenido arriba */
+    justify-content: center;
+    align-items: center; /* Alinea el contenido arriba */
     padding: 20px;
     margin-left: 250px; /* Ancho del sidebar */
     margin-right: 20px; /* Espacio a la derecha del contenido */
+    width: 60%;
 }
 
 .left {

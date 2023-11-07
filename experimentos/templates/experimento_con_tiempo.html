@@ -34,7 +34,7 @@ Experimento con Tiempo
       right: 0;
       bottom: 0;
       position: absolute;
-      z-index: -1;
+      z-index: 1;
     }
   </style>
   
@@ -60,23 +60,31 @@ Experimento con Tiempo
             <div class="row">
                 <div class="col-sm-6">
                     <!-- Datos del Fluido -->
-                    <label for="nombre_fluido" class="labelStyle" >Nombre del Fluido:</label>
-                    <select id="nombre_fluido" name="nombre_fluido" required>
+                    <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
+                    <select id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
                         <option value="">Selecciona un fluido</option>
                         {% for fluido in fluidos %}
-                            <option value="{{ fluido.nombre_fluido }}" data-descripcion="{{ fluido.descripcion }}">{{ fluido.nombre_fluido }}</option>
+                            <option value="{{ fluido.nombre_fluido }}"
+                                    data-descripcion="{{ fluido.descripcion }}"
+                                    {% if ultimo_experimento and ultimo_experimento.fluido == fluido %}selected{% endif %}>
+                                {{ fluido.nombre_fluido }}
+                            </option>
                         {% endfor %}
                     </select>
                     <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
-                    
+
                     <label for="descripcionInput">Descripción del Fluido:</label>
-                    <textarea id="descripcionInput" name="descripcionInput" required readonly>{{ fluidos.descripcion }}</textarea><br>
+                    <textarea id="descripcionInput" name="descripcionInput" required readonly>
+                        {% if ultimo_experimento %}
+                            {{ ultimo_experimento.fluido.descripcion }}
+                        {% endif %}
+                    </textarea><br>
                     
                     
                     <!-- Datos del Experimento -->
 
                     <label for="nombre_experimento">Nombre del Experimento:</label>
-                    <input type="text" id="nombre_experimento" name="nombre_experimento" required><br>
+                    <input type="text" id="nombre_experimento" value="{{ ultimo_experimento.nombre_experimento }}" name="nombre_experimento" required><br>
                     {% if message %}
                         <div class="alert alert-info">
                             {{ message }}
@@ -84,8 +92,8 @@ Experimento con Tiempo
                     {% endif %}
 
                     <label>
-                        <label for="sensibilidadInput">Tiempo de pausa:</label>
-                        <input type="checkbox" id="checkboxPausa" onchange="toggleInput(this)">
+                        <label for="checkboxPausa">Tiempo de pausa:</label>
+                        <input type="checkbox" id="checkboxPausa"  onchange="toggleInput(this)">
                     </label>
                     
                     <div id="inputContainer" style="display: none;">
@@ -93,26 +101,27 @@ Experimento con Tiempo
                     </div>
 
                     <label for="sensibilidadInput">Sensibilidad:</label>
-                    <input type="number" id="sensibilidadInput" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
+                    <input type="number" id="sensibilidadInput" value="{{ ultimo_experimento.sensibilidad|default_if_none:'' }}" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
 
-                    <label for="pasosInput">Pasos:</label>
-                    <input type="number" id="pasosInput" min="10" name="pasosInput" max="10000" step="10" required><br>
                     
-                    <label for="frecuenciaInput">Frecuencia (kHz):</label>
-                    <input type="number" id="frecuenciaInput" min="10000" max="40000" step="1000" name="frecuenciaInput" required><br>
-                    
-                    <label for="voltajeInput">Voltaje (Volts):</label>
-                    <input type="number" id="voltajeInput" min="0.1" step="0.1" max="5" name="voltajeInput" required><br>
 
                 </div>
                 <div class="col-sm-6">
+                    <label for="pasosInput">Pasos:</label>
+                    <input type="number" id="pasosInput" min="10" value="{{ ultimo_experimento.pasos }}" name="pasosInput" max="10000" step="10" required><br>
+                    
+                    <label for="frecuenciaInput">Frecuencia (kHz):</label>
+                    <input type="number" id="frecuenciaInput" min="10000" value="{{ ultimo_experimento.frecuencia_inicial }}" max="40000" step="1000" name="frecuenciaInput" required><br>
+                    
+                    <label for="voltajeInput">Voltaje (Volts):</label>
+                    <input type="number" id="voltajeInput" min="0.1" value="{{ ultimo_experimento.voltaje }}" step="0.1" max="5" name="voltajeInput" required><br>
                     <label for="comentario">Comentario:</label>
                     <textarea id="comentario" name="comentario" required></textarea><br>
                 
-                    <div class="btn-container">
-                        <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
-                        <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
-                    </div>
+                    
+                    <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
+                    <button class="btn clear-button" id="clear-button">Limpiar Datos</button>
+                    
                 </div>
             </div>
         </form>
@@ -124,10 +133,16 @@ Experimento con Tiempo
 
 
 </div> 
-
+<br><br>
 <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; justify-content: center; align-items: center; color: white; font-size: 2em;">
-    <div id="loadingText">Cargando</div><br>
-    <progress></progress>
+    <div class="col-sm-6">
+        <div class="row">
+            <div id="loadingText" style="display: flex; align-items: center; justify-content: center;">{{ loading_message }}</div><br>
+        </div>
+        <div class="row">
+            <progress style="display: flex; justify-content: center; align-items:  center;"></progress>
+        </div>
+    </div>
 </div>
 
 
