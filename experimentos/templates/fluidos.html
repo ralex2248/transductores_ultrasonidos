@@ -6,36 +6,6 @@
 <link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
-<style>
-  html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    position: center;
-    min-height: 100vh;
-    z-index: 1;
-  }
-  
-  .container::before {
-    content: "";
-    background-image: url('{% static "img/background1.webp" %}');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: repeat;
-    background-attachment: fixed;
-    opacity: 0.4;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    z-index: -1;
-  }
-</style>
 
 <div class="container">
   <div class="main-content">
@@ -43,9 +13,12 @@
       <h1>Lista de Fluidos</h1>
       <form method="get" action="{% url 'fluidos' %}">
         <div class="action-buttons">
-            <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
+          <div class="search-container">
+            <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
             <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
             <a href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
+            <button type="button" id="clearSearchButton" class="clearButton"><i class="fas fa-times"></i></button>
+          </div>                    
         </div>
     </form>
     
@@ -104,13 +77,6 @@
   </div>
 </div>
 
-<script>
-  document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
-    var confirmed = confirm('¿Está seguro de que desea eliminar los fluidos seleccionados?');
-    if (!confirmed) {
-      event.preventDefault();
-    }
-  });
-</script>
+<script src="{% static 'js/script-fluido.js' %}"></script>
 
 {% endblock %}

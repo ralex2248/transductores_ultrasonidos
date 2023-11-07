@@ -30,6 +30,7 @@ from django.http import JsonResponse
 from django.db.models import Sum, F, ExpressionWrapper, fields
 from django.db.models.functions import TruncDay
 
+
 def get_user_activity(request):
     user = request.user
 
@@ -203,25 +204,34 @@ def logout_view(request):
     return redirect('login')
 
 
+
 def home_view(request):
     user = request.user.first_name
     total_usuarios = get_user_model().objects.count()
     total_fluidos = Fluido.objects.count() 
-    total_experiementos = Experimentos.objects.count()
+    total_experimentos = Experimentos.objects.count()
 
-    # Obtener el conteo de inicios de sesión en las últimas 24 horas
     logins_last_24_hours = count_logins_last_24_hours(request.user)
     recent_activities = UserActivity.objects.filter(user=request.user)[:5]
 
+    total_superusuarios = get_user_model().objects.filter(is_superuser=True).count()
+    total_administradores = get_user_model().objects.filter(is_staff=True, is_superuser=True).count()
+
+    total_members = get_user_model().objects.filter(is_superuser=False, is_staff=False).count()
 
     return render(request, 'usuarios/home.html', {
         'user': user, 
         'total_fluidos': total_fluidos, 
         'total_usuarios': total_usuarios,
         'recent_activities': recent_activities,
-        'total_experimentos': total_experiementos,
-        'logins_last_24_hours': logins_last_24_hours
+        'total_experimentos': total_experimentos,
+        'logins_last_24_hours': logins_last_24_hours,
+        'total_superusuarios': total_superusuarios,
+        'total_admins': total_administradores,  
+        'total_members': total_members
     })
+
+
 
 
 

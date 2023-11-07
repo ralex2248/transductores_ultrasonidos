@@ -113,16 +113,21 @@
 }
 .icon-container {
     display: inline-block;
-    padding: 10px; 
-    width: 50px; 
-    height: 50px; 
-    border-radius: 10px; 
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     background-color: #FFF2E9;
-    text-align: center; 
-    display: flex; 
-    flex-direction: column; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-}
+    position: relative;
+  }
+  
+
+  
+
 
 .icon-container i {
     vertical-align: middle;
@@ -131,15 +136,16 @@
 
 .icon-container-user  {
     display: inline-block;
-    padding: 10px; 
-    width: 50px; 
-    height: 50px; 
-    border-radius: 10px; 
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     background-color: #EAF9FF; 
-    text-align: center; 
-    display: flex; 
-    flex-direction: column; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
 .icon-container-user i {    
@@ -148,16 +154,17 @@
 }   
 
 .icon-container-exp  {  
-    display: inline-block;  
-    padding: 10px; 
-    width: 50px; 
-    height: 50px; 
-    border-radius: 10px; 
+    display: inline-block;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     background-color: #EDE8FF; 
-    text-align: center; 
-    display: flex; 
-    flex-direction: column; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
 .icon-container-exp i {
