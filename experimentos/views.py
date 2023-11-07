@@ -199,7 +199,8 @@ def crear_experimento(request):
             minutes, seconds = divmod(rem, 60)
             formatted_time = "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
             freq_final = frecuencies[-1]
-            
+            eng.quit()
+            generador.close()
             
             # GUARDADO EN LA BASE DE DATOS POSTGRES
             

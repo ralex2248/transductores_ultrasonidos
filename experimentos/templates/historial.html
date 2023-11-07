@@ -73,7 +73,7 @@
                   {% for experimento in experimentos_paginate %}
                   <tr>
                     <td>
-                        <input type="checkbox" name="selected_experimentos[]" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
+                        <input type="checkbox" name="selected_experimentos" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
                     </td>
                     <td>{{ experimento.nombre_experimento }}</td>
                     <td>{{ experimento.comentario }}</td>
