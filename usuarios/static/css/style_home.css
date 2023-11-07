@@ -1,6 +1,6 @@
 #greeting-container {
     text-align: center; 
-    margin-left: 260px;
+    margin-left: 245px;
     padding: 20px 0;
 }
 .flatpickr-calendar .numInputWrapper,
@@ -34,7 +34,7 @@
 #frases-motivadoras-container h2 {
     font-size: 0.9em; 
     margin-top: -40px; 
-    margin-left: 262px; 
+    margin-left: 247px; 
     padding: 20px 0;
 }
 
@@ -51,7 +51,7 @@
     line-height: 1.5;
     
     max-width: 800px;
-    margin-left: 260px;
+    margin-left: 245px;
         padding: 23px 0;
 }
 
@@ -142,13 +142,13 @@
     justify-content: center;
 }
 
-.icon-container-user i {
-    vertical-align: middle; 
-    margin: 0 auto; 
-}
+.icon-container-user i {    
+    vertical-align: middle;     
+    margin: 0 auto;     
+}   
 
-.icon-container-exp  {
-    display: inline-block;
+.icon-container-exp  {  
+    display: inline-block;  
     padding: 10px; 
     width: 50px; 
     height: 50px; 
@@ -184,9 +184,10 @@
 }
 
 .recent-activity {
+    height: 220px;
+
     float: right; 
-    clear: both;
-    margin-right: 10px;
+    margin-right: 13px;
     margin-top: 34px; 
     width: 30%; 
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
@@ -198,6 +199,7 @@
 
 
 .recent-activity h3 {
+    
     margin-top: 0;
     font-size: 18px;
     border-bottom: 1px solid #ddd;
@@ -244,16 +246,20 @@
     cursor: pointer; 
 }
 #chartContainer {
+
     display: block; 
     width: 800px;
     height: 410px; 
-    margin: 20px auto 65px; 
+    margin: 20px;
     background-color: white;
     border-radius: 15px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    margin-left: 260px;
-    margin-top: -100px; 
+    margin-left: 245px;
+    margin-top: -105px; 
+    
+
+
   }
   
   #userActivityChart {
@@ -261,6 +267,155 @@
     height: 100% !important; 
     object-fit: cover; 
   }
+  .team-container {
+    background-color: white;
+    border-radius: 20px;
+    width: 30%; 
+    height: 255px;
+    position: absolute;
+    bottom: 50px; /* Espacio desde abajo */
+    right: 13px; /* Espacio desde la derecha */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    top: 370px;
+
+  }
+  
+
+  .team-container h3 {
+    margin-top: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.icon-container-crown {
+    width: 80%;     
+    height: 75px;
+    border-radius: 15px; 
+    display: flex;
+    align-items: center;
+    padding-left: 45px; 
+    margin: 0 auto 15px; 
+    border: 3px solid #311D05;
+    background: linear-gradient(45deg, #FFD700, #FFD700 50%, #FFFF00 50%, #FFFF00);
+  
+    background-size: 200% 200%; 
+    animation: shine 2s infinite;
+  }
+  .icon-container-member{
+    width: 80%;     
+    height: 75px;
+    border-radius: 15px; 
+    display: flex;
+    align-items: center;
+    padding-left: 45px; 
+    margin: 0 auto 15px; 
+    border: 3px solid #311D05;
+    background: linear-gradient(45deg, #FFD700, #FFD700 50%, #FFFF00 50%, #FFFF00);
+  
+    background-size: 200% 200%; 
+    animation: shine 2s infinite;
+  }
+  .icon-container-square-member{
+    display: inline-block;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #311D05;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  @keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
   
   
-    
+  .total-admins {
+    text-align: center;
+    font-size: 16px;
+    margin-left: -105px;
+    margin-top: -45px; 
+  }
+  
+  
+  .total-admin-title {
+    text-align: center;
+    font-size: 17px;
+    margin-top: -27px;
+    margin-left: 5px; 
+    color: #92959E;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  
+  .icon-container-square {
+    display: inline-block;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #311D05;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  
+  .icon-container-square i {
+    color: white; 
+    font-size: 24px; 
+  }
+  .total-admins {
+    text-align: center; 
+    font-size: 16px; 
+    margin-left: -105px;
+  }
+  .icon-container-users {
+    background-color: rgba(0, 222, 163, 0.2); 
+    width: 80%; 
+    height: 75px;
+    border-radius: 15px; 
+    display: flex;
+    align-items: center;
+    padding-left: 45px; 
+    margin: 15px auto; 
+  }
+  
+  .icon-container-users i {
+    color: #fff; 
+    font-size: 24px; 
+  }
+  
+  .icon-container-square-users {
+    display: inline-block;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #00DEA3; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10px; 
+  }
+  .total-members{
+    text-align: center;
+    font-size: 16px;
+    margin-left: -105px;
+    margin-top: -45px; 
+  }

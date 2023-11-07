@@ -123,5 +123,15 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error('Error al obtener datos del usuario:', error);
     });
 });
-
+$(document).ready(function() {
+    // Clona la sección original
+    var $clonedRecentActivity = $("#original-recent-activity").clone();
+  
+    // Cambia el id del elemento clonado para evitar conflictos de id duplicados
+    $clonedRecentActivity.attr("id", "cloned-recent-activity");
+  
+    // Agrega el elemento clonado debajo del original
+    $("#original-recent-activity").after($clonedRecentActivity);
+  });
+  
 
