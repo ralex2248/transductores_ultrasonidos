@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-import matlab.engine
+#import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -264,6 +264,37 @@ def ver_experimento(request, nombre_experimento):
     }
     return render(request, 'resultados.html', context)
 
+@login_required
+def comparar_experimentos(request):
+    nombres_experimentos = request.POST.getlist('selected_experimentos')
+
+    datos_experimentos = []
+    for nombre in nombres_experimentos:
+        experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre)
+        experimento_mongo = ExperimentoMongo.objects.get(nombre_experimento=nombre)
+
+        max_values2_mongo = experimento_mongo.max_values2
+        frecuencias_mongo = experimento_mongo.frecuencia 
+        shift_phase_mongo = experimento_mongo.shift_phase 
+        tiempo_formateado = experimento_postgres.tiempo.strftime('%H:%M:%S')
+        tiempo_formateado_pausa = experimento_postgres.tiempo_pausa
+
+        datos_experimentos.append({
+            'nombre': nombre,
+            'final_values': json.dumps(max_values2_mongo),
+            'frecuencies': json.dumps(frecuencias_mongo),
+            'shift_phase': json.dumps(shift_phase_mongo),
+            'experimento': experimento_postgres,
+            'tiempo_formateado': tiempo_formateado,
+            'tiempo_formateado_pausa': tiempo_formateado_pausa,
+        })
+
+    context = {
+        'experimentos': datos_experimentos,
+    }
+    
+    return render(request, 'comparar_experimentos.html', context)
+
 
 def mostrar_favoritos(request):
     mostrar_favoritos = request.GET.get('favoritos', 'false')
@@ -275,34 +306,6 @@ def mostrar_favoritos(request):
     
     context = {'experimentos': experimentos}
     return render(request, 'historial.html', context)
-
-@login_required
-def comparar_experimentos(request):
-    context = {}
-    if request.method == 'POST':
-        nombres_experimentos = request.GET.getlist('selected_experimentos[]')
-        experimentos_postgres = list(Experimentos.objects.filter(nombre_experimento__in=nombres_experimentos))
-        experimentos_mongo = list(ExperimentoMongo.objects.filter(nombre_experimento__in=nombres_experimentos))
-
-        data_sets = []
-        for i, exp_mongo in enumerate(experimentos_mongo):
-            exp_postgres = experimentos_postgres[i]
-            data_set = {
-                'max_values2': exp_mongo.max_values2,
-                'frecuencias': exp_mongo.frecuencia,
-                'shift_phase': exp_mongo.shift_phase,
-                'nombre_experimento': exp_postgres.nombre_experimento,
-                'tiempo_formateado': exp_postgres.tiempo.strftime('%H:%M:%S'),
-            }
-            data_sets.append(data_set)
-
-        context = {
-            'data_sets': data_sets,
-        }
-    return render(request, 'resultados.html', context)
-
-
-
 
 @login_required
 def experimento_con_tiempo(request):

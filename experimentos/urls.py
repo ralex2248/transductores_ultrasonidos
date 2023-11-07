@@ -17,5 +17,6 @@ experimentos_urlpatterns = [
     path('actualizar_favorito/<int:experimento_id>/', views.actualizar_favorito, name='actualizar_favorito'),
     path('comparar_experimentos/', views.comparar_experimentos, name='comparar_experimentos'),
     path('mostrar_favoritos/', views.mostrar_favoritos, name="mostar_favoritos"),
+    path('comparar_experimentos/', views.comparar_experimentos, name="comparar_experimentos"),
     
 ]
