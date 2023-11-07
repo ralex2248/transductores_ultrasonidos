@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 borderWidth: 1.8, 
                 pointRadius: 0.5, 
                 pointBackgroundColor: 'rgba(0, 0, 255, 1)',
-                tension: 0.1
+                tension: 0.4
+
                 }]
         },
         options: {
@@ -125,15 +126,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
             animation: {
+                
                 onComplete: function() {
                     // Función para ocultar el mensaje de carga, si aplica
                     function hideLoadingOverlay() {
-    document.getElementById("loadingOverlay").style.display = "none";
-}
-
-                
+                        document.getElementById("loadingOverlay").style.display = "none";
+                    }
+                }
+            
             }
-        }
     });
     var ctx2 = document.getElementById('myChart2').getContext('2d');
     var myChart2 = new Chart(ctx2, {
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 borderWidth: 1.8, 
                 pointRadius: 0.5, 
                 pointBackgroundColor: 'rgba(255, 0, 0, 1)',
-                tension: 0.1
+                tension: 0.4
             }]
         },
         options: {
