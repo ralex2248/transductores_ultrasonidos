@@ -95,7 +95,14 @@ function checkAction(event, action) {
     var pausa = document.getElementById("pause").value;
     var formulario = document.getElementById("experimentoForm");
     var frecuencia_final = Math.round(((parseFloat(frecuencia) + parseFloat(sensibilidad*parseFloat(pasos))) - parseFloat(sensibilidad))*10)/10;
-
+    var pasos_int = parseInt(pasos);
+    if (pausa == ''){
+        var time_remaining = parseFloat((pasos*0.154) + 11.529)
+    } else {
+        var time_remaining = parseFloat((pasos*0.153) + 11.529 + (int(pausa) * pasos))
+    }
+    
+    var time_remaining_rounded = Math.round(time_remaining);
 
     var mensajeConfirmacion = "¿Estás seguro de que quieres " + action + "?";
 
@@ -119,6 +126,7 @@ function checkAction(event, action) {
         // Muestra la ventana de confirmación
         if (window.confirm(mensajeConfirmacion)) {
             mostrarOverlayCargando(); // Mostrar el overlay de carga si es necesario
+            startCountdown(time_remaining_rounded);
             formulario.submit(); // Si el usuario confirma, envía el formulario
         } else {
             // Si el usuario cancela, simplemente registra la acción
@@ -232,4 +240,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 }); 
+
+function startCountdown(duration) {
+    var timer = duration, minutes, seconds;
+    var countdownElement = document.getElementById('countdown'); // Asegúrate de tener un elemento con el id 'countdown' en tu HTML
+
+    var countdownInterval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        // Actualizar la interfaz de usuario aquí con los minutos y segundos
+        countdownElement.textContent = minutes + ":" + seconds; // Asegúrate de que este ID exista en tu HTML
+
+        if (--timer < 0) {
+            clearInterval(countdownInterval); // Detiene el intervalo
+            countdownElement.textContent = "00:00"; // Actualiza el contador a 00:00
+            // Otras acciones cuando el contador llega a cero, como ocultar el overlay de carga
+        }
+    }, 1000);
+}
+
+
+
+// Iniciar el contador regresivo con una duración de 60 segundos
 
