@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cargando</title>
+    <link rel="stylesheet" href="{% static 'css/style_loading.css' %}">
+</head>
+<body>
+
+    <div class="loading-container">
+        <div id="message" class="loading-message">¡Bienvenido al panel de administrador!</div>
+        <div id="spinner" class="loading-spinner"></div>
+        <div id="text" class="loading-text">Cargando...</div>
+    </div>
+    
+    <script>
+        setTimeout(function() {
+            document.getElementById('message').style.opacity = 1;
+        }, 1000);
+
+        setTimeout(function() {
+            document.getElementById('spinner').style.opacity = 1;
+            document.getElementById('text').style.opacity = 1;
+        }, 2000);
+
+        setTimeout(function() {
+            window.location.href = '{% url 't_usuarios' %}';
+        }, 4000);
+    </script>
+</body>
+</html>

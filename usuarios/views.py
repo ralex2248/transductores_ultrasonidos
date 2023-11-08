@@ -37,11 +37,14 @@ def es_superusuario(user):
     return user.is_superuser
 
 @user_passes_test(es_superusuario, login_url='/error/')  
-def t_usuarios(request):
+def loading(request):
 
     usuarios = User.objects.all()
 
-    return render(request, 't_usuarios.html', {'usuarios': usuarios})
+    return render(request, 'loading.html', {'usuarios': usuarios})
+
+def t_usuarios(request):
+    return render(request, 't_usuarios.html')
 
 def error(request):
     return render(request, 'error.html')
