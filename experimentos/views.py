@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -156,6 +156,10 @@ def crear_experimento(request):
         message = ''
         if Experimentos.objects.filter(nombre_experimento=nombre_experimento).exists():
             message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
+            try:
+                ultimo_experimento = Experimentos.objects.latest('id')
+            except Experimentos.DoesNotExist:
+                ultimo_experimento = None
 
         else:
             try:
@@ -168,7 +172,7 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-                #eng = matlab.engine.start_matlab()
+                eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
@@ -234,7 +238,7 @@ def crear_experimento(request):
         
         
         
-    return render(request, 'experimento_con_tiempo.html', {'message': message, 'fluidos': fluidos})
+    return render(request, 'experimento_con_tiempo.html', {'message': message, 'fluidos': fluidos, 'ultimo_experimento': ultimo_experimento})
         # Realiza cualquier redirección o acción adicional después de guardar el experimento
 
 
