@@ -43,10 +43,10 @@
         {% csrf_token %}
 
         <label for="nombre_fluido">Nombre del Fluido:</label>
-        <input type="text" id="nombre_fluido" name="nombre_fluido" value="{{ fluido.nombre_fluido }}" required><br>
+        <input type="text" id="nombre_fluido" name="nombre_fluido" value="{{ fluido.nombre_fluido }}" required><br><br>
 
         <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required>{{ fluido.descripcion }}</textarea><br>
+        <textarea id="descripcion" name="descripcion" required>{{ fluido.descripcion }}</textarea><br><br>
 
         <!-- Puedes agregar más campos de edición según tus necesidades -->
 

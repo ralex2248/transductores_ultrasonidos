@@ -40,6 +40,7 @@
     width: 500px;
     margin: 0 auto 30px auto;  
     border-radius: 10px;
+    text-align: center;
 }
 .error {
     color: red;
@@ -55,5 +56,25 @@
     padding: 10px;
     margin-top: 10px;
     text-align: center;
+}
+
+label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+h1, button{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+
+}
+
+input{
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    vertical-align: middle;
+    
 }
 

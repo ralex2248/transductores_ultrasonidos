@@ -11,23 +11,23 @@ Ajustes
 
     <div class="ajustes-container">
         <div class="right">
-            <p style="font-size: 30px; color: #333; font-weight: bold;">Ajustes de Cuenta</p>
+            <h1>Ajustes de Cuenta</h1>
             
             <div class="left">
-                <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de contraseña</p>
+                <p style="font-size: 20px; color: #333; font-family: 'Montserrat', sans-serif; font-weight: bold;">Cambio de contraseña</p>
             </div>
             
             <div class="formulario-container">
                 <form method="post" action="{% url 'ajustes' %}">
                     {% csrf_token %}
-                    <label for="current_pass">Ingrese contraseña actual:</label>
+                    <label for="current_pass">Ingrese contraseña actual:</label><br>
                     <input type="password" class="input-field" name="current_password" placeholder="********" required><br><br>
-                    <label for="new_pass1">Contraseña nueva:</label>
+                    <label for="new_pass1">Contraseña nueva:</label><br>
                     <input type="password" class="input-field" name="new_password1" placeholder="********" required><br><br>
-                    <label for="new_pass2">Confirmar contraseña nueva:</label>
+                    <label for="new_pass2">Confirmar contraseña nueva:</label><br>
                     <input type="password" class="input-field" name="new_password2" placeholder="********" required><br><br>
                     <div class="guardar-container">
-                        <button class="guardar" type="submit">Guardar Cambios</button>
+                        <button class="guardar" type="submit">Cambiar contraseña</button>
                     </div>
                 </form>
                 {% if message %}
@@ -36,20 +36,20 @@ Ajustes
             </div>
             
             <div class="left">
-                <p style="font-size: 20px; color: #333; font-weight: bold;">Cambio de correo electrónico</p>
+                <p style="font-size: 20px; color: #333; font-family: 'Montserrat', sans-serif; font-weight: bold;">Cambio de correo electrónico</p>
             </div>
             
             <div class="formulario-container">
                 <form method="post" action="{% url 'ajustes' %}">
                     {% csrf_token %}
-                    <label for="current_email">Ingrese correo actual:</label>
+                    <label for="current_email">Ingrese correo actual:</label><br>
                     <input type="email" id="current_email" name="current_email" placeholder="tucorreo@actual"><br><br>
-                    <label for="correo">Correo electrónico:</label>
+                    <label for="correo">Correo electrónico:</label><br>
                     <input type="email" id="correo" name="correo" placeholder="tucorreo@nuevo"><br><br>
-                    <label for="confirmar_correo">Confirmar correo electrónico:</label>
+                    <label for="confirmar_correo">Confirmar correo electrónico:</label><br>
                     <input type="email" id="confirmar_correo" name="confirmar_correo" placeholder="tucorreo@nuevo"><br><br>
                     <div class="guardar-container">
-                        <button class="guardar" type="submit">Guardar Cambios</button>
+                        <button class="guardar" type="submit">Cambiar correo electrónico</button>
                     </div>
                 </form>
             </div>

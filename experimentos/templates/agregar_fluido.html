@@ -8,11 +8,11 @@
   <div class="container">
   <div class="main-content">
     <div class="left">
-      <h1>Agregar fluido</h1>
+      <h1>Agregar fluido</h1><br>
       <form method="post" action="{% url 'crear_fluido' %}">
         {% csrf_token %}
         <label for="nombre_fluido">Nombre del fluido: </label>
-        <input type="text" name="nombre_fluido" id="nombre_fluido" value="" placeholder="ej: agua" required><br>
+        <input type="text" name="nombre_fluido" id="nombre_fluido" value="" placeholder="ej: agua" required><br><br>
         <label for="descripcion_fluido">Descripcion del fluido: </label>
         <input type="text" name="descripcion_fluido" id="descripcion_fluido" value="" placeholder="ej: agua de la llave" required><br>
         <a style="margin-top: 30px;" onclick="goBack()" class="addButton"><i class="fas fa-arrow-left"></i></a>
