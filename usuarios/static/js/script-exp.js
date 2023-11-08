@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const cancelButton = document.getElementById("cancelButton");
-const clearButton = document.getElementById("clearButton");
 const guardarButton = document.getElementById("saveButton");
 
 
@@ -121,7 +120,16 @@ function startCountdown(duration) {
     }, 1000);
 }
 
+// Iniciar el contador regresivo con una duración de 60 segundoS
 
-
-// Iniciar el contador regresivo con una duración de 60 segundos
-
+//Funcion para limpiar los datos de la pestaña experimentos
+function limpiarDatos(){
+    document.getElementById("voltajeInput").value = "";
+    document.getElementById("frecuenciaInput").value = "";
+    document.getElementById("pasosInput").value = "";
+    document.getElementById("sensibilidadInput").value = "";
+    document.getElementById("nombre_experimento").value = "";
+    document.getElementById("pause").value = "";
+    document.getElementById("comentario").value = "";
+    
+}

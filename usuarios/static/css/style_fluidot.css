@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6, th,i, label {
 
 
 .upload-button {
-    background-color: #3498db;
+    background-color: #eef0f1;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6, th,i, label {
 }
 
 .upload-button:hover {
-    background-color: #2980b9;
+    background-color: #7f8588;
 }
 
 .container1 {
@@ -160,7 +160,7 @@ form label, form input, form textarea, form button {
 
 
 #saveButton {
-    background-color: #05009c; /* azul */
+    background-color: #a0a0a7; /* azul */
     color: white;
     border: none;
     border-radius: 5px;
@@ -171,7 +171,7 @@ form label, form input, form textarea, form button {
 }
 
 #saveButton:hover {
-    background-color: #0035ad; /* Cambia el color al pasar el mouse */
+    background-color: #8e9197; /* Cambia el color al pasar el mouse */
     transform: scale(1.05);
 }
 
@@ -216,7 +216,7 @@ form label, form input, form textarea, form button {
 
 .addButton, /* Estilo para botones */
 a.addButton { /* Estilo para enlaces con la clase addButton */
-    background-color: #05009c; /* azul */
+    background-color: #808080; /* azul */
     color: white;
     border: none;
     border-radius: 5px;
@@ -229,7 +229,7 @@ a.addButton { /* Estilo para enlaces con la clase addButton */
 }
 
 .addButton:hover {
-    background-color: #0035ad; /* Cambia el color al pasar el mouse */
+    background-color: #808080; /* Cambia el color al pasar el mouse */
     transform: scale(1.05);
 }
 
