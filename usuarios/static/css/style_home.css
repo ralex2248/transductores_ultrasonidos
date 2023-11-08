@@ -1,14 +1,17 @@
 #greeting-container {
+    font-family: 'Montserrat', sans-serif;
     text-align: center; 
     margin-left: 245px;
     padding: 20px 0;
 }
 .flatpickr-calendar .numInputWrapper,
 .flatpickr-calendar .flatpickr-days {
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.85em;
 }
 
 .flatpickr-calendar .flatpickr-day {
+    font-family: 'Montserrat', sans-serif;
     width: 24px;
     height: 24px;
     line-height: 24px;
@@ -17,16 +20,19 @@
 .flatpickr-current-month .numInputWrapper {
     height: 28px;
     line-height: 28px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .flatpickr-current-month .cur-year {
     font-size: 1.5em;
+    font-family: 'Monserrat', sans-serif;
 }
 #calendar-icon {
     margin: 0;
     transform: translateY(-2px); 
 }
 #date-container {
+    font-family: 'Monserrat', sans-serif;
     padding-right: 30px; 
 }
 
@@ -48,6 +54,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 
 
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     line-height: 1.5;
     
@@ -59,6 +66,7 @@
 #contenido-adicional h2 {
     font-size: 18px;
     margin-bottom: 15px;
+    
 }
 
 .dashboard-content {
@@ -94,6 +102,7 @@
 .dashboard-fluid-title {
     text-align: center;
     font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
     margin-top: -12px; 
     color: #92959E;
     margin-bottom: 10px;
@@ -101,6 +110,7 @@
 }
 
 #dashboard-content {
+    
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -111,6 +121,7 @@
     text-align: center;
     font-size: 14px; 
     margin-top: -35px;
+    font-family: 'Montserrat', sans-serif;
 }
 .icon-container {
     display: inline-block;
@@ -214,16 +225,19 @@
     padding-bottom: 10px;
     text-align: center;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .recent-activity ul {
     list-style-type: none;
     padding: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .recent-activity li {
     font-size: 14px;
     margin-bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .recent-activity li {
@@ -255,6 +269,7 @@
 }
 #chartContainer {
 
+    font-family: 'Montserrat', sans-serif;
     display: block; 
     width: 800px;
     height: 410px; 
@@ -271,6 +286,7 @@
   }
   
   #userActivityChart {
+    font-family: 'Montserrat', sans-serif;
     width: 100% !important; 
     height: 100% !important; 
     object-fit: cover; 
@@ -297,7 +313,8 @@
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     text-align: center;
-    font-weight: bold;
+    font-weight: bolder;
+    font-family: 'Montserrat', sans-serif;
 }
 .icon-container-crown {
     width: 80%;     
@@ -366,6 +383,7 @@
     color: #92959E;
     margin-bottom: 15px;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .icon-container-square {
@@ -391,6 +409,7 @@
     text-align: center; 
     font-size: 16px; 
     margin-left: -105px;
+    font-family: 'Montserrat', sans-serif;
   }
   .icon-container-users {
     background-color: rgba(0, 222, 163, 0.2); 
@@ -426,4 +445,10 @@
     font-size: 16px;
     margin-left: -105px;
     margin-top: -45px; 
+    font-family: 'Montserrat', sans-serif;
   }
+
+  h1{
+    font-family: 'Montserrat', sans-serif;
+  }
+
