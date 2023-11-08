@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acceso Prohibido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style_error.css' %}">
+
+    
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="error-title">
+            ACCESO PROHIBIDO
+        </div>
+        <div class="error-subtitle">
+            Usted no es administrador
+        </div>
+        <div class="error-details">
+            <p>Lo sentimos, pero esta página está reservada para administradores.</p>
+        </div>
+        <button class="back-button" onclick="volverAInicio()">Volver a Inicio</button>
+    </div>
+    <script>
+        function volverAInicio() {
+            window.location.href = "/home"; 
+        }
+    </script>
+</body>
+</html>

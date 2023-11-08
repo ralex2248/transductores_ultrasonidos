@@ -134,4 +134,20 @@ $(document).ready(function() {
     $("#original-recent-activity").after($clonedRecentActivity);
   });
   
+  let inactivityTime = function () {
+    let time;
+    window.onload = resetTimer;
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
 
+    function redirectToLogout() {
+        window.location.href = '/logout/';  // Reemplaza con la URL de tu vista de cierre de sesión
+    }
+
+    function resetTimer() {
+        clearTimeout(time);
+        time = setTimeout(redirectToLogout, 5); // 5 segundos
+    }
+};
+
+inactivityTime();

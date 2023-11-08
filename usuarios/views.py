@@ -29,7 +29,22 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Sum, F, ExpressionWrapper, fields
 from django.db.models.functions import TruncDay
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
+from django.http import HttpResponseRedirect
 
+def es_superusuario(user):
+    return user.is_superuser
+
+@user_passes_test(es_superusuario, login_url='/error/')  
+def t_usuarios(request):
+
+    usuarios = User.objects.all()
+
+    return render(request, 't_usuarios.html', {'usuarios': usuarios})
+
+def error(request):
+    return render(request, 'error.html')
 
 def get_user_activity(request):
     user = request.user
@@ -204,7 +219,6 @@ def logout_view(request):
     return redirect('login')
 
 
-
 def home_view(request):
     user = request.user.first_name
     total_usuarios = get_user_model().objects.count()
@@ -230,6 +244,7 @@ def home_view(request):
         'total_admins': total_administradores,  
         'total_members': total_members
     })
+
 
 
 

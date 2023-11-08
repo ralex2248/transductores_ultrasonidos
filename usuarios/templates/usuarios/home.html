@@ -68,9 +68,7 @@
       <div class="dashboard-item">
         <span class="dashboard-fluid-title"><strong>Fluidos Totales</strong></span>
         <div class="icon-container">
-          <a href="{% url 'fluidos' %}" style="color: #FF6A00;">
-            <i class="fas fa-flask"></i>
-          </a>
+          <a class="fas fa-flask" href="{% url 'fluidos' %}"  style="color: #FF6A00;"></a>
         </div>
         <div class="total-fluidos">
           <strong>{{ total_fluidos }}</strong>
@@ -88,7 +86,7 @@
       <div class="dashboard-item">
         <span class="dashboard-fluid-title"><strong>Usuarios Totales</strong></span>
         <div class="icon-container-user">
-          <i class="fas fa-users" style="color: #00B7FE;"></i>
+          <a class="fas fa-users" href="{% url 't_usuarios' %}"  style="color: #00B7FE;"></a>
         </div>
         <div class="total-fluidos">
           <strong>{{ total_usuarios }}</strong>
@@ -119,7 +117,5 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
   <script src="{% static 'js/frases_motivadoras.js' %}"></script>
   <script src="{% static 'js/script-home.js' %}"></script>
-  <script>
-  </script>
 
 {% endblock %}

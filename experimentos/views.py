@@ -39,25 +39,20 @@ from django.http import JsonResponse
 from .models import ExperimentoMongo
 import mongoengine
 
-
-
 def crear_fluido(request):
+
     nombre_fluido = request.POST.get('nombre_fluido')
     descripcion = request.POST.get('descripcion_fluido')
-
     fluido = Fluido(
-        nombre_fluido=nombre_fluido.capitalize(),
-        descripcion=descripcion.capitalize(),
-        fecha_fluido=datetime.now().date()
-    )
+            nombre_fluido=nombre_fluido.capitalize(),
+            descripcion=descripcion.capitalize(),
+            fecha_fluido=datetime.now().date()
+        )
     fluido.save()
-
-    # Registrar la actividad de crear un fluido
     activity_detail = f"Has creado un fluido llamado '{nombre_fluido.capitalize()}'"
     UserActivity.objects.create(user=request.user, activity_type="created_fluid", detail=activity_detail)
-
-    return redirect(reverse('fluidos'))
-
+    next_url = request.POST.get('next', 'fluidos')
+    return redirect(next_url)
 
 def editar_fluido(request, fluido_id):
     # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
@@ -173,7 +168,7 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-              #  eng = matlab.engine.start_matlab()
+                #eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
