@@ -21,6 +21,9 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('ajustes/', views.ajustes, name='ajustes'),
     path('api/user_activity/', views.get_user_activity, name='user_activity_api'),
+    path('t_usuarios/', views.t_usuarios, name='t_usuarios'),
+    path('error/', views.error, name='error'),
+
 
 
 
