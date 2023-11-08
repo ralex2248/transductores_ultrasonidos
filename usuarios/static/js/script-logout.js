@@ -2,48 +2,30 @@ document.getElementById("logoutSpan").addEventListener("click", function() {
     window.location.href = logoutUrl;
 });
 
-if (document.cookie.replace(/(?:(?:^|.*;\s*)dark-mode\s*\=\s*([^;]*).*$)|^.*$/, "$1") === "enabled") {
-    document.body.classList.add("dark-mode");
-    // Update the toggle button
-    var button = document.getElementById("dark-mode-toggle");
-    button.innerHTML = ' Modo Claro';
-    button.classList.add("dark-mode-button");
+let inactivityTimeout;
+const inactivityDuration = 5400000;
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(() => {
+        window.location.href = '/logout/'; 
+    }, inactivityDuration);
 }
 
-// Toggle dark mode
-document.getElementById("dark-mode-toggle").addEventListener("click", function() {
-    var body = document.body;
-    var button = document.getElementById("dark-mode-toggle");
-    if (body.classList.contains("dark-mode")) {
-        body.classList.remove("dark-mode");
-        document.cookie = "dark-mode=disabled; path=/";
-        // Update the toggle button
-        button.innerHTML = ' Modo Oscuro';
-        button.classList.remove("dark-mode-button");
-    } else {
-        body.classList.add("dark-mode");
-        document.cookie = "dark-mode=enabled; path=/";
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('keypress', resetInactivityTimer);
 
-        button.innerHTML = ' Modo Claro';
-        button.classList.add("dark-mode-button");
-    }
-});
 
-let inactivityTime = function () {
-    let time;
-    window.onload = resetTimer;
-    document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
+resetInactivityTimer();
 
-    function logout() {
-        window.location.href = '/logout/';
-    }
 
-    function resetTimer() {
-        clearTimeout(time);
-        time = setTimeout(logout, (1 * 60 * 60 + 30 * 60) * 1000); 
-    }
-};
 
-inactivityTime();
+
+
+
+
+
+
+
+
 

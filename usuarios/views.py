@@ -204,7 +204,6 @@ def logout_view(request):
     return redirect('login')
 
 
-
 def home_view(request):
     user = request.user.first_name
     total_usuarios = get_user_model().objects.count()

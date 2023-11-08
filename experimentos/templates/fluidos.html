@@ -16,7 +16,7 @@
           <div class="search-container">
             <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
             <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
-            <a href="{% url 'agregar_fluido' %}" class="addButton">Agregar fluido</a>
+            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
             <button type="button" id="clearSearchButton" class="clearButton"><i class="fas fa-times"></i></button>
           </div>                    
         </div>
