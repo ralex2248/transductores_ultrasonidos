@@ -67,91 +67,92 @@ Experimento con Tiempo
 
 <!-- Contenedor principal -->
 <div class="container1">
-<div class="main-content">
-    <!-- Rejillas ajustables en el lado izquierdo -->
-    <div class="left">
-        <h1>Experimento</h1><br>
-        <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-sm-6">
-                    <!-- Datos del Fluido -->
-                    <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
-                    <select class="select-menu" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
-                        <option value="">Selecciona un fluido</option>
-                        {% for fluido in fluidos %}
-                            <option value="{{ fluido.nombre_fluido }}"
-                                    data-descripcion="{{ fluido.descripcion }}"
-                                    {% if ultimo_experimento and ultimo_experimento.fluido == fluido %}selected{% endif %}>
-                                {{ fluido.nombre_fluido }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    
-                    <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
+    <div class="main-content">
+        <!-- Rejillas ajustables en el lado izquierdo -->
+        <div class="left">
+            <h1>Experimento</h1><br>
+            <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- Datos del Fluido -->
+                        <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
+                        <select class="select-menu" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
+                            <option value="">Selecciona un fluido</option>
+                            {% for fluido in fluidos %}
+                                <option value="{{ fluido.nombre_fluido }}"
+                                        data-descripcion="{{ fluido.descripcion }}"
+                                        {% if ultimo_experimento and ultimo_experimento.fluido == fluido %}selected{% endif %}>
+                                    {{ fluido.nombre_fluido }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                    <a href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="btn addButton" id="addButton">Agregar fluido</a>
                     <p style="margin-bottom: 20px;"></p>
                     
-                    <label for="descripcionInput">Descripción del Fluido:</label>
-                    <textarea id="descripcionInput" name="descripcionInput" required readonly>
-                        {% if ultimo_experimento %}
-                            {{ ultimo_experimento.fluido.descripcion }}
-                        {% endif %}
-                    </textarea><br>
-                    
-                    
-                    <!-- Datos del Experimento -->
+                        <label for="descripcionInput">Descripción del Fluido:</label>
+                        <textarea id="descripcionInput" name="descripcionInput" required readonly>
+                            {% if ultimo_experimento %}
+                                {{ ultimo_experimento.fluido.descripcion }}
+                            {% endif %}
+                        </textarea><br>
+                        
+                        
+                        <!-- Datos del Experimento -->
 
-                    <label for="nombre_experimento">Nombre del Experimento:</label>
-                    <input type="text" id="nombre_experimento" value="{{ ultimo_experimento.nombre_experimento }}" name="nombre_experimento" required><br>
-                    {% if message %}
-                        <div class="alert alert-info">
-                            {{ message }}
+                        <label for="nombre_experimento">Nombre del Experimento:</label>
+                        <input type="text" id="nombre_experimento" value="{{ ultimo_experimento.nombre_experimento }}" name="nombre_experimento" required><br>
+                        
+
+                        <label>
+                            <label for="checkboxPausa">Tiempo de pausa:</label>
+                            <input type="checkbox" id="checkboxPausa"  onchange="toggleInput(this)">
+                        </label>
+                        
+                        <div id="inputContainer" style="display: none;">
+                            <input type="number" id="pause" name="pause" min="1" placeholder="Tiempo de pausa"><br>
                         </div>
-                    {% endif %}
 
-                    <label>
-                        <label for="checkboxPausa">Tiempo de pausa:</label>
-                        <input type="checkbox" id="checkboxPausa"  onchange="toggleInput(this)">
-                    </label>
-                    
-                    <div id="inputContainer" style="display: none;">
-                        <input type="number" id="pause" name="pause" min="1" placeholder="Tiempo de pausa"><br>
+                        <label for="sensibilidadInput">Sensibilidad:</label>
+                        <input type="number" id="sensibilidadInput" value="{{ ultimo_experimento.sensibilidad|default_if_none:'' }}" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
+
+                        
+
                     </div>
-
-                    <label for="sensibilidadInput">Sensibilidad:</label>
-                    <input type="number" id="sensibilidadInput" value="{{ ultimo_experimento.sensibilidad|default_if_none:'' }}" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
+                    <div class="col-sm-6">
+                        <label for="pasosInput">Pasos:</label>
+                        <input type="number" id="pasosInput" min="10" value="{{ ultimo_experimento.pasos }}" name="pasosInput" max="10000" step="10" required><br>
+                        
+                        <label for="frecuenciaInput">Frecuencia (kHz):</label>
+                        <input type="number" id="frecuenciaInput" min="10000" value="{{ ultimo_experimento.frecuencia_inicial }}" max="40000" step="1000" name="frecuenciaInput" required><br>
+                        
+                        <label for="voltajeInput">Voltaje (Volts):</label>
+                        <input type="number" id="voltajeInput" min="0.1" value="{{ ultimo_experimento.voltaje }}" step="0.1" max="5" name="voltajeInput" required><br>
+                        <label for="comentario">Comentario:</label>
+                        <textarea id="comentario" name="comentario" required></textarea><br>
+                    
+                        
+                        
+                        
+                    </div>
+                    {% if message %}
+                            <div class="alert alert-info">
+                                {{ message }}
+                            </div>
+                    {% endif %}
+                    
+                    <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
+                    <a class="btn clear-button" onclick="limpiarDatos()" id="clear-button">Limpiar Datos</a>
 
                     
-
                 </div>
-                <div class="col-sm-6">
-                    <label for="pasosInput">Pasos:</label>
-                    <input type="number" id="pasosInput" min="10" value="{{ ultimo_experimento.pasos }}" name="pasosInput" max="10000" step="10" required><br>
-                    
-                    <label for="frecuenciaInput">Frecuencia (kHz):</label>
-                    <input type="number" id="frecuenciaInput" min="10000" value="{{ ultimo_experimento.frecuencia_inicial }}" max="40000" step="1000" name="frecuenciaInput" required><br>
-                    
-                    <label for="voltajeInput">Voltaje (Volts):</label>
-                    <input type="number" id="voltajeInput" min="0.1" value="{{ ultimo_experimento.voltaje }}" step="0.1" max="5" name="voltajeInput" required><br>
-                    <label for="comentario">Comentario:</label>
-                    <textarea id="comentario" name="comentario" required></textarea><br>
-                
-                    
-                    
-                    
-                </div>
-                
-                <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
-                <a class="btn clear-button" onclick="limpiarDatos()" id="clear-button">Limpiar Datos</a>
+            </form>
 
-                
-            </div>
-        </form>
+        
+        </div>
 
-       
     </div>
-
-</div>
 
 
 </div> 
@@ -170,7 +171,7 @@ Experimento con Tiempo
         </div>
     </div>
 </div>
-</div>
+
 
 
 
