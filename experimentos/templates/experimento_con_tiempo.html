@@ -36,6 +36,21 @@ Experimento con Tiempo
       position: absolute;
       z-index: 1;
     }
+
+    .left{
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 5px #888888;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+    position: relative;
+    transform: translateX(25%);
+    text-align: center;
+}
+
   </style>
   
 <!-- Estilos CSS de Bootstrap -->
@@ -62,7 +77,7 @@ Experimento con Tiempo
                 <div class="col-sm-6">
                     <!-- Datos del Fluido -->
                     <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
-                    <select id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
+                    <select class="select-menu" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
                         <option value="">Selecciona un fluido</option>
                         {% for fluido in fluidos %}
                             <option value="{{ fluido.nombre_fluido }}"
@@ -72,8 +87,10 @@ Experimento con Tiempo
                             </option>
                         {% endfor %}
                     </select>
+                    
                     <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
-
+                    <p style="margin-bottom: 20px;"></p>
+                    
                     <label for="descripcionInput">Descripción del Fluido:</label>
                     <textarea id="descripcionInput" name="descripcionInput" required readonly>
                         {% if ultimo_experimento %}
