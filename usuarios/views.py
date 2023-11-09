@@ -32,6 +32,74 @@ from django.db.models.functions import TruncDay
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+
+@login_required
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(User, id=user_id)
+    
+    if not request.user.is_superuser:
+        return redirect('pagina_de_error')
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        contrasena = request.POST.get('contrasena')
+        permissions = request.POST.get('permissions')
+
+        if usuario == request.user:
+            if permissions == 'member':
+                usuario.is_superuser = False
+                usuario.is_staff = False
+                usuario.save()
+                logout(request)  
+                return redirect('login')
+
+            if contrasena:
+                usuario.set_password(contrasena)
+                if permissions == 'superuser':
+                    usuario.is_staff = True
+                else:
+                    usuario.is_staff = False
+                usuario.save()
+                logout(request) 
+                return redirect('login')
+
+        usuario.first_name = nombre
+        usuario.username = username
+        usuario.email = email
+
+        if permissions == 'superuser':
+            usuario.is_superuser = True
+            usuario.is_staff = True
+        else:
+            usuario.is_superuser = False
+            usuario.is_staff = False
+
+        usuario.save()
+        return redirect('t_usuarios')
+
+    return render(request, 'editar_usuario.html', {'usuario': usuario})
+
+
+def eliminar_usuario(request, user_id):
+    try:
+        usuario = User.objects.get(id=user_id)
+        
+        # Verifica si el usuario a eliminar es el usuario actualmente autenticado
+        if usuario == request.user:
+            # Si el usuario está intentando eliminarse a sí mismo, elimina al usuario y cierra la sesión
+            usuario.delete()
+            logout(request)
+            return JsonResponse({'result': 'deleted', 'is_self': True})
+        
+        usuario.delete()
+        return JsonResponse({'result': 'deleted', 'is_self': False})
+    except User.DoesNotExist:
+        return JsonResponse({'result': 'error'})
 
 def es_superusuario(user):
     return user.is_superuser
@@ -44,7 +112,8 @@ def loading(request):
     return render(request, 'loading.html', {'usuarios': usuarios})
 
 def t_usuarios(request):
-    return render(request, 't_usuarios.html')
+    usuarios = User.objects.all()
+    return render(request, 't_usuarios.html', {'usuarios': usuarios})
 
 def error(request):
     return render(request, 'error.html')
@@ -232,7 +301,6 @@ def home_view(request):
     recent_activities = UserActivity.objects.filter(user=request.user)[:5]
 
     total_superusuarios = get_user_model().objects.filter(is_superuser=True).count()
-    total_administradores = get_user_model().objects.filter(is_staff=True, is_superuser=True).count()
 
     total_members = get_user_model().objects.filter(is_superuser=False, is_staff=False).count()
 
@@ -244,7 +312,6 @@ def home_view(request):
         'total_experimentos': total_experimentos,
         'logins_last_24_hours': logins_last_24_hours,
         'total_superusuarios': total_superusuarios,
-        'total_admins': total_administradores,  
         'total_members': total_members
     })
 

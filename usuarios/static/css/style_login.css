@@ -145,6 +145,43 @@ html body {
   font-size: 14px;
 }
 
+@keyframes swing {
+  0% {
+      transform: rotate(0deg);
+  }
+  25% {
+      transform: rotate(5deg);
+  }
+  50% {
+      transform: rotate(-5deg);
+  }
+  75% {
+      transform: rotate(5deg);
+  }
+  100% {
+      transform: rotate(0deg);
+  }
+}
+
+
+@keyframes shine {
+  0% {
+      color: gold;
+  }
+  50% {
+      color: yellow; 
+  }
+  100% {
+      color: gold;
+  }
+}
+
+
+.vip-icon {
+  color: gold; 
+  animation: swing 2s ease infinite, shine 2s infinite alternate;
+}
+
 .sidebar-item:last-child {
   margin-top: auto; 
 }

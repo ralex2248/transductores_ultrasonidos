@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+            transform: scale(1.02);
+            transition: transform 0.3s;
+        }
+
+        .edit-button, .delete-button {
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-button:hover, .delete-button:hover {
+            background-color: #235a96;
+        }
+
+        .edit-button {
+            margin-right: 10px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Estilo para el botón "Volver al inicio" */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px; /* Cambio de "right" a "left" */
+            background-color: #337ab7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Estilo para el pop-up */
+        .popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .popup-button {
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .popup-button:hover {
+            background-color: #235a96;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="volverAInicio()">Volver a Inicio</button>
+
+    <h1>Panel de Administración</h1>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>RUT</th>
+            <th>Correo Electrónico</th>
+            <th>Es Superusuario</th>
+            <th>Acciones</th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.is_superuser|yesno:"Sí,No" }}</td>
+            <td class="actions">
+                <button class="edit-button" onclick="editarUsuario({{ usuario.id }})">Editar</button>
+                <button class="delete-button" onclick="mostrarPopup({{ usuario.id }})">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="popup-container" id="popup">
+        <div class="popup">
+            <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+            <button class="popup-button" id="eliminar-usuario-yes">Sí</button>
+            <button class="popup-button" onclick="ocultarPopup()">No</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function editarUsuario(usuarioId) {
+            window.location.href = "{% url 'editar_usuario' 0 %}".replace(0, usuarioId);
+        }
+        function volverAInicio() {
+            window.location.href = "/home";
+        }
+        function mostrarPopup(usuarioId) {
+            document.getElementById("popup").style.display = "flex";
+            $("#eliminar-usuario-yes").off('click').on('click', function() {
+                $.ajax({
+                    url: "{% url 'eliminar_usuario' 0 %}".replace(0, usuarioId),
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}"
+                    },
+                    success: function(response) {
+                        if (response.result === "deleted") {
+                            if (response.is_self) {
+                                window.location.href = "{% url 'login' %}";
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                    },
+                    error: function(response) {
+                        // X SEA CASO, AUNQUE NO CREO.
+                    }
+                });
+            });
+        }
+    
+        function ocultarPopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    
+        function volverAInicio() {
+            window.location.href = "/home";
+        }
+    </script>
+    
+</body>
+</html>

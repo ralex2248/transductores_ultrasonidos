@@ -24,6 +24,8 @@ urlpatterns = [
     path('t_usuarios/', views.t_usuarios, name='t_usuarios'),
     path('error/', views.error, name='error'),
     path('loading/', views.loading, name='loading'),
+    path('eliminar_usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
+    path('editar-usuario/<int:user_id>/', views.editar_usuario, name='editar_usuario'),
 
 
 
