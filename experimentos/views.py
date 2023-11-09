@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -158,6 +158,10 @@ def crear_experimento(request):
             message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
             try:
                 ultimo_experimento = Experimentos.objects.latest('id')
+                ultimo_experimento.sensibilidad = str(ultimo_experimento.sensibilidad).replace(',', '.')
+                ultimo_experimento.frecuencia_inicial = int(ultimo_experimento.frecuencia_inicial)
+                ultimo_experimento.pasos = int(ultimo_experimento.pasos)
+                ultimo_experimento.voltaje = str(ultimo_experimento.voltaje).replace(',', '.')
             except Experimentos.DoesNotExist:
                 ultimo_experimento = None
 
@@ -172,7 +176,7 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-                #eng = matlab.engine.start_matlab()
+                eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
@@ -309,8 +313,15 @@ def mostrar_favoritos(request):
 
 @login_required
 def experimento_con_tiempo(request):
+    
+
     try:
         ultimo_experimento = Experimentos.objects.latest('id')
+        ultimo_experimento.sensibilidad = str(ultimo_experimento.sensibilidad).replace(',', '.')
+        ultimo_experimento.frecuencia_inicial = int(ultimo_experimento.frecuencia_inicial)
+        ultimo_experimento.pasos = int(ultimo_experimento.pasos)
+        ultimo_experimento.voltaje = str(ultimo_experimento.voltaje).replace(',', '.')
+
     except Experimentos.DoesNotExist:
         ultimo_experimento = None
 
