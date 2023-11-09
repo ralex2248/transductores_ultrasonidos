@@ -12,12 +12,15 @@
         <h1>Historial de Experimentos</h1><br>
         <form method="get" action="{% url 'historial' %}">
           <div class="action-buttons">
-              <input type="text" name="search" value="{{ search }}" placeholder=" Buscar...">
+            <div class="search-container">
+              <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
               <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
-              <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
-              <label for="favs_checkbox">Mostrar solo favoritos</label>
+              <button type="button" id="clearSearchButton" class="clearButton"><i class="fas fa-times"></i></button>
+            </div>
+            <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
+            <label for="favs_checkbox">Mostrar solo favoritos</label>
           </div>
-      </form>
+        </form>
       
         
         
@@ -99,15 +102,7 @@
 <script src="{% static 'js/script-history.js' %}"></script>
 
 <script>
-  document.getElementById('delete_fluidos_button').addEventListener('click', function() {
-    document.getElementById('delete_fluidos_form').action = "{% url 'eliminar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-  });
-
-  document.getElementById('compareButton').addEventListener('click', function() {
-    document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-  });
+  
 </script>
 
 {% endblock %}

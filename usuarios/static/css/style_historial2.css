@@ -237,3 +237,21 @@ body, html {
     position: absolute;
     z-index: -1;
 }
+.clearButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 500px;
+    transform: translateY(-50%);
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+  #search {
+    padding-right: 30px; /* Espacio para el botón "X" */
+  }
