@@ -452,3 +452,13 @@
     font-family: 'Montserrat', sans-serif;
   }
 
+@keyframes colorChange {
+  0% { color: gold; }
+  33% { color: silver; }
+  66% { color: #2E8B57; }
+  100% { color: gold; }
+}
+
+.colorful-text {
+  animation: colorChange 3s infinite;
+}
