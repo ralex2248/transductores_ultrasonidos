@@ -133,3 +133,10 @@ function limpiarDatos(){
     document.getElementById("comentario").value = "";
     
 }
+
+
+
+
+
+
+
