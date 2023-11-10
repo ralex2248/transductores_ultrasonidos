@@ -5,20 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
-    <link rel="stylesheet" href="{% static 'css/style_ua.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
 </head>
 <body>
     <button class="back-button" onclick="volverAInicio()">Volver a Inicio</button>
 
-    <h1>Panel de Administración</h1>
-    <table>
+    <h1 class="custom-heading">Panel de Administración</h1>
+    <table class="custom-table">
         <tr>
-            <th>Nombre</th>
-            <th>RUT</th>
-            <th>Correo Electrónico</th>
-            <th>Es Superusuario</th>
-            <th>Acciones</th>
+            <th class="custom-header">Nombre</th>
+            <th class="custom-header">RUT</th>
+            <th class="custom-header">Correo Electrónico</th>
+            <th class="custom-header">Es Superusuario</th>
+            <th class="custom-header">Acciones</th>
         </tr>
         {% for usuario in usuarios %}
         <tr>
