@@ -7,17 +7,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
 
-<div class="container">
-  <div class="main-content">
-    <div class="left">
+<div class="container-fluidos">
+  <div class="main-content-fluidos">
+    <div class="left-fluidos">
       <h1>Lista de Fluidos</h1><br>
       <form method="get" action="{% url 'fluidos' %}">
-        <div class="action-buttons">
-          <div class="search-container">
+        <div class="action-buttons-fluidos">
+          <div class="search-container-fluidos">
             <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
-            <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
-            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton">Agregar fluido</a>
-            <button type="button" id="clearSearchButton" class="clearButton"><i class="fas fa-times"></i></button>
+            <button type="submit" class="addButton-fluidos"><i class="fas fa-search"></i></button>
+            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton-fluidos">Agregar fluido</a>
+            <button type="button" id="clearSearchButton" class="clearButton-fluidos"><i class="fas fa-times"></i></button>
           </div>                    
         </div>
     </form>
@@ -26,7 +26,7 @@
       
       <form method="post" action="{% url 'eliminar_fluidos' %}" id="delete_fluidos_form">
         {% csrf_token %}
-        <div class="grid">
+        <div class="grid-fluidos">
           <table>
             <thead>
                 <tr>
@@ -47,7 +47,7 @@
                   <td>{{ fluido.descripcion }}</td>
                   <td>{{ fluido.fecha_fluido }}</td>
                   <td>
-                      <a href="{% url 'editar_fluido' fluido.id %}" class="editButton">
+                      <a href="{% url 'editar_fluido' fluido.id %}" class="editButton-fluidos">
                           <i class="fas fa-edit"></i> Editar
                       </a>
                   </td>
@@ -57,19 +57,19 @@
             </tbody>
         </table>
         </div>
-        <button type="submit" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+        <button type="submit" class="deleteButton-fluidos" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
       </form>
 
-      <div class="pagination">
-        <span class="step-links">
+      <div class="pagination-fluidos">
+        <span class="step-links-fluidos">
           {% if fluidos_paginate.has_previous %}
-          <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
-          <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
+          <a href="?page={{ fluidos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-fluidos"><<</a>
+          <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton-fluidos"><</a>
           {% endif %}
-          <span class="current-page">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
+          <span class="current-page-fluidos">{{ fluidos_paginate.number }} de {{ fluidos_paginate.paginator.num_pages }}</span>
           {% if fluidos_paginate.has_next %}
-          <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
-          <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
+          <a href="?page={{ fluidos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-fluidos">></a>
+          <a href="?page={{ fluidos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton-fluidos">>></a>
           {% endif %}
         </span>
       </div>

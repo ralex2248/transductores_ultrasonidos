@@ -3,21 +3,20 @@
 <title>{% block title %}Agregar Fluidos{% endblock %}</title>
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
 
-  <div class="container">
-  <div class="main-content">
-    <div class="left">
-      <h1>Agregar fluido</h1><br>
+  <div class="container-fluidos">
+  <div class="main-content-fluidos">
+    <div class="left-fluidos">
+      <h1 style="text-align: center;">Agregar fluido</h1><br>
       <form method="post" action="{% url 'crear_fluido' %}">
         {% csrf_token %}
         <label for="nombre_fluido">Nombre del fluido: </label>
         <input type="text" name="nombre_fluido" id="nombre_fluido" value="" placeholder="ej: agua" required><br><br>
         <label for="descripcion_fluido">Descripcion del fluido: </label>
         <input type="text" name="descripcion_fluido" id="descripcion_fluido" value="" placeholder="ej: agua de la llave" required><br>
-        <a style="margin-top: 30px;" onclick="goBack()" class="addButton"><i class="fas fa-arrow-left"></i></a>
+        <a style="margin-top: 30px;" onclick="goBack()" class="addButton-fluidos"><i class="fas fa-arrow-left"></i></a>
         <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <input type="submit" style="margin-top: 30px;" onclick="goBack()" value="Crear fluido" class="addButton"></input>
+        <input type="submit" style="margin-top: 30px;" onclick="goBack()" value="Crear fluido" class="addButton-fluidos"></input>
         
       </form>
       
@@ -26,7 +25,7 @@
   </div>
 </div>
 
-<script src="{% static 'js/script-home.js' %}"></script>
+<script src="{% static 'js/script-fluido.js' %}"></script>
 
 
 {% endblock %}

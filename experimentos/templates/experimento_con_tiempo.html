@@ -7,52 +7,7 @@ Experimento con Tiempo
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style_fluidot.css' %}">
-<style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .container {
-      position: center;
-      min-height: 100vh;
-      z-index: 1;
-    }
-    
-    .container::before {
-      content: "";
-      background-image: url('{% static "img/background1.webp" %}');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: repeat;
-      background-attachment: fixed;
-      opacity: 0.4;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-      z-index: 1;
-    }
 
-    .left{
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 5px #888888;
-    width: 300px;
-    margin: 0 auto;
-    border-radius: 10px;
-    background-color: #fff;
-    margin: 0 auto;
-    position: relative;
-    transform: translateX(25%);
-    text-align: center;
-}
-
-  </style>
-  
 <!-- Estilos CSS de Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -124,16 +79,15 @@ Experimento con Tiempo
                     <div class="col-sm-6">
                         <label for="pasosInput">Pasos:</label>
                         <input type="number" id="pasosInput" min="10" class="pasosInput" value="{{ ultimo_experimento.pasos }}" name="pasosInput" max="10000" step="10" required>
-                        <div for="pasos_error" id="pasos_error" style="display: none; color: red; margin-bottom: 10px;margin-top: 10px;">Los pasos no pueden ser negativos.</div>
-                       
-                        
+                        <div for="pasos_error" id="pasos_error" style="display: none; color: red; margin-bottom: 10px;margin-top: 10px;">Los pasos no pueden ser negativos.
+                        </div>
                         <label for="frecuenciaInput">Frecuencia (kHz):</label>
                         <input type="number" id="frecuenciaInput" min="10000" value="{{ ultimo_experimento.frecuencia_inicial }}" max="40000" step="1000" name="frecuenciaInput" required><br>
                         
                         <label for="voltajeInput">Voltaje (Volts):</label>
                         <input type="number" id="voltajeInput" min="0.1" value="{{ ultimo_experimento.voltaje }}" step="0.1" max="5" name="voltajeInput" required><br>
                         <label for="comentario">Comentario:</label>
-                        <textarea id="comentario"  maxlength="200" name="comentario" required></textarea><br>
+                        <textarea id="comentario" name="comentario" required></textarea><br>
                     
                         
                         

@@ -5,20 +5,20 @@
 <link rel="stylesheet" href="{% static 'css/style_historial2.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
-<div class="container1">
+<div class="container-historial">
   <div class="container">
-    <div class="main-content">
-      <div class="left">
+    <div class="main-content-historial">
+      <div class="left-historial">
         <h1>Historial de Experimentos</h1><br>
         <form method="get" action="{% url 'historial' %}">
-          <div class="action-buttons">
-            <div class="search-container">
+          <div class="action-buttons-historial">
+            <div class="search-container-historialr">
               <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
-              <button type="submit" class="addButton"><i class="fas fa-search"></i></button>
-              <button type="button" id="clearSearchButton" class="clearButton"><i class="fas fa-times"></i></button>
+              <button type="submit" class="addButton-historial"><i class="fas fa-search"></i></button>
+              <button type="button" id="clearSearchButton" class="clearButton-historial"><i class="fas fa-times"></i></button>
             </div>
-            <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="fav_checkbox">
-            <label for="favs_checkbox">Mostrar solo favoritos</label>
+            <input type="checkbox" id="fav_checkbox-historial" name="fav_checkbox-historial" class="fav_checkbox-historial">
+            <label for="fav_checkbox-historial">Mostrar solo favoritos</label>
           </div>
         </form>
       
@@ -45,7 +45,7 @@
                   {% for experimento in experimentos_paginate %}
                   <tr>
                     <td>
-                        <input type="checkbox" name="selected_experimentos" class="fav_checkbox" value="{{ experimento.nombre_experimento }}">
+                        <input type="checkbox" name="selected_experimentos" class="fav_checkbox-historial" value="{{ experimento.nombre_experimento }}">
                     </td>
                     <td>{{ experimento.nombre_experimento }}</td>
                     <td>{{ experimento.comentario }}</td>
@@ -53,14 +53,14 @@
                     <td>{{ experimento.voltaje }}</td>
                     <td>{{ experimento.frecuencia_inicial }}</td>
                     <td>{{ experimento.final_frecuency }}</td>
-                    <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star {% if experimento.favorito %}active{% endif %}">
+                    <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star-historial {% if experimento.favorito %}active{% endif %}">
                       <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
                   </a></td>
                     <td>
-                        <a href="{% url 'editar_experimento' experimento.id %}" class="editButton">
+                        <a href="{% url 'editar_experimento' experimento.id %}" class="editButton-historial">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                          <a href="{% url 'ver_experimento' experimento.nombre_experimento %}" class="editButton">
+                          <a href="{% url 'ver_experimento' experimento.nombre_experimento %}" class="editButton-historial">
                             <i class="fas fa-edit"></i> Ver experimento
                         </a>
                     </td>
@@ -73,24 +73,24 @@
               
           </table>
           </div>
-          <button type="button" class="deleteButton" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
-          <button type="button" id="compareButton" class="compareButton">
+          <button type="submit" class="deleteButton-historial" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+          <button type="button" id="compareButton-historial" class="compareButton-historial">
             <i>Comparar</i>
           </button>
         </form>
         
 
-        <div class="pagination">
-          <span class="step-links">
+        <div class="pagination-historial">
+          <span class="step-links-historial">
             {% if experimentos_paginate.has_previous %}
-            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
-            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" style="margin-right: 10px;" class="addButton"><</a>
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><<</a>
+            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><</a>
             
             {% endif %}
-            <span class="current-page">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
+            <span class="current-page-historial">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
             {% if experimentos_paginate.has_next %}
-            <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}"  class="addButton">></a>
-            <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
+            <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial">></a>
+            <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial">>></a>
             {% endif %}
           </span>
         </div>
@@ -102,32 +102,7 @@
 <script src="{% static 'js/script-history.js' %}"></script>
 
 <script>
-  document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
-    // Check if at least one checkbox is selected
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    if (checkboxes.length === 0) {
-        alert('Por favor, seleccione al menos un experimento para eliminar.');
-        event.preventDefault();
-        return; // Stop the function if no checkboxes are selected
-    }
-
-    // Ask for confirmation if at least one checkbox is selected
-    var confirmed = confirm('¿Está seguro de que desea eliminar los experimentos seleccionados?');
-    if (!confirmed) {
-        event.preventDefault();
-        return; // Stop the function if the user cancels the confirmation
-    }
-
-    // If validations are successful, update the form action and submit
-    document.getElementById('delete_fluidos_form').action = "{% url 'eliminar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-});
-
-
-document.getElementById('compareButton').addEventListener('click', function() {
-    document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-});
+  
 </script>
 
 {% endblock %}
