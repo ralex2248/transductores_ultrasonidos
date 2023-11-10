@@ -1,9 +1,4 @@
-document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
-    var confirmed = confirm('¿Está seguro de que desea eliminar los experimentos seleccionados?');
-    if (!confirmed) {
-      event.preventDefault();
-    }
-  });
+
 
   document.addEventListener('DOMContentLoaded', function() {
     const favCheckbox = document.getElementById('favs_checkbox');

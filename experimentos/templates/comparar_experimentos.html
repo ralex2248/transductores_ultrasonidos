@@ -12,7 +12,32 @@ Experimento con Tiempo
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js"></script>
 
+
+
 <div class="detail-container">
+    {% for experimento in experimentos %}
+    <div class="experiment-data-card" style="float: left;">
+        <div class="chart-card experiment-data-card">
+            <div class="chart-title">
+                <h2>Datos del Experimento <b>{{ experimento.experimento.nombre_experimento }}</b></h2>
+            </div>
+            
+            <div class="experiment-data">
+                <p>Nombre del Experimento: <b>{{ experimento.experimento.nombre_experimento }}</b></p>
+                <p>Sensibilidad: <b>{{ experimento.experimento.sensibilidad }}</b></p>
+                <p>Pasos: <b>{{ experimento.experimento.pasos }}</b></p>
+                <p>Frecuencia inicial: <b>{{ experimento.experimento.frecuencia_inicial }} Hz</b></p>
+                <p>Frecuencia final: <b>{{ experimento.experimento.final_frecuency }} Hz</b></p>
+                <p>Voltaje: <b>{{ experimento.experimento.voltaje }} V</b></p>
+                <p>Tiempo total pausa: <b>{{ experimento.tiempo_formateado_pausa }}</b></p>
+                <p>Tiempo total: <b>{{ experimento.tiempo_formateado }}</b></p>
+                <p>Comentario: <b>{{ experimento.experimento.comentario }}</b></p>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+    {% endfor %}
     <div class="chart-container" style="float: left;">
         <div class="chart-card">
             <div class="chart-title">
