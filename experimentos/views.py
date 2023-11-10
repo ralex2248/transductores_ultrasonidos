@@ -239,7 +239,7 @@ def crear_experimento(request):
 
                 return redirect('ver_experimento', nombre_experimento=nombre_experimento)
             except:
-                message = 'Hubo un error al inciar el experimeto.'
+                message = 'Hubo un error al inciar el experimento.'
         
         
         

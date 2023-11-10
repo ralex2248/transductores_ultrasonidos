@@ -292,4 +292,6 @@ input[type="number"], input[type="text"], input[type="checkbox"]{
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     font-family: 'Montserrat', sans-serif;
+    margin-bottom: 10px;
+    margin-bottom: 10px;
 }

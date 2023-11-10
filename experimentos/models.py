@@ -5,7 +5,7 @@ from mongoengine import Document, StringField, ListField, FloatField
 
 class ExperimentoMongo(Document):
     nombre_experimento = StringField(max_length=100)
-    comentario = StringField(max_length=100)
+    comentario = StringField(max_length=500)
     max_values2 = ListField(FloatField())
     frecuencia = ListField(FloatField())
     shift_phase = ListField(FloatField())

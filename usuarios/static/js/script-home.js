@@ -151,3 +151,7 @@ $(document).ready(function() {
 };
 
 inactivityTime();
+
+function goBack() {
+    window.history.back();
+  }

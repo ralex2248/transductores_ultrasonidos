@@ -31,6 +31,9 @@ function checkAction(event, action) {
     var formulario = document.getElementById("experimentoForm");
     var frecuencia_final = Math.round(((parseFloat(frecuencia) + parseFloat(sensibilidad*parseFloat(pasos))) - parseFloat(sensibilidad))*10)/10;
     var pasos_int = parseInt(pasos);
+    var frecuencia_int = parseInt(frecuencia);
+    var voltaje_int = parseFloat(voltaje);
+    var sensibilidad_int = parseFloat(sensibilidad);
     if (pausa == ''){
         var time_remaining = parseFloat((pasos*0.154) + 11.529)
     } else {
@@ -46,6 +49,9 @@ function checkAction(event, action) {
         if (!nombre_fluido || !sensibilidad || !pasos || !frecuencia || !voltaje || (checkboxPausa && !pausa)) {
             alert('Todos los campos requeridos deben estar llenos para iniciar el experimento.');
             return; // Detiene la función si hay campos vacíos
+        } else if (pasos_int <= 0 || frecuencia_int <= 0 || voltaje_int <= 0 || sensibilidad_int <= 0) {
+            alert('Los valores no pueden ser negativos o 0.');
+            return;
         }
 
 
@@ -76,6 +82,45 @@ function checkAction(event, action) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('nombre_experimento').addEventListener('input', function() {
+        var nombre = this.value;
+        var errorDiv = document.getElementById('nombre_experimento_error');
+        if (nombre.length >= 50) {
+            errorDiv.style.display = 'block';
+        } else {
+            errorDiv.style.display = 'none';
+        }
+    });
+
+    document.getElementById('experimentoForm').addEventListener('submit', function(e) {
+        var nombre = document.getElementById('nombre_experimento').value;
+        if (nombre.length > 50) {
+            e.preventDefault(); 
+            document.getElementById('nombre_experimento_error').style.display = 'block';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('pasosInput').addEventListener('input', function() {
+        var pasos = parseInt(this.value);
+        var errorDiv = document.getElementById('pasos_error');
+        if (pasos < 0) {
+            errorDiv.style.display = 'block';
+        } else {
+            errorDiv.style.display = 'none';
+        }
+    });
+
+    document.getElementById('experimentoForm').addEventListener('submit', function(e) {
+        var pasos = parseInt(document.getElementById('pasosInput').value);
+        if (pasos < 0) {
+            e.preventDefault();
+            document.getElementById('pasos_error').style.display = 'block';
+        }
+    });
+});
 
 function mostrarOverlayCargando() {
     document.getElementById("loadingOverlay").style.display = "flex"; // Mostrar el overlay de carga
