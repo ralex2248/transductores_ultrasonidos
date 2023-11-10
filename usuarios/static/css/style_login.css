@@ -1099,6 +1099,95 @@ input[type="text"]{
   margin-right: 20px; /* Espacio a la derecha del contenido */
 }
 
+
+
+
+
+.container-editar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+
+.editar {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinea el contenido arriba */
+  padding: 20px;
+  margin-left: 250px; /* Ancho del sidebar */
+  margin-right: 20px; /* Espacio a la derecha del contenido */
+}
+
+
+
+
+
+.addButton-editar {
+  background-color: #05009c; /* azul */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-left: 20px;
+}
+
+
+
+
+
+
+
+
+
+.editar {
+margin: 0 auto; /* Esto centrará el contenido horizontalmente */
+max-width: 800px; /* Cambia el valor según sea necesario */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container-editar {
+  position: center;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+.container-editar::before {
+  content: "";
+  background-image: url('/static/img/background1.webp'); /* Ruta relativa a la carpeta estática */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: -1;
+}
+
 .left-fluidos {
   flex: 2;
   padding: 20px;
