@@ -128,6 +128,7 @@ shift_phase = []
 @login_required
 def crear_experimento(request):
     fluidos = Fluido.objects.all()
+    ultimo_experimento = Experimentos.objects.latest('id')
     if request.method == 'POST':
         global final_values
         global max_values_2
@@ -157,7 +158,7 @@ def crear_experimento(request):
         if Experimentos.objects.filter(nombre_experimento=nombre_experimento).exists():
             message = 'Este nombre de experimento ya está registrado, intenta con uno nuevo.'
             try:
-                ultimo_experimento = Experimentos.objects.latest('id')
+                
                 ultimo_experimento.sensibilidad = str(ultimo_experimento.sensibilidad).replace(',', '.')
                 ultimo_experimento.frecuencia_inicial = int(ultimo_experimento.frecuencia_inicial)
                 ultimo_experimento.pasos = int(ultimo_experimento.pasos)
@@ -358,7 +359,7 @@ def historial(request):
 @login_required
 def actualizar_favorito(request, experimento_id):
     experimento = get_object_or_404(Experimentos, pk=experimento_id)
-    print(experimento.favorito)
+    
     
     if experimento.favorito == False:
         experimento.favorito = True
@@ -366,6 +367,7 @@ def actualizar_favorito(request, experimento_id):
     else:
         experimento.favorito = False
         experimento.save()
+    
     
     return redirect('historial')
 

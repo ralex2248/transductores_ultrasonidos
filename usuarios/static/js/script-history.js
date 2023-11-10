@@ -36,12 +36,4 @@ document.getElementById('search').addEventListener('input', function () {
 });
   
 
-document.getElementById('delete_fluidos_button').addEventListener('click', function() {
-    document.getElementById('delete_fluidos_form').action = "{% url 'eliminar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-});
 
-document.getElementById('compareButton').addEventListener('click', function() {
-    document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
-    document.getElementById('delete_fluidos_form').submit();
-});

@@ -102,7 +102,7 @@ Experimento con Tiempo
                         <!-- Datos del Experimento -->
 
                         <label for="nombre_experimento">Nombre del Experimento:</label>
-                        <input type="text" id="nombre_experimento" value="{{ ultimo_experimento.nombre_experimento }}" name="nombre_experimento" required><br>
+                        <input type="text" id="nombre_experimento" value="" name="nombre_experimento" required><br>
                         
 
                         <label>
@@ -130,7 +130,7 @@ Experimento con Tiempo
                         <label for="voltajeInput">Voltaje (Volts):</label>
                         <input type="number" id="voltajeInput" min="0.1" value="{{ ultimo_experimento.voltaje }}" step="0.1" max="5" name="voltajeInput" required><br>
                         <label for="comentario">Comentario:</label>
-                        <textarea id="comentario" name="comentario" required></textarea><br>
+                        <textarea id="comentario"  maxlength="200" name="comentario" required></textarea><br>
                     
                         
                         
