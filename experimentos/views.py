@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -38,6 +38,7 @@ import json
 from django.http import JsonResponse
 from .models import ExperimentoMongo
 import mongoengine
+
 
 def crear_fluido(request):
 
@@ -128,7 +129,14 @@ shift_phase = []
 @login_required
 def crear_experimento(request):
     fluidos = Fluido.objects.all()
-    ultimo_experimento = Experimentos.objects.latest('id')
+    experimentos = Experimentos.objects.all()
+
+    if experimentos.count() >= 1:
+        ultimo_experimento = Experimentos.objects.latest('id')
+        
+    else:
+        pass
+
     if request.method == 'POST':
         global final_values
         global max_values_2
@@ -167,7 +175,7 @@ def crear_experimento(request):
                 ultimo_experimento = None
 
         else:
-            try:
+            
                 fluido = Fluido.objects.get(nombre_fluido=nombre_fluido)
 
                 e_sensibilidad = float(sensibilidad)
@@ -177,7 +185,7 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-                #eng = matlab.engine.start_matlab()
+                eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
@@ -238,7 +246,7 @@ def crear_experimento(request):
                     
 
                 return redirect('ver_experimento', nombre_experimento=nombre_experimento)
-            except:
+            
                 message = 'Hubo un error al inciar el experimento.'
         
         
@@ -271,7 +279,6 @@ def ver_experimento(request, nombre_experimento):
 @login_required
 def comparar_experimentos(request):
     nombres_experimentos = request.POST.getlist('selected_experimentos')
-    print(nombres_experimentos)
     datos_experimentos = []
     for nombre in nombres_experimentos:
         experimento_postgres = Experimentos.objects.get(nombre_experimento=nombre)
@@ -315,7 +322,7 @@ def mostrar_favoritos(request):
 @login_required
 def experimento_con_tiempo(request):
     
-
+    experimentos = Experimentos.objects.all()
     try:
         ultimo_experimento = Experimentos.objects.latest('id')
         ultimo_experimento.sensibilidad = str(ultimo_experimento.sensibilidad).replace(',', '.')
@@ -327,7 +334,7 @@ def experimento_con_tiempo(request):
         ultimo_experimento = None
 
     fluidos = Fluido.objects.all()    
-    return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos, 'ultimo_experimento': ultimo_experimento})
+    return render(request, 'experimento_con_tiempo.html', {'fluidos': fluidos, 'ultimo_experimento': ultimo_experimento, 'experimentos': experimentos})
 
 
 
@@ -344,7 +351,7 @@ def historial(request):
     else:
         experimentos = Experimentos.objects.all().order_by('-fecha_experimento')
 
-    paginator = Paginator(experimentos, 5)
+    paginator = Paginator(experimentos, 10)
     try:
         experimentos_paginate = paginator.page(page)
     except EmptyPage:
@@ -354,6 +361,61 @@ def historial(request):
     return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
 
 
+@login_required
+def historial(request):
+    page = request.GET.get('page', 1)
+    search = request.GET.get('search', '')
+    favoritos = request.GET.get('favoritos', 'false')
+    orden = request.GET.get('orden', 'fecha_desc')  # Nuevo parámetro para ordenamiento
+
+    # Lógica para aplicar el ordenamiento
+    if orden == 'fecha_asc':
+        order_by = 'fecha_experimento'
+    elif orden == 'fecha_desc':
+        order_by = '-fecha_experimento'
+    elif orden == 'nombre_asc':
+        order_by = 'nombre_experimento'
+    elif orden == 'nombre_desc':
+        order_by = '-nombre_experimento'
+    elif orden == 'comentario_asc':
+        order_by = 'comentario'
+    elif orden == 'comentario_desc':
+        order_by = '-comentario'
+    elif orden == 'voltaje_asc':
+        order_by = 'voltaje'
+    elif orden == 'voltaje_desc':
+        order_by = '-voltaje'
+    elif orden == 'frecuencia_inicial_asc':
+        order_by = 'frecuencia_inicial'
+    elif orden == 'frecuencia_inicial_desc':
+        order_by = '-frecuencia_inicial'
+    elif orden == 'final_frecuency_asc':
+        order_by = 'final_frecuency'
+    elif orden == 'final_frecuency_desc':
+        order_by = '-final_frecuency'
+    elif orden == 'pasos_asc':
+        order_by = 'pasos'
+    elif orden == 'pasos_desc':
+        order_by = '-pasos'
+    else:
+        order_by = '-fecha_experimento'  # Ordenamiento predeterminado
+
+    # Lógica existente para filtrado
+    if favoritos == 'true':
+        experimentos = Experimentos.objects.filter(favorito=True).order_by(order_by)
+    elif search and search != "None":
+        experimentos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by(order_by)
+    else:
+        experimentos = Experimentos.objects.all().order_by(order_by)
+
+    paginator = Paginator(experimentos, 10)
+    try:
+        experimentos_paginate = paginator.page(page)
+    except EmptyPage:
+        experimentos_paginate = paginator.page(paginator.num_pages)
+
+    template_name = 'historial.html'
+    return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
 
 
 @login_required

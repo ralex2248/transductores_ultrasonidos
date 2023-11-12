@@ -230,10 +230,10 @@ body.dark-mode {
 }
 
 .dark-mode #dark-mode-toggle i {
-    color: #f8d52d; /* Color of the moon icon in dark mode */
+    color: #f8d52d;
 }
 
-/* Dark mode toggle button styles */
+
 #dark-mode-toggle {
     display: flex;
     align-items: center;
@@ -248,10 +248,10 @@ body.dark-mode {
     background-color: #ddd;
 }
 
-/* Style for the dark mode button when dark mode is active */
+
 body.dark-mode #dark-mode-toggle.dark-mode-button {
-    background-color: black; /* Black background */
-    color: white; /* White text */
+    background-color: black; 
+    color: white; 
 }
 #greeting-container {
   font-family: 'Montserrat', sans-serif;

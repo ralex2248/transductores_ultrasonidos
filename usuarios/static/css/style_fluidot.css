@@ -1,5 +1,5 @@
 body {
-    display: flex;
+    display: absolute;
     flex-direction: column;
     min-height: 100vh;
     font-family: 'Montserrat', sans-serif; 
@@ -37,13 +37,14 @@ h1{
 
 .container1 {
     position: relative;
+    display: flex;
     min-height: 100vh;
+    width: 80%;
     z-index: 1;
 }
 
 .container1::before {
     content: "";
-    background-image: url('/static/img/background1.webp'); 
     background-size: cover;
     background-position: center center;
     background-repeat: repeat;
@@ -78,14 +79,13 @@ h1{
 .btn-container{
     display: flex;
     gap: 10px;
-    justify-content: center;
+    justify-content: left;
 
 }
 
 
 .btn button{
-    
-    
+   
     padding: 10px 20px;
     border: none;
     color: #9b9b9b;
@@ -135,6 +135,24 @@ h1{
 }
 
 #clear-button:hover {
+    background-color: #808080;
+}
+#verMas {
+    font-family: 'Montserrat', sans-serif;
+    background-color: red;
+    color: #fff;
+    font-size: 25px;    
+    padding: 10px 20px;
+    margin-right: 15px;
+    height: auto;
+    border: none;
+    border-radius: 2px; 
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#verMas:hover {
     background-color: #808080;
 }
 
@@ -196,10 +214,10 @@ form label, form input, form textarea, form button {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center; /* Alinea el contenido arriba */
+    align-items: center; 
     padding: 20px;
-    margin-left: 250px; /* Ancho del sidebar */
-    margin-right: 20px; /* Espacio a la derecha del contenido */
+    margin-left: 250px; 
+    margin-right: 20px; 
     width: 50%;
 }
 
@@ -225,7 +243,6 @@ form label, form input, form textarea, form button {
     background-color: #fff;
     margin: 0 auto;
     position: relative;
-    transform: translateX(25%);
     text-align: center;
 }
 
@@ -306,3 +323,31 @@ input[type="number"], input[type="text"], input[type="checkbox"]{
     margin: 0 auto;
     font-family: 'Montserrat', sans-serif;
 }
+/* Estilo para la tarjeta de experimento */
+.experiment-card {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px; /* Ajusta el margen según sea necesario */
+    margin-left: 60px;
+}
+
+.experiment-card h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 20px;
+}
+
+.experiment-card p {
+    font-size: 16px;
+    color: #555;
+}
+
+.experiment-card img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+

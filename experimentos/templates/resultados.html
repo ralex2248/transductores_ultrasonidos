@@ -35,7 +35,7 @@ Experimento con Tiempo
             </div>
             
         </div>
-        <div class="chart-card experiment-data-card">
+        <div class="chart-card experiment-data-card" style="display: flex; flex-direction: column; align-items: center;">
             <a href="{% url 'experimento_con_tiempo' %}" class="button-link">Realizar otro experimento</a>
             <a href="{% url 'historial' %}" class="button-link">Historial</a>
         </div>
@@ -195,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-    
     .button-link {
         font-family: 'Montserrat', sans-serif;
         background-color: red;
@@ -206,10 +205,9 @@ document.addEventListener('DOMContentLoaded', function() {
         border-radius: 5px; 
         transition: background-color 0.3s ease;
         cursor: pointer;
-        margin-left: 100px;
-        margin-top: 20px;
-        display: flex;
-        
+        display: block; /* Cambio aquí */
+        margin: 10px auto; /* Cambio aquí */
+        text-align: center;
     }
 
     .button-link:hover {

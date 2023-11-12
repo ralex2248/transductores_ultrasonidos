@@ -1,4 +1,22 @@
 
+document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
+    // Check if at least one checkbox is selected
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkboxes.length === 0) {
+        alert('Por favor, seleccione al menos un experimento para eliminar.');
+        event.preventDefault();
+        return; // Stop the function if no checkboxes are selected
+    }
+
+    // Ask for confirmation if at least one checkbox is selected
+    var confirmed = confirm('¿Está seguro de que desea eliminar los experimentos seleccionados?');
+    if (!confirmed) {
+        // Remove the event.preventDefault() here, so the form will be submitted if the user cancels the confirmation
+    }
+});
+
+
+
 
   document.addEventListener('DOMContentLoaded', function() {
     const favCheckbox = document.getElementById('favs_checkbox');

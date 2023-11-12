@@ -12,17 +12,44 @@
         <h1>Historial de Experimentos</h1><br>
         <form method="get" action="{% url 'historial' %}">
           <div class="action-buttons-historial">
-            <div class="search-container-historialr">
-              <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
+            <div class="search-container-historial">
+              <input type="text" name="search" id="search" value="{{ search }}" placeholder="Buscar...">
               <button type="submit" class="addButton-historial"><i class="fas fa-search"></i></button>
               <button type="button" id="clearSearchButton" class="clearButton-historial"><i class="fas fa-times"></i></button>
             </div>
-            <input type="checkbox" id="fav_checkbox-historial" name="fav_checkbox-historial" class="fav_checkbox-historial">
-            <label for="fav_checkbox-historial">Mostrar solo favoritos</label>
+            <input type="checkbox" id="favs_checkbox" name="favs_checkbox" class="favs_checkbox">
+            <label for="fav_checkbox">Mostrar solo favoritos</label>
           </div>
         </form>
       
+        <form method="get" id="peo" action="{% url 'historial' %}">
+              
+          <select name="orden">
+            <option value="fecha_asc">Fecha Ascendente</option>
+            <option value="fecha_desc">Fecha Descendente</option>
+            <option value="nombre_asc">Nombre Ascendente</option>
+            <option value="nombre_desc">Nombre Descendente</option>
+            <option value="comentario_asc">Comentario Ascendente</option>
+            <option value="comentario_desc">Comentario Descendente</option>
+            <option value="voltaje_asc">Voltaje Ascendente</option>
+            <option value="voltaje_desc">Voltaje Descendente</option>
+            <option value="frecuencia_inicial_asc">Frecuencia Inicial Ascendente</option>
+            <option value="frecuencia_inicial_desc">Frecuencia Inicial Descendente</option>
+            <option value="final_frecuency_asc">Final Frecuencia Ascendente</option>
+            <option value="final_frecuency_desc">Final Frecuencia Descendente</option>
+            <option value="pasos_asc">Pasos Ascendente</option>
+            <option value="pasos_desc">Pasos Descendente</option>
+        </select>
         
+        <form method="get" action="{% url 'historial' %}">
+          <!-- ...otros elementos del formulario... -->
+          <button type="submit">Ordenar</button>
+      </form>
+      
+          
+        </form>
+     
+
         
         <form method="post" action="{% url 'eliminar_experimentos' %}" id="delete_fluidos_form">
           {% csrf_token %}
@@ -31,14 +58,35 @@
               <thead>
                   <tr>
                       <th></th> <!-- Columna para checkboxes -->
-                      <th>Nombre</th>
-                      <th>Comentario</th>
-                      <th>Fecha</th>
-                      <th>Voltaje</th>
-                      <th>Frecuencia Inicial</th>
-                      <th>Frecuencia Final</th>
+                      <form id="ordenForm" method="get" action="{% url 'historial' %}">
+                        <th>Nombre <button>🔽</button><button>🔼</button></th>
+                        <th>Comentario <button>🔽</button><button>🔼</button></th>
+                        <th>Fecha <br><button>🔽</button><button>🔼</button></th>
+                        <th>Voltaje <button>🔽</button><button>🔼</button></th>
+                        <th>Frecuencia Inicial <br><button>🔽</button><button>🔼</button></th>
+                        <th>Frecuencia Final <br><button>🔽</button><button>🔼</button></th>
                       <th>Favorito</th>
+                      <th>Pasos <button>🔽</button><button>🔼</button></th>
                       <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
+                      <script>
+                        document.querySelectorAll('.sort-button').forEach(button => {
+                          button.addEventListener('click', function() {
+                            var order = this.getAttribute('value');
+                            var currentUrl = new URL(window.location);
+                            currentUrl.searchParams.set('order', order);
+                            window.location.href = currentUrl.href;
+                          });
+                        });
+                        document.addEventListener('DOMContentLoaded', function() {
+        var ordenSelect = document.querySelector('select[name="orden"]');
+        var form = document.getElementById('ordenForm');
+
+        ordenSelect.addEventListener('change', function() {
+            form.submit();
+        });
+    });
+                      </script>
+                      
                   </tr>
               </thead>
               <tbody>
@@ -56,6 +104,7 @@
                     <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star-historial {% if experimento.favorito %}active{% endif %}">
                       <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
                   </a></td>
+                    <td>{{ experimento.pasos }}</td>
                     <td>
                         <a href="{% url 'editar_experimento' experimento.id %}" class="editButton-historial">
                             <i class="fas fa-edit"></i> Editar
@@ -64,6 +113,7 @@
                             <i class="fas fa-edit"></i> Ver experimento
                         </a>
                     </td>
+                    
                 </tr>
                 
                 
@@ -73,18 +123,26 @@
               
           </table>
           </div>
+          
           <button type="submit" class="deleteButton-historial" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
-          <button type="button" id="compareButton-historial" class="compareButton-historial">
+          <button type="button"  id="compareButton" class="compareButton">
             <i>Comparar</i>
           </button>
         </form>
+        <script>
+          document.getElementById('compareButton').addEventListener('click', function() {
+            document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
+            document.getElementById('delete_fluidos_form').submit();
+          });
+
+        </script>
         
 
         <div class="pagination-historial">
           <span class="step-links-historial">
             {% if experimentos_paginate.has_previous %}
-            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><<</a>
-            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><</a>
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"></a>
+            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"></a>
             
             {% endif %}
             <span class="current-page-historial">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
@@ -98,6 +156,8 @@
     </div>
   </div>
 </div>
+
+
 
 <script src="{% static 'js/script-history.js' %}"></script>
 
