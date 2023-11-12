@@ -136,7 +136,6 @@ def crear_experimento(request):
         
     else:
         pass
-
     if request.method == 'POST':
         global final_values
         global max_values_2
@@ -342,63 +341,30 @@ def experimento_con_tiempo(request):
 def historial(request):
     page = request.GET.get('page', 1)
     search = request.GET.get('search', '')
-    favoritos = request.GET.get('favoritos', 'false')
-
-    if favoritos == 'true':
-        experimentos = Experimentos.objects.filter(favorito=True).order_by('-fecha_experimento')
-    elif search and search != "None":
-        experimentos = Experimentos.objects.filter(nombre_experimento__icontains=search).order_by('nombre_experimento')
-    else:
-        experimentos = Experimentos.objects.all().order_by('-fecha_experimento')
-
-    paginator = Paginator(experimentos, 10)
-    try:
-        experimentos_paginate = paginator.page(page)
-    except EmptyPage:
-        experimentos_paginate = paginator.page(paginator.num_pages)
-
-    template_name = 'historial.html'
-    return render(request, template_name, {'template_name': template_name, 'experimentos_paginate': experimentos_paginate, 'paginator': paginator, 'page': page, 'search': search})
-
-
-@login_required
-def historial(request):
-    page = request.GET.get('page', 1)
-    search = request.GET.get('search', '')
-    favoritos = request.GET.get('favoritos', 'false')
+    favoritos = request.GET.get('favoritos')
     orden = request.GET.get('orden', 'fecha_desc')  # Nuevo parámetro para ordenamiento
 
+    def obtener_order_by(orden):
+        switch = {
+            'fecha_asc': 'fecha_experimento',
+            'fecha_desc': '-fecha_experimento',
+            'nombre_asc': 'nombre_experimento',
+            'nombre_desc': '-nombre_experimento',
+            'comentario_asc': 'comentario',
+            'comentario_desc': '-comentario',
+            'voltaje_asc': 'voltaje',
+            'voltaje_desc': '-voltaje',
+            'frecuencia_inicial_asc': 'frecuencia_inicial',
+            'frecuencia_inicial_desc': '-frecuencia_inicial',
+            'final_frecuency_asc': 'final_frecuency',
+            'final_frecuency_desc': '-final_frecuency',
+            'pasos_asc': 'pasos',
+            'pasos_desc': '-pasos',
+        }
+        return switch.get(orden, '-fecha_experimento')  # Valor predeterminado si no coincide con ninguno
+
     # Lógica para aplicar el ordenamiento
-    if orden == 'fecha_asc':
-        order_by = 'fecha_experimento'
-    elif orden == 'fecha_desc':
-        order_by = '-fecha_experimento'
-    elif orden == 'nombre_asc':
-        order_by = 'nombre_experimento'
-    elif orden == 'nombre_desc':
-        order_by = '-nombre_experimento'
-    elif orden == 'comentario_asc':
-        order_by = 'comentario'
-    elif orden == 'comentario_desc':
-        order_by = '-comentario'
-    elif orden == 'voltaje_asc':
-        order_by = 'voltaje'
-    elif orden == 'voltaje_desc':
-        order_by = '-voltaje'
-    elif orden == 'frecuencia_inicial_asc':
-        order_by = 'frecuencia_inicial'
-    elif orden == 'frecuencia_inicial_desc':
-        order_by = '-frecuencia_inicial'
-    elif orden == 'final_frecuency_asc':
-        order_by = 'final_frecuency'
-    elif orden == 'final_frecuency_desc':
-        order_by = '-final_frecuency'
-    elif orden == 'pasos_asc':
-        order_by = 'pasos'
-    elif orden == 'pasos_desc':
-        order_by = '-pasos'
-    else:
-        order_by = '-fecha_experimento'  # Ordenamiento predeterminado
+    order_by = obtener_order_by(orden)
 
     # Lógica existente para filtrado
     if favoritos == 'true':

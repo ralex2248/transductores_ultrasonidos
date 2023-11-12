@@ -995,14 +995,14 @@ table td:last-child {
 
 .container-historial {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 30px); /* Ajusta el valor según sea necesario */
   z-index: 1;
 }
 
 .container-historial::before {
   content: "";
-  background-image: url('/static/img/background1.webp'); 
   background-size: cover;
+  background-color: rgba(109, 109, 109, 0.733);
   background-position: center center;
   background-repeat: repeat;
   background-attachment: fixed;
@@ -1174,9 +1174,9 @@ max-width: 800px; /* Cambia el valor según sea necesario */
 
 .container-editar::before {
   content: "";
-  background-image: url('/static/img/background1.webp'); /* Ruta relativa a la carpeta estática */
   background-size: cover;
   background-position: center center;
+  background-color: rgba(109, 109, 109, 0.733);
   background-repeat: repeat;
   background-attachment: fixed;
   opacity: 0.4;
@@ -1410,9 +1410,9 @@ table td:last-child {
 
 .container-fluidos::before {
   content: "";
-  background-image: url('/static/img/background1.webp'); /* Ruta relativa a la carpeta estática */
   background-size: cover;
   background-position: center center;
+  background-color: rgba(109, 109, 109, 0.733);
   background-repeat: repeat;
   background-attachment: fixed;
   opacity: 0.4;

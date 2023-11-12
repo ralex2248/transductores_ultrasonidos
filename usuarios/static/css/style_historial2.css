@@ -259,7 +259,7 @@ body, html {
     padding-right: 30px; /* Espacio para el botón "X" */
   }
 
-  .sort-button {
+.sort-button {
     background: none;
     border: none;
     cursor: pointer;

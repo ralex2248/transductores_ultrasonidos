@@ -3,7 +3,7 @@
 <title>{% block title %}Historial de Experimentos{% endblock %}</title>
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/style_historial2.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <div class="container-historial">
   <div class="container">
@@ -22,7 +22,7 @@
           </div>
         </form>
       
-        <form method="get" id="peo" action="{% url 'historial' %}">
+        <form method="get" id="ordenForm" action="{% url 'historial' %}">
               
           <select name="orden">
             <option value="fecha_asc">Fecha Ascendente</option>
@@ -35,59 +35,32 @@
             <option value="voltaje_desc">Voltaje Descendente</option>
             <option value="frecuencia_inicial_asc">Frecuencia Inicial Ascendente</option>
             <option value="frecuencia_inicial_desc">Frecuencia Inicial Descendente</option>
-            <option value="final_frecuency_asc">Final Frecuencia Ascendente</option>
-            <option value="final_frecuency_desc">Final Frecuencia Descendente</option>
+            <option value="final_frecuency_asc">Frecuencia Final Ascendente</option>
+            <option value="final_frecuency_desc">Frecuencia Final Descendente</option>
             <option value="pasos_asc">Pasos Ascendente</option>
             <option value="pasos_desc">Pasos Descendente</option>
         </select>
-        
-        <form method="get" action="{% url 'historial' %}">
-          <!-- ...otros elementos del formulario... -->
-          <button type="submit">Ordenar</button>
-      </form>
-      
-          
         </form>
-     
-
-        
         <form method="post" action="{% url 'eliminar_experimentos' %}" id="delete_fluidos_form">
           {% csrf_token %}
           <div class="grid">
             <table>
               <thead>
                   <tr>
-                      <th></th> <!-- Columna para checkboxes -->
-                      <form id="ordenForm" method="get" action="{% url 'historial' %}">
-                        <th>Nombre <button>🔽</button><button>🔼</button></th>
-                        <th>Comentario <button>🔽</button><button>🔼</button></th>
-                        <th>Fecha <br><button>🔽</button><button>🔼</button></th>
-                        <th>Voltaje <button>🔽</button><button>🔼</button></th>
-                        <th>Frecuencia Inicial <br><button>🔽</button><button>🔼</button></th>
-                        <th>Frecuencia Final <br><button>🔽</button><button>🔼</button></th>
+                      <th></th>
+                      <form id="ordenform" method="get" action="{% url 'historial' %}">
+                        <th>Nombre</th>
+                        <th>Comentario </th>
+                        <th>Fecha </th>
+                        <th>Voltaje </th>
+                        <th>Frecuencia Inicial </th>
+                        <th>Frecuencia Final </th>
+                        <th>Pasos </th>
                       <th>Favorito</th>
-                      <th>Pasos <button>🔽</button><button>🔼</button></th>
-                      <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
-                      <script>
-                        document.querySelectorAll('.sort-button').forEach(button => {
-                          button.addEventListener('click', function() {
-                            var order = this.getAttribute('value');
-                            var currentUrl = new URL(window.location);
-                            currentUrl.searchParams.set('order', order);
-                            window.location.href = currentUrl.href;
-                          });
-                        });
-                        document.addEventListener('DOMContentLoaded', function() {
-        var ordenSelect = document.querySelector('select[name="orden"]');
-        var form = document.getElementById('ordenForm');
-
-        ordenSelect.addEventListener('change', function() {
-            form.submit();
-        });
-    });
-                      </script>
+                      <th>Acciones</th> 
                       
                   </tr>
+                  
               </thead>
               <tbody>
                   {% for experimento in experimentos_paginate %}
@@ -101,10 +74,10 @@
                     <td>{{ experimento.voltaje }}</td>
                     <td>{{ experimento.frecuencia_inicial }}</td>
                     <td>{{ experimento.final_frecuency }}</td>
+                    <td>{{ experimento.pasos }}</td>
                     <td><a href="{% url 'actualizar_favorito' experimento.id %}" class="star-historial {% if experimento.favorito %}active{% endif %}">
                       <i class="fas fa-star" style="font-size: 25px; justify-content: center; display: flex; align-items: center;"></i>
                   </a></td>
-                    <td>{{ experimento.pasos }}</td>
                     <td>
                         <a href="{% url 'editar_experimento' experimento.id %}" class="editButton-historial">
                             <i class="fas fa-edit"></i> Editar
@@ -115,27 +88,18 @@
                     </td>
                     
                 </tr>
-                
-                
-
                 {% endfor %}
               </tbody>
+              
               
           </table>
           </div>
           
-          <button type="submit" class="deleteButton-historial" id="delete_fluidos_button"><i class="fas fa-trash"></i></button> <!-- Reemplaza el texto del botón por un icono de basura -->
+          <button type="submit" class="deleteButton-historial" id="delete_fluidos_button"><i class="fas fa-trash"></i></button>
           <button type="button"  id="compareButton" class="compareButton">
             <i>Comparar</i>
           </button>
         </form>
-        <script>
-          document.getElementById('compareButton').addEventListener('click', function() {
-            document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
-            document.getElementById('delete_fluidos_form').submit();
-          });
-
-        </script>
         
 
         <div class="pagination-historial">
@@ -162,6 +126,79 @@
 <script src="{% static 'js/script-history.js' %}"></script>
 
 <script>
+ document.addEventListener('DOMContentLoaded', function() {
+    const favCheckbox = document.getElementById('favs_checkbox');
+    const ordenSelect = document.querySelector('select[name="orden"]');
+    const form = document.getElementById('ordenForm');
+
+    // Verificar el valor actual de 'favoritos' en la consulta y establecer el estado del checkbox.
+    const urlParams = new URLSearchParams(window.location.search);
+    const favoritosParam = urlParams.get('favoritos');
+    if (favoritosParam === 'true') {
+        favCheckbox.checked = true;
+    } else {
+        favCheckbox.checked = false;
+    }
+
+    // Manejar el cambio en el checkbox de favoritos
+    function handleFavCheckboxChange() {
+        var currentUrl = new URL(window.location.href);
+
+        if (this.checked) {
+            currentUrl.searchParams.set('favoritos', 'true');
+        } else {
+            currentUrl.searchParams.delete('favoritos');
+        }
+
+        window.location.href = currentUrl.href;
+    }
+
+    // Asociar la función al evento de cambio del checkbox
+    favCheckbox.addEventListener('change', handleFavCheckboxChange);
+
+    // Manejar el cambio en el select de orden
+    ordenSelect.addEventListener('change', function() {
+        // Almacenar el estado del checkbox antes de enviar el formulario
+        const favCheckboxState = favCheckbox.checked;
+
+        // Deshabilitar temporalmente el evento de cambio del checkbox
+        favCheckbox.removeEventListener('change', handleFavCheckboxChange);
+
+        form.submit();
+
+        // Restaurar el estado del checkbox después de enviar el formulario
+        favCheckbox.checked = favCheckboxState;
+
+        // Volver a habilitar el evento de cambio del checkbox después de enviar el formulario
+        favCheckbox.addEventListener('change', handleFavCheckboxChange);
+    });
+
+    document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkboxes.length === 0) {
+        alert('Por favor, seleccione al menos un experimento para eliminar.');
+        event.preventDefault();
+        return;
+    }
+
+    var confirmed = confirm('¿Está seguro de que desea eliminar los experimentos seleccionados?');
+    if (!confirmed) {
+    }
+});
+document.getElementById('compareButton').addEventListener('click', function() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkboxes.length <= 1 ) {
+        alert('Por favor, seleccione al menos dos experimento para comparar.');
+        event.preventDefault();
+        return;
+    } else {
+      document.getElementById('delete_fluidos_form').action = "{% url 'comparar_experimentos' %}";
+      document.getElementById('delete_fluidos_form').submit();
+    }
+  });
+ });
+
+  
   
 </script>
 
