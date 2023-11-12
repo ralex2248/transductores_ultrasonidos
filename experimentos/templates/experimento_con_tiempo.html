@@ -28,13 +28,18 @@ Experimento con Tiempo
 <div class="container1">
     <div class="main-content">
         <div class="left">
-            <h1>Experimento</h1><br>
+            <h1 style="margin-bottom: -10px;">Experimento</h1><br>
+            <hr style="border: 1px solid #ccc; margin: 20px 0;">
             <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
                 {% csrf_token %}
                 <div class="row" style="text-align: left;">
                     <div class="col-sm-4">
+                    <div class="col-sm-4 my-custom-class"> 
                         <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
+                    </div>     
+                    
                         <select class="select-menu" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
+                           
                             <option value="">Selecciona un fluido</option>
                             {% for fluido in fluidos %}
                                 <option value="{{ fluido.nombre_fluido }}"
@@ -47,38 +52,43 @@ Experimento con Tiempo
                         
                     <a href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="btn addButton" id="addButton">Agregar fluido</a>
                     <p style="margin-bottom: 20px;"></p>
-                    
+                    <div class="col-sm-4 my-custom-class">
                         <label for="descripcionInput">Descripción del Fluido:</label>
                         <textarea id="descripcionInput" name="descripcionInput"  required readonly>
                             {% if ultimo_experimento %}
                                 {{ ultimo_experimento.fluido.descripcion }}
                             {% endif %}
                         </textarea><br>
+                    </div>   
                         
-                        
-
+                    
+                    <div class="col-sm-4 my-custom-class">
                         <label for="nombre_experimento">Nombre del Experimento:</label>
                         <input type="text" id="nombre_experimento" maxlength="50" value="" style="margin-bottom: 10px; text-align: left;" name="nombre_experimento" required>
                         <div for="nombre_experimento_error" id="nombre_experimento_error" style="display: none; color: red; margin-bottom: 10px;margin-top: 10px;">El nombre es muy largo.</div>
-                        
-
+                     </div>   
+                     <div class="col-sm-4 my-custom-class">            
                         <label>
                             <label for="checkboxPausa">Tiempo de pausa:</label>
                             <input type="checkbox" id="checkboxPausa"  onchange="toggleInput(this)">
                         </label>
-                        
+                    </div>   
                         <div id="inputContainer" style="display: none;">
                             <input type="number" id="pause" name="pause" min="1" placeholder="Tiempo de pausa"><br>
                         </div>
-
+                    <div class="col-sm-4 my-custom-class">
+                            <!-- Tus elementos de formulario aquí -->
+                        
+                        
                         <label for="sensibilidadInput">Sensibilidad:</label>
                         <input type="number" id="sensibilidadInput" value="{{ ultimo_experimento.sensibilidad|default_if_none:'' }}" min="0.1" max="10000" step="0.1" name="sensibilidadInput" required><br>
-
+                    </div>
                         
 
                     </div>
                     
                     <div class="col-sm-4" >
+                    <div class="col-sm-4 my-custom-class"> 
                         <label for="pasosInput">Pasos:</label>
                         <input type="number" id="pasosInput" min="10" class="pasosInput" value="{{ ultimo_experimento.pasos }}" name="pasosInput" max="10000" step="10" required>
                         <div for="pasos_error" id="pasos_error" style="display: none; color: red; margin-bottom: 10px;margin-top: 10px;">Los pasos no pueden ser negativos.
@@ -91,7 +101,7 @@ Experimento con Tiempo
                         <label for="comentario">Comentario:</label>
                         <textarea id="comentario" name="comentario" required></textarea><br>    
                         
-                        
+                    </div>   
                     </div>
                     <div class="col-sm-4"> <!-- Use a half-width column for the forms -->
                         <div class="experiment-card">
