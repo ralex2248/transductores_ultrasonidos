@@ -3,19 +3,21 @@
 <title>{% block title %}Lista de Fluidos{% endblock %}</title>
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/style_login.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Importa Font Awesome -->
 
 
 <div class="container-fluidos">
   <div class="main-content-fluidos">
     <div class="left-fluidos">
-      <h1>Lista de Fluidos</h1><br>
+      <h1 style="margin-bottom: -10px; text-align: center;">Lista de Fluidos</h1><br>
+      <hr style="border: 1px solid #ccc; margin: 5px 0;"></hr><br>
       <form method="get" action="{% url 'fluidos' %}">
         <div class="action-buttons-fluidos">
           <div class="search-container-fluidos">
             <input type="text" name="search" id="search" value="{{ search }}" placeholder=" Buscar...">
-            <button type="submit" class="addButton-fluidos"><i class="fas fa-search"></i></button>
-            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="addButton-fluidos">Agregar fluido</a>
+            <button type="submit" class="btn addButton-fluidos"><i class="fas fa-search"></i></button>
+            <a style="margin-left: 20px;" href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="btn addButton-fluidos">Agregar fluido</a>
             <button type="button" id="clearSearchButton" class="clearButton-fluidos"><i class="fas fa-times"></i></button>
           </div>                    
         </div>

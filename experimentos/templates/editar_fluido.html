@@ -3,12 +3,13 @@
 <title>{% block title %}Editar Fluidos{% endblock %}</title>
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_fluido.css' %}">
+<link rel="stylesheet" href="{% static 'css/style_login.css' %}">
 
 <div class="container-editar">
   <div class="main-content editar">
     <div class="left-fluidos">
-      <h1>Editar Fluido</h1>
+      <h1 style="margin-bottom: -10px; text-align: center;">Editar Fluido</h1><br>
+      <hr style="border: 1px solid #ccc; margin: 5px 0;"></hr><br>
       <form method="post">
         {% csrf_token %}
 
@@ -21,8 +22,8 @@
         <!-- Puedes agregar más campos de edición según tus necesidades -->
 
         <div class="button-group">
-          <a href="{% url 'fluidos' %}" class="addButton-editar"><i class="fas fa-arrow-left"></i> Volver a la lista de fluidos</a>
-          <input type="submit" value="Guardar cambios" class="addButton-editar right-button">
+          <a href="{% url 'fluidos' %}" class="btn addButton-editar"><i class="fas fa-arrow-left"></i> Volver a la lista de fluidos</a>
+          <input type="submit" value="Guardar cambios" class="btn addButton-editar right-button">
         </div>
       </form>
     </div>
