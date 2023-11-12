@@ -13,49 +13,55 @@ Experimento con Tiempo
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js"></script>
 
 
-
-<div class="detail-container">
-    {% for experimento in experimentos %}
-    <div class="experiment-data-card" style="float: left;">
-        <div class="chart-card experiment-data-card">
-            <div class="chart-title">
-                <h2>Datos del Experimento <b>{{ experimento.experimento.nombre_experimento }}</b></h2>
-            </div>
-            
-            <div class="experiment-data">
-                <p>Nombre del Experimento: <b>{{ experimento.experimento.nombre_experimento }}</b></p>
-                <p>Sensibilidad: <b>{{ experimento.experimento.sensibilidad }}</b></p>
-                <p>Pasos: <b>{{ experimento.experimento.pasos }}</b></p>
-                <p>Frecuencia inicial: <b>{{ experimento.experimento.frecuencia_inicial }} Hz</b></p>
-                <p>Frecuencia final: <b>{{ experimento.experimento.final_frecuency }} Hz</b></p>
-                <p>Voltaje: <b>{{ experimento.experimento.voltaje }} V</b></p>
-                <p>Tiempo total pausa: <b>{{ experimento.tiempo_formateado_pausa }}</b></p>
-                <p>Tiempo total: <b>{{ experimento.tiempo_formateado }}</b></p>
-                <p>Comentario: <b>{{ experimento.experimento.comentario }}</b></p>
-            </div>
+<div class="content-container">
+    
+    <!-- Contenedor para las tarjetas de detalles del experimento -->
+    <div class="experiment-details-container">
+        {% for experimento in experimentos %}
+            <div class="chart-card experiment-data-card">
+                <div class="chart-title">
+                    <h2>Datos del Experimento <b>{{ experimento.experimento.nombre_experimento }}</b></h2>
+                </div>
+                
+                <div class="experiment-data">
+                    <p>Nombre del Experimento: <b>{{ experimento.experimento.nombre_experimento }}</b></p>
+                    <p>Sensibilidad: <b>{{ experimento.experimento.sensibilidad }}</b></p>
+                    <p>Pasos: <b>{{ experimento.experimento.pasos }}</b></p>
+                    <p>Frecuencia inicial: <b>{{ experimento.experimento.frecuencia_inicial }} Hz</b></p>
+                    <p>Frecuencia final: <b>{{ experimento.experimento.final_frecuency }} Hz</b></p>
+                    <p>Voltaje: <b>{{ experimento.experimento.voltaje }} V</b></p>
+                    <p>Tiempo total pausa: <b>{{ experimento.tiempo_formateado_pausa }}</b></p>
+                    <p>Tiempo total: <b>{{ experimento.tiempo_formateado }}</b></p>
+                    <p>Comentario: <b>{{ experimento.experimento.comentario }}</b></p>
+                </div>
+                
             
         </div>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    <div class="chart-container" style="float: left;">
+
+    <!-- Contenedor para los gráficos -->
+    <div class="charts-container">
+        <!-- Gráficos aquí -->
+        
         <div class="chart-card">
             <div class="chart-title">
                 <h2>Gráfico f(z)</h2>
             </div>
-            <!-- Canvas para el gráfico -->
-            <canvas id="myChart" style="display: inline-block;"></canvas>
+            <canvas id="myChart"></canvas>
         </div>
-
-        <div class="chart-card" style="display: inline-block;">
+        <div class="chart-card">
             <div class="chart-title">
                 <h2>Gráfico Shift Phase</h2>
             </div>
-            <!-- Canvas para el gráfico -->
             <canvas id="myChart2"></canvas>
         </div>
     </div>
+
 </div>
+
+
+
 
 
     {% for experimento in experimentos %}
@@ -186,53 +192,60 @@ Experimento con Tiempo
 
 
 <style>
-    .chart-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 20px;
-    }
+.content-container {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+    gap: 20px; /* Espacio entre los contenedores de detalles y gráficos */
+    margin: 0 auto;
+    max-width: auto; /* Ajusta según la anchura deseada */
+    margin-top: 100px;
+}
 
-    .chart-card {
-        background: #ffffff;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 10px;
-        width: 640px; /* Ancho de la tarjeta */
-        margin-left: 270px;
-    }
+.experiment-details-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 320px; /* Ajusta la anchura máxima de las tarjetas de detalles */
+}
 
-    .chart-title {
-        text-align: center;
-    }
+.charts-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: auto; /* Ajusta la anchura máxima de las tarjetas de gráficos */
+}
 
-    #myChart {
-        width: 600px;
-        height: 500px;
-    }
+.experiment-data-card {
+    background: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px; /* Espacio entre tarjetas */
+}
 
-    #myChart2 {
-        width: 600px;
-        height: 500px;
-    }
+.chart-card {
+    background: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px; /* Espacio entre gráficos */
+    width: 100%; /* Ajusta la anchura al 100% del contenedor */
+}
 
-    .experiment-data-card {
-        width: 320px; 
-        margin-right: 20px; 
-    }
+#myChart, #myChart2 {
+    width: 100%;
+    height: 500px;
+}
 
-    .experiment-data {
-        padding: 20px;
-        font-size: 16px;
+.chart-title {
+    text-align: center;
+}
 
-    }
-    .detail-container {
-        display: flex;
-    }
+.experiment-data {
+    padding: 20px;
+    font-size: 16px;
+}
 
 
 

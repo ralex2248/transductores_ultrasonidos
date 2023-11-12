@@ -22,6 +22,7 @@ function checkAction(event, action) {
     event.preventDefault(); // Detiene el envío automático del formulario.
 
     var nombre_fluido = document.getElementById("nombre_fluido").value;
+    var nombre_experimento = document.getElementById("nombre_experimento").value;
     var sensibilidad = document.getElementById("sensibilidadInput").value;
     var pasos = document.getElementById("pasosInput").value;
     var frecuencia = document.getElementById("frecuenciaInput").value;
@@ -46,7 +47,7 @@ function checkAction(event, action) {
 
     if (action === 'Iniciar') {
         // Comprobar si hay campos vacíos
-        if (!nombre_fluido || !sensibilidad || !pasos || !frecuencia || !voltaje || (checkboxPausa && !pausa)) {
+        if (!nombre_fluido || !nombre_experimento || !sensibilidad || !pasos || !frecuencia || !voltaje || (checkboxPausa && !pausa)) {
             alert('Todos los campos requeridos deben estar llenos para iniciar el experimento.');
             return; // Detiene la función si hay campos vacíos
         } else if (pasos_int <= 0 || frecuencia_int <= 0 || voltaje_int <= 0 || sensibilidad_int <= 0) {
