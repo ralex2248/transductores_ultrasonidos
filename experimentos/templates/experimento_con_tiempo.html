@@ -25,9 +25,9 @@ Experimento con Tiempo
 
 </div>
 
-<div class="container1">
-    <div class="main-content">
-        <div class="left">
+<div class="container c_exp">
+    <div class="main-content-exp">
+        <div class="left l_exp">
             <h1 style="margin-bottom: -10px;">Experimento</h1><br>
             <hr style="border: 1px solid #ccc; margin: 20px 0;">
             <form method="post" enctype="multipart/form-data" action="{% url 'crear_experimento' %}" id="experimentoForm">
@@ -38,7 +38,7 @@ Experimento con Tiempo
                         <label for="nombre_fluido" class="labelStyle">Nombre del Fluido:</label>
                     </div>     
                     
-                        <select class="select-menu" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
+                        <select class="select-menu-exp" id="nombre_fluido" name="nombre_fluido" required onchange="updateDescripcion()">
                            
                             <option value="">Selecciona un fluido</option>
                             {% for fluido in fluidos %}
@@ -50,8 +50,8 @@ Experimento con Tiempo
                             {% endfor %}
                         </select>
                         
-                    <a href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="btn addButton" id="addButton">Agregar fluido</a>
-                    <p style="margin-bottom: 20px;"></p>
+                        <a href="{% url 'agregar_fluido' %}?next={{ request.path }}" class="btn add_expb" id="addButton">Agregar fluido</a>
+                        <p style="margin-bottom: 20px;"></p>
                     <div class="col-sm-4 my-custom-class">
                         <label for="descripcionInput">Descripción del Fluido:</label>
                         <textarea id="descripcionInput" name="descripcionInput"  required readonly>
@@ -122,8 +122,8 @@ Experimento con Tiempo
                             </div>
                     {% endif %}
                     
-                    <button class="btn start-button" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
-                    <a class="btn clear-button" onclick="limpiarDatos()" id="clear-button">Limpiar Datos</a>
+                    <button class="btn start_exp" onclick="checkAction(event,'Iniciar')" id="start-button" >Iniciar</button>
+                    <a class="btn clear_exp" onclick="limpiarDatos()" id="clear-button">Limpiar Datos</a>
 
                     
 
