@@ -2,7 +2,6 @@
 {% load static %}
 <title>{% block title %}Historial de Experimentos{% endblock %}</title>
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/style_historial2.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <div class="container-historial">
@@ -96,7 +95,7 @@
           </div>
           
           <button type="submit" class="deleteButton-historial" id="delete_fluidos_button"><i class="fas fa-trash"></i></button>
-          <button type="button"  id="compareButton" class="compareButton">
+          <button type="button"  id="compareButton" class="compareButton-historial">
             <i>Comparar</i>
           </button>
         </form>

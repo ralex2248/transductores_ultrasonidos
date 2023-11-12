@@ -3,20 +3,22 @@ document.getElementById("logoutSpan").addEventListener("click", function() {
 });
 
 let inactivityTimeout;
-const inactivityDuration = 5400000;
+const inactivityDuration = 3600000; 
 
 function resetInactivityTimer() {
+    console.log('Inactivity timer reset.');
     clearTimeout(inactivityTimeout);
     inactivityTimeout = setTimeout(() => {
-        window.location.href = '/logout/'; 
+        console.log('Session timeout. Redirecting to login.');
+        window.location.href = '/login/';
     }, inactivityDuration);
 }
 
 document.addEventListener('mousemove', resetInactivityTimer);
 document.addEventListener('keypress', resetInactivityTimer);
 
-
 resetInactivityTimer();
+
 
 
 

@@ -1,190 +1,12 @@
-body, label, input, a {
-    font-family: 'Montserrat', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6, th,i {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
-}
-
-
-.action-buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
 
 
-.main-content {
-    margin: 0 auto;
-    flex: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    max-width: 100%;
-}
-
-.left, .right {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.left {
-    flex: 1;
-    background-color: #f2f2f2;
-}
-
-.right {
-    flex: 2;
-    background-color: #fff;
-}
-
-.chart {
-    height: 300px;
-}
-
-.select {
-    margin-bottom: 20px;
-    margin-top: 10px;
-}
-
-.title {
-    display: flex;
-    font-size: 30px;
-}
-
-.addButton, a.addButton, .deleteButton, .editButton, .compareButton {
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.addButton, a.addButton {
-    background-color: #05009c;
-    color: white;
-}
-
-.addButton:hover, a.addButton:hover {
-    background-color: #0336a6;
-    transform: translateY(-2px);
-}
-
-.addButton:active, a.addButton:active {
-    background-color: #002080;
-    transform: translateY(0);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.deleteButton {
-    background-color: #ff0000;
-    color: white;
-    margin-top: 10px;
-}
-
-.deleteButton:hover {
-    background-color: #ff5555;
-    transform: scale(1.05);
-}
-.compareButton {
-    background-color: #05009c;
-    color: white;
-    margin-top: 10px;
-    margin-left: 10px;
-    font-style: normal;
-}
-
-.compareButton:hover {
-    background-color: #0336a6;
-    transform: scale(1.05);
-    cursor: pointer;
-    color: white;
-    text-decoration: none;
-}
 
 
-.editButton {
-    background-color: #008000;
-    color: white;
-    margin:5px ;
-    padding: 5px 10px;
-    font-size: 14px;
-    
-}
-
-.editButton:hover {
-    background-color: #006400;
-    transform: scale(1.05);
-    color: white;
-    text-decoration: none;
-}
-
-.editButton:active {
-    background-color: #004000;
-    transform: translateY(0);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.fav_checkbox {
-    align-items: center;
-
-}
-.fav_checkbox:hover {
-    cursor: pointer;
-}
-
-table {
-    width: auto; /* Establecer el ancho de la tabla a "auto" */
-    table-layout: auto; /* Distribución automática del ancho de las columnas */
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-}
-
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
 
 
-table th {
-    background-color: #f2f2f2;
-}
 
-td {
-    overflow-wrap: break-word;
-    word-break: break-all;
-}
 
-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table td:first-child {
-    font-weight: bold;
-}
-
-table td:last-child {
-    font-style: normal;
-}
-
-input[type="text"]{
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    padding: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
 
 .current-page {
     font-size: 16px;
@@ -212,11 +34,6 @@ input[type="text"]{
 .star.active {
     color: gold;
 }
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
 
 .container1 {
     position: relative;
@@ -239,25 +56,8 @@ body, html {
     position: absolute;
     z-index: -1;
 }
-.clearButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 590px;
-    transform: translateY(-50%);
-    z-index: 10;
-  }
-  .search-container {
-    display: relative;
-    align-items: center;
-    width: 100%;
-    position: relative;
-  }
-   #search {
-    padding-right: 30px; /* Espacio para el botón "X" */
-  }
+
+
 
 .sort-button {
     background: none;
