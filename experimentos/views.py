@@ -361,7 +361,7 @@ def historial(request):
             'pasos_asc': 'pasos',
             'pasos_desc': '-pasos',
         }
-        return switch.get(orden, '-fecha_experimento')  # Valor predeterminado si no coincide con ninguno
+        return switch.get(orden, 'nombre_experimento')  # Valor predeterminado si no coincide con ninguno
 
     # Lógica para aplicar el ordenamiento
     order_by = obtener_order_by(orden)

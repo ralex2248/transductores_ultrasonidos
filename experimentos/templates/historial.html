@@ -126,52 +126,40 @@
 <script src="{% static 'js/script-history.js' %}"></script>
 
 <script>
- document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const favCheckbox = document.getElementById('favs_checkbox');
     const ordenSelect = document.querySelector('select[name="orden"]');
     const form = document.getElementById('ordenForm');
 
-    // Verificar el valor actual de 'favoritos' en la consulta y establecer el estado del checkbox.
+    // Leer parámetros de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const favoritosParam = urlParams.get('favoritos');
-    if (favoritosParam === 'true') {
-        favCheckbox.checked = true;
-    } else {
-        favCheckbox.checked = false;
-    }
+    const ordenParam = urlParams.get('orden') || 'fecha_desc'; // Valor por defecto
+
+    // Establecer el estado del checkbox de favoritos y la selección del orden
+    favCheckbox.checked = favoritosParam === 'true';
+    ordenSelect.value = ordenParam;
 
     // Manejar el cambio en el checkbox de favoritos
-    function handleFavCheckboxChange() {
-        var currentUrl = new URL(window.location.href);
-
-        if (this.checked) {
-            currentUrl.searchParams.set('favoritos', 'true');
-        } else {
-            currentUrl.searchParams.delete('favoritos');
-        }
-
-        window.location.href = currentUrl.href;
-    }
-
-    // Asociar la función al evento de cambio del checkbox
-    favCheckbox.addEventListener('change', handleFavCheckboxChange);
+    favCheckbox.addEventListener('change', function() {
+        updateURLWithParams();
+    });
 
     // Manejar el cambio en el select de orden
     ordenSelect.addEventListener('change', function() {
-        // Almacenar el estado del checkbox antes de enviar el formulario
-        const favCheckboxState = favCheckbox.checked;
-
-        // Deshabilitar temporalmente el evento de cambio del checkbox
-        favCheckbox.removeEventListener('change', handleFavCheckboxChange);
-
-        form.submit();
-
-        // Restaurar el estado del checkbox después de enviar el formulario
-        favCheckbox.checked = favCheckboxState;
-
-        // Volver a habilitar el evento de cambio del checkbox después de enviar el formulario
-        favCheckbox.addEventListener('change', handleFavCheckboxChange);
+        updateURLWithParams();
     });
+
+    function updateURLWithParams() {
+        const currentUrl = new URL(window.location.href);
+        const favCheckboxState = favCheckbox.checked ? 'true' : 'false';
+        const selectedOrder = ordenSelect.value;
+
+        currentUrl.searchParams.set('favoritos', favCheckboxState);
+        currentUrl.searchParams.set('orden', selectedOrder);
+
+        window.location.href = currentUrl.href;
+    }
 
     document.getElementById('delete_fluidos_button').addEventListener('click', function (event) {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
