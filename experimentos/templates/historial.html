@@ -104,14 +104,14 @@
         <div class="pagination-historial">
           <span class="step-links-historial">
             {% if experimentos_paginate.has_previous %}
-            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton"><<</a>
-            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton"><</a>
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><<</a>
+            <a href="?page={{ experimentos_paginate.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial"><</a>
             
             {% endif %}
             <span class="current-page-historial">{{ experimentos_paginate.number }} de {{ experimentos_paginate.paginator.num_pages }}</span>
             {% if experimentos_paginate.has_next %}
-            <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton">></a>
-            <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton">>></a>
+            <a href="?page={{ experimentos_paginate.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial">></a>
+            <a href="?page={{ experimentos_paginate.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}" class="addButton-historial">>></a>
             {% endif %}
           </span>
         </div>

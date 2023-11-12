@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -184,13 +184,13 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-                #eng = matlab.engine.start_matlab()
+                eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
 
                 generador.write('VOLT '+ pre_voltaje)
-                if pausa != '':
+                if pausa not in [None, '']:
                     e_pausa = int(pausa)
                     pausa_time = e_pausa * e_pasos
                     hours2, rem2 = divmod(pausa_time, 3600)

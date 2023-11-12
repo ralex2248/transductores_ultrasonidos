@@ -89,9 +89,9 @@ MONGODB_PORT = 27017
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'consu', ##nombrebd
+        'NAME': 'trans', ##nombrebd
         'USER': 'postgres',
-        'PASSWORD': 'AGUANTEMESSI$',  ##passdb
+        'PASSWORD': 'password',  ##passdb
         'HOST': 'localhost',
         'PORT': '5432',
     },
@@ -155,6 +155,6 @@ EMAIL_HOST_PASSWORD = '4ak3Y8TLnRFmQA2q'
 
 mongoengine.connect(db=MONGODB_DATABASE_NAME, host=MONGODB_HOST, port=MONGODB_PORT)
 
-SESSION_COOKIE_AGE = 5700
+SESSION_COOKIE_AGE = 5460
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
