@@ -103,15 +103,15 @@ Experimento con Tiempo
                         
                     </div>   
                     </div>
-                    <div class="col-sm-4"> <!-- Use a half-width column for the forms -->
+                    <div class="col-sm-4">
                         <div class="experiment-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Nombres de experimentos</h5>
-                                {% for experimento in experimentos %}
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <h5 class="card-title" style="position: sticky; top: 0; background-color: white; z-index: 1;">Nombres de experimentos</h5>
+                                {% for experimento in experimentos|slice:":" %}
                                     <p class="card-text">{{ experimento.nombre_experimento }}</p>
                                 {% endfor %}
-                                <a type="button" href="{% url 'historial' %}" class="btn" id="verMas">Ver detalles</a>
                             </div>
+                            <a type="button" href="{% url 'historial' %}" class="btn" id="verMas">Ver detalles</a>
                         </div>
                     </div>
                 </div>
