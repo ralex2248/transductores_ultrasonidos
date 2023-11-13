@@ -24,7 +24,7 @@ import pyvisa.highlevel as hl
 from usuarios.models import UserActivity
 from django.urls import reverse
 
-#import matlab.engine
+import matlab.engine
 import time
 import pyvisa.highlevel as hl
 import numpy as np
@@ -56,11 +56,9 @@ def crear_fluido(request):
     return redirect(next_url)
 
 def editar_fluido(request, fluido_id):
-    # Obtener el objeto Fluido que se va a editar o mostrar un error 404 si no existe
     fluido = get_object_or_404(Fluido, pk=fluido_id)
 
     if request.method == 'POST':
-        # Si se ha enviado un formulario POST, procesar los datos del formulario aquí
 
         # Obtener los datos del formulario
         nombre_fluido = request.POST.get('nombre_fluido')
@@ -184,7 +182,7 @@ def crear_experimento(request):
 
                 start_time = time.time()
 
-                #eng = matlab.engine.start_matlab()
+                eng = matlab.engine.start_matlab()
                 rm = hl.ResourceManager()
 
                 generador = rm.open_resource('USB0::0x0957::0x0407::MY44017234::INSTR')
